@@ -1,0 +1,29 @@
+<h1 id="follet-core">Follet Core</h1>
+<p>A simple and lightweight but powerful framework based on <a href="http://underscores.me/">_s</a> and meant to create rock solid themes using WordPress best practices.</p>
+<p>Please note that this is not a theme, and it won&#39;t work if you just drop it into your <code>themes</code> folder. This is a library that you should include into your theme to take advantage of its functionality.</p>
+<h2 id="getting-started">Getting Started</h2>
+<ol>
+<li><code>git clone git@github.com:andrezrv/follet-core.git</code> into <code>/wp-content/themes/my-theme/includes/</code>, or download and unzip <code>follet-core.zip</code> and copy the <code>follet-core</code> folder to your <code>/wp-content/themes/my-theme/includes/</code> directory.</li>
+<li>Add the following code, customized to your own needs, to your <code>functions.php</code> file:</li>
+</ol>
+<pre><code class="lang-PHP">// Top of file ...
+require get_template_directory() . &#39;/includes/follet-core/follet-load.php&#39;;
+
+// Your own code here ...
+
+// End of file ...
+do_action( &#39;follet_setup&#39; ); // --&gt; This will initialize the Follet Core</code></pre>
+<h2 id="what-did-that-do-">What did that do?</h2>
+<p>Just by initializing Follet core, the following features are automatically available:</p>
+<ul>
+<li>Autoloaded textdomain for text localization.</li>
+<li>Autoloaded theme support for automatic feed links, featured images, post formats, custom background, HTML5 and Infinite Scroll for Jetpack.</li>
+<li>Autoloaded <code>style.css</code> and <a href="http://getbootstrap.com">Bootstrap</a> styles and scripts.</li>
+<li>Autoloaded editor styles.</li>
+<li>Filters for Bootstrap markup support on built-in template tags.</li>
+<li>A number of reusable functions and template tags.</li>
+<li>An API that lets you manage your theme internal options without having to deal with the sometimes complicated idiosincracies of built-in options and theme mods.</li>
+</ul>
+<h2 id="contributing">Contributing</h2>
+<p>If you feel like you want to help this project by adding something you think useful, you can make your pull request against the master branch :)</p>
+<p>More docs are coming soon!</p>
