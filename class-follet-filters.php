@@ -68,7 +68,11 @@ class Follet_Filters extends Follet {
 			foreach ($items as $id => $item ) {
 				$transformed_items[$id] = $item;
 				if ( in_array( 'menu-item-has-children', $transformed_items[$id]->classes ) ) {
-					if ( is_object( $previous_item ) && in_array( 'dropdown', $previous_item->classes ) ) {
+					if (    is_object( $previous_item )
+						&& (    in_array( 'dropdown', $previous_item->classes )
+						 	 || in_array( 'dropdown-submenu', $previous_item->classes )
+						)
+					) {
 						$transformed_items[$id]->classes[] = 'dropdown-submenu';
 					} else {
 						$transformed_items[$id]->classes[] = 'dropdown';
