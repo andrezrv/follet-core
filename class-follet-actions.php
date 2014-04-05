@@ -35,6 +35,8 @@ class Follet_Actions extends Follet {
 		add_action( 'init',                array( $this, 'add_editor_styles' ) );
 		add_action( 'wp_enqueue_scripts',  array( $this, 'enqueue_scripts' ) );
 		add_filter( 'user_contactmethods', array( $this, 'add_to_author_profile' ), 10, 1 );
+		add_filter( 'wp_head',             array( $this, 'add_ie_compatibility_modes' ) );
+		add_filter( 'wp_head',             array( $this, 'add_html5_shim' ) );
 
 		// Process actions after the ones here.
 		do_action( 'follet_after_actions' );
@@ -169,6 +171,16 @@ class Follet_Actions extends Follet {
 				true
 			);
 		}
+		// Respond JS.
+		if ( get_theme_support( 'bootstrap' )	) {
+			wp_enqueue_script(
+				'respond',
+				$this->follet->directory_uri . '/includes/respond/min/respond.min.js',
+				array( 'jquery' ),
+				false,
+				false
+			);
+		}
 		// Comment reply JS.
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );
@@ -189,6 +201,43 @@ class Follet_Actions extends Follet {
 			add_editor_style( get_stylesheet_uri() );
 		}
 
+	}
+
+	/**
+	 * Add support for IE compatibility modes.
+	 *
+	 * {@link http://getbootstrap.com/getting-started/#support-ie-compatibility-modes}
+	 *
+	 * @param  string $content Current content.
+	 * @return string          Filtered content.
+	 * @since  1.0
+	 */
+	public function add_ie_compatibility_modes() {
+		if ( get_theme_support( 'bootstrap' ) ) {
+			$content = '<meta http-equiv="X-UA-Compatible" content="IE=edge" />' . "\n";
+			echo $content;
+		}
+	}
+
+	/**
+	 * HTML5 shim, for IE6-8 support of HTML5 elements.
+	 *
+	 * @return void
+	 * @since  1.0
+	 */
+	public function add_html5_shim() {
+		if ( get_theme_support( 'bootstrap' ) ) {
+			ob_start();
+			?>
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+			<?php
+			$content = ob_get_contents();
+			ob_end_clean();
+			echo $content;
+		}
 	}
 
 	/**
