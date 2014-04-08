@@ -313,12 +313,14 @@ function follet_breadcrumb( $args = array() ) {
 	        $output .= '<li ' . $home_atts . '><a href="' . get_bloginfo( 'url' ) . '">' . $home_text . '</a></li>';
     	}
 
-        if ( is_category() || is_single() ) {
+        if ( ( is_category() || is_single() ) ) {
 
         	$category = get_the_category();
 
-            $link = '<li><a href="' . get_category_link( $category[0]->cat_ID ) . '" title="' . $category[0]->cat_name . '">' . $category[0]->cat_name . '</a></li>';
-            $output .= apply_filters( 'follet_breadcrumb_category_link', $link, $category, $args, $post );
+        	if ( ! is_attachment() ) {
+	            $link = '<li><a href="' . get_category_link( $category[0]->cat_ID ) . '" title="' . $category[0]->cat_name . '">' . $category[0]->cat_name . '</a></li>';
+	            $output .= apply_filters( 'follet_breadcrumb_category_link', $link, $category, $args, $post );
+        	}
             if ( is_single() ) {
                 $active = '<li ' . $active_atts . '>' . get_the_title() . '</li>';
 	            $output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
