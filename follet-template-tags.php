@@ -284,8 +284,6 @@ function follet_breadcrumb( $args = array() ) {
 
     global $post;
 
-    $textdomain = wp_get_theme()->get( 'TextDomain' );
-
     // Restrict the list type to  be <ul> or <ol>.
     $list_type = ( isset( $args['list_type'] ) && in_array( $args['list_type'], array( 'ol', 'ul' ) ) )
                ? $args['list_type'] : 'ol';
@@ -295,7 +293,7 @@ function follet_breadcrumb( $args = array() ) {
 		'list_id'     => 'breadcrumbs',
 		'list_atts'   => 'class="breadcrumb"',
 		'show_home'   => true,
-		'home_text'   => __( 'Home', $textdomain ),
+		'home_text'   => __( 'Home', wp_get_theme()->get( 'TextDomain' ) ),
 		'home_atts'   => 'class="home"',
 		'separator'   => '',
 		'active_atts' => 'class="active"',
@@ -310,7 +308,7 @@ function follet_breadcrumb( $args = array() ) {
     if ( ! is_home() ) {
 
     	if ( $show_home ) {
-	        $output .= '<li ' . $home_atts . '><a href="' . get_bloginfo( 'url' ) . '">' . $home_text . '</a></li>';
+	        $output .= '<li ' . $home_atts . '><a href="' . home_url() . '">' . $home_text . '</a></li>';
     	}
 
         if ( ( is_category() || is_single() ) ) {
@@ -350,33 +348,33 @@ function follet_breadcrumb( $args = array() ) {
 
 	    } elseif ( is_day() ) {
 
-	    	$active = '<li ' . $active_atts . '>' . sprintf( __( 'Archive for %s',  $textdomain ), get_the_time( 'F jS, Y' ) ) . '</li>';
+	    	$active = '<li ' . $active_atts . '>' . sprintf( __( 'Archive for %s',  wp_get_theme()->get( 'TextDomain' ) ), get_the_time( 'F jS, Y' ) ) . '</li>';
 	    	$output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
 
 	    } elseif ( is_month() ) {
 
-	    	$active = '<li ' . $active_atts . '>' . sprintf( __( 'Archive for %s',  $textdomain ), get_the_time( 'F, Y' ) ) . '</li>';
+	    	$active = '<li ' . $active_atts . '>' . sprintf( __( 'Archive for %s',  wp_get_theme()->get( 'TextDomain' ) ), get_the_time( 'F, Y' ) ) . '</li>';
 	    	$output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
 
 	    }
 	    elseif ( is_year() ) {
 
-	    	$active = '<li ' . $active_atts . '>' . sprintf( __( 'Archive for %s',  $textdomain ), get_the_time( 'Y' ) ) . '</li>';
+	    	$active = '<li ' . $active_atts . '>' . sprintf( __( 'Archive for %s',  wp_get_theme()->get( 'TextDomain' ) ), get_the_time( 'Y' ) ) . '</li>';
 	    	$output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
 
 	    } elseif ( is_author() ) {
 
-	    	$active = '<li ' . $active_atts . '>' . __( 'Author Archive',  $textdomain ) . '</li>';
+	    	$active = '<li ' . $active_atts . '>' . __( 'Author Archive',  wp_get_theme()->get( 'TextDomain' ) ) . '</li>';
 	    	$output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
 
 	    } elseif ( isset( $_GET['paged'] ) && ! empty( $_GET['paged'] ) ) {
 
-	    	$active = '<li ' . $active_atts . '>' . __( 'Blog Archives',  $textdomain ) . '</li>';
+	    	$active = '<li ' . $active_atts . '>' . __( 'Blog Archives',  wp_get_theme()->get( 'TextDomain' ) ) . '</li>';
 	    	$output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
 
 	    } elseif ( is_search() ) {
 
-	    	$active = '<li ' . $active_atts . '>' . __( 'Search Results',  $textdomain ) . '</li>';
+	    	$active = '<li ' . $active_atts . '>' . __( 'Search Results',  wp_get_theme()->get( 'TextDomain' ) ) . '</li>';
 	    	$output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
 
 	    }
