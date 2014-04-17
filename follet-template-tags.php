@@ -331,22 +331,22 @@ function follet_breadcrumb( $args = array() ) {
 	        $output .= '<li ' . $home_atts . '><a href="' . home_url() . '">' . $home_text . '</a></li>';
     	}
 
-        if ( ( is_category() || is_single() ) ) {
+        if ( is_category() || is_singular( array( 'post', 'attachment' ) ) ) {
 
-        	$category = get_the_category();
-
+    		$category = get_the_category();
         	if ( ! is_attachment() ) {
 	            $link = '<li><a href="' . get_category_link( $category[0]->cat_ID ) . '" title="' . $category[0]->cat_name . '">' . $category[0]->cat_name . '</a></li>';
 	            $output .= apply_filters( 'follet_breadcrumb_category_link', $link, $category, $args, $post );
         	}
+
             if ( is_single() ) {
                 $active = '<li ' . $active_atts . '>' . get_the_title() . '</li>';
 	            $output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
             }
 
-        } elseif ( is_page() ) {
+        } elseif ( is_singular() ) {
 
-            if ( $post->post_parent ) {
+            if ( is_page() && $post->post_parent ) {
 
                 $ancestors = get_post_ancestors( $post->ID );
                 $ancestors = array_reverse( $ancestors ); // Order properly.
@@ -357,6 +357,13 @@ function follet_breadcrumb( $args = array() ) {
                     $output .= apply_filters( 'follet_breadcrumb_separator', $separator, $ancestor, $args, $post );
                 }
 
+            } else {
+            	global $post;
+            	$args = array( 'public' => true, '_builtin' => false );
+				$taxonomies = get_taxonomies( $args, 'names', 'and' );
+            	$terms = wp_get_object_terms( $post->ID, $taxonomies );
+				$link = '<li><a href="' . get_term_link( $terms[0] ) . '" title="' . $terms[0]->name . '">' . $terms[0]->name . '</a></li>';
+	            $output .= apply_filters( 'follet_breadcrumb_category_link', $link, $terms, $args, $post );
             }
             $active = '<li ' . $active_atts . '>' . get_the_title() . '</li>';
             $output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
@@ -364,6 +371,11 @@ function follet_breadcrumb( $args = array() ) {
         } elseif ( is_tag() ) {
 
 	    	$active = '<li ' . $active_atts . '>' . single_tag_title( '', false ) . '</li>';
+	    	$output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
+
+        } elseif ( is_tax() ) {
+
+	    	$active = '<li ' . $active_atts . '>' . get_queried_object()->name . '</li>';
 	    	$output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
 
 	    } elseif ( is_day() ) {
