@@ -181,13 +181,33 @@ if ( ! function_exists( 'follet_continue_reading' ) ) :
  *
  * Take on this function by declaring it before this file is loaded.
  *
- * @param  boolean $return If false, the text will be printed.
- * @return string          Text for "continue reading".
+ * @param  boolean $return  If false, the text will be printed.
+ * @param  boolean $excerpt Whether the text is gonna be used next to an excerpt.
+ * @return string           Text for "continue reading".
  * @since  1.0
  */
-function follet_continue_reading( $return = true ) {
+function follet_continue_reading( $display = false, $excerpt = false ) {
 
 	$bootstrap = _follet_bootstrap_active();
+
+	// Create link in case this is gonna be used next to an excerpt.
+	if ( $excerpt ) {
+		function _follet_continue_reading_excerpt_link( $content ) {
+			global $post;
+			$link_begin = apply_filters(
+				'follet_continue_reading_excerpt_link_begin',
+				'<a href="' . get_permalink() . '">'
+			);
+			$link_end = apply_filters(
+				'follet_continue_reading_excerpt_link_end',
+				'</a>'
+			);
+			$content = $link_begin . $content . $link_end;
+			$content = apply_filters( 'follet_continue_reading_excerpt_link', $content );
+			return $content;
+		}
+		add_filter( 'follet_continue_reading', '_follet_continue_reading_excerpt_link' );
+	}
 
 	$continue_reading = sprintf(
 		__( '%1$sContinue reading %2$s', 'follet' ),
@@ -199,11 +219,11 @@ function follet_continue_reading( $return = true ) {
 
 	$continue_reading = apply_filters( 'follet_continue_reading', $continue_reading );
 
-	if ( $return ) {
-		return $continue_reading;
+	if ( $display ) {
+		echo $continue_reading;
 	}
 
-	echo $continue_reading;
+	return $continue_reading;
 
 }
 endif;
