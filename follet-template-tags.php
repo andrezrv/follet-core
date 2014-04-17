@@ -357,7 +357,7 @@ function follet_breadcrumb( $args = array() ) {
                     $output .= apply_filters( 'follet_breadcrumb_separator', $separator, $ancestor, $args, $post );
                 }
 
-            } else {
+            } elseif ( ! is_page() ) {
             	global $post;
             	$args = array( 'public' => true, '_builtin' => false );
 				$taxonomies = get_taxonomies( $args, 'names', 'and' );
