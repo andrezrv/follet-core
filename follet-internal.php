@@ -43,3 +43,28 @@ function _follet_modify_link_pages( $link, $i ) {
 	}
 	return $link;
 }
+
+
+/**
+ * This function is used to filter the read-more link when called next to an
+ * excerpt.
+ *
+ * @internal
+ *
+ * @param  string $content Default content to be filtered.
+ * @return string          Filtered content.
+ * @since  1.0.2
+ */
+function _follet_continue_reading_excerpt_link( $content ) {
+	$link_begin = apply_filters(
+		'follet_continue_reading_excerpt_link_begin',
+		'<a href="' . get_permalink() . '">'
+	);
+	$link_end = apply_filters(
+		'follet_continue_reading_excerpt_link_end',
+		'</a>'
+	);
+	$content = $link_begin . $content . $link_end;
+	$content = apply_filters( 'follet_continue_reading_excerpt_link', $content );
+	return $content;
+}

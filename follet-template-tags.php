@@ -192,20 +192,6 @@ function follet_continue_reading( $display = false, $excerpt = false ) {
 
 	// Create link in case this is gonna be used next to an excerpt.
 	if ( $excerpt ) {
-		function _follet_continue_reading_excerpt_link( $content ) {
-			global $post;
-			$link_begin = apply_filters(
-				'follet_continue_reading_excerpt_link_begin',
-				'<a href="' . get_permalink() . '">'
-			);
-			$link_end = apply_filters(
-				'follet_continue_reading_excerpt_link_end',
-				'</a>'
-			);
-			$content = $link_begin . $content . $link_end;
-			$content = apply_filters( 'follet_continue_reading_excerpt_link', $content );
-			return $content;
-		}
 		add_filter( 'follet_continue_reading', '_follet_continue_reading_excerpt_link' );
 	}
 
