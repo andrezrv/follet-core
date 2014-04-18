@@ -58,7 +58,7 @@ function _follet_modify_link_pages( $link, $i ) {
 function _follet_continue_reading_excerpt_link( $content ) {
 	$link_begin = apply_filters(
 		'follet_continue_reading_excerpt_link_begin',
-		'<a href="' . get_permalink() . '">'
+		'<a class="more-link" href="' . get_permalink() . '">'
 	);
 	$link_end = apply_filters(
 		'follet_continue_reading_excerpt_link_end',
