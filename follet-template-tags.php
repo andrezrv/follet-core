@@ -155,12 +155,9 @@ if ( ! function_exists( 'follet_edit_post_link' ) ) :
  *
  * Take on this function by declaring it before this file is loaded.
  *
- * @return void
  * @since  1.0
  */
 function follet_edit_post_link() {
-
-	global $post;
 
 	if ( current_user_can( 'edit_posts' ) ) {
 		$link = sprintf( '<section class="edit-link"><a href="%1$s">%3$s%2$s</a></section>',
@@ -177,12 +174,13 @@ endif;
 
 if ( ! function_exists( 'follet_continue_reading' ) ) :
 /**
- * Return a "continue reading" kind of text.
+ * Return a continue reading kind of text.
  *
  * Take on this function by declaring it before this file is loaded.
  *
- * @param  boolean $return  If false, the text will be printed.
+ * @param  boolean $display If false, the text will be printed.
  * @param  boolean $excerpt Whether the text is gonna be used next to an excerpt.
+ *
  * @return string           Text for "continue reading".
  * @since  1.0
  */
@@ -440,6 +438,7 @@ function follet_microdata( $section, $display = true ) {
 			break;
 		case 'content':
 			$microdata = 'itemtype="http://schema.org/Blog" itemscope="" itemprop="mainContentOfPage"';
+			break;
 		case 'post':
 			$microdata = 'itemprop="blogPost" itemtype="http://schema.org/BlogPosting" itemscope="itemscope"';
 			break;
