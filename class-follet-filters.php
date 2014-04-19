@@ -221,6 +221,11 @@ class Follet_Filters extends Follet {
 			return $title;
 		}
 
+		// Process title for custom taxonomies.
+		if ( is_tax() ) {
+			$title = get_queried_object()->name . ' ' . $sep . ' ';
+		}
+
 		global $page, $paged;
 
 		// Add the blog name
