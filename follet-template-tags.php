@@ -343,12 +343,18 @@ function follet_breadcrumb( $args = array() ) {
 
             } elseif ( ! is_page() ) {
             	global $post;
+				if ( $post_type_name = get_post_type_object( $post_type = get_post_type() )->labels->name ) {
+					$link = '<li><a href="' . get_post_type_archive_link( $post_type ) . '" title="' . $post_type_name . '">' . $post_type_name . '</a></li>';
+					$output .= apply_filters( 'follet_breadcrumb_post_type_link', $link, $args, $post );
+				}
             	$args = array( 'public' => true, '_builtin' => false );
 				$taxonomies = get_taxonomies( $args, 'names', 'and' );
-            	$terms = wp_get_object_terms( $post->ID, $taxonomies );
-				$link = '<li><a href="' . get_term_link( $terms[0] ) . '" title="' . $terms[0]->name . '">' . $terms[0]->name . '</a></li>';
-	            $output .= apply_filters( 'follet_breadcrumb_category_link', $link, $terms, $args, $post );
-            }
+				$terms = wp_get_object_terms( $post->ID, $taxonomies );
+				if ( is_array( $terms) && ! empty( $terms) ) {
+					$link = '<li><a href="' . get_term_link( $terms[0] ) . '" title="' . $terms[0]->name . '">' . $terms[0]->name . '</a></li>';
+					$output .= apply_filters( 'follet_breadcrumb_category_link', $link, $terms, $args, $post );
+				}
+			}
             $active = '<li ' . $active_atts . '>' . get_the_title() . '</li>';
             $output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
 
@@ -393,7 +399,14 @@ function follet_breadcrumb( $args = array() ) {
 	    	$active = '<li ' . $active_atts . '>' . __( 'Search Results',  wp_get_theme()->get( 'TextDomain' ) ) . '</li>';
 	    	$output .= apply_filters( 'follet_breadcrumb_post_active', $active, $args, $post );
 
-	    }
+	    } elseif ( is_archive() ) {
+			if ( $title = get_queried_object()->labels->name ) {
+				$active = '<li ' . $active_atts . '>' . $title . '</li>';
+			} else {
+				$active = '<li ' . $active_atts . '>' . _e( 'Archives', wp_get_theme()->get( 'TextDomain' ) ) . '</li>';
+			}
+			$output .= apply_filters( 'follet_breadcrumb_archive', $active, $args, $post );
+		}
 
     }
 
