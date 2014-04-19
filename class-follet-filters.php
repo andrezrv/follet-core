@@ -207,26 +207,17 @@ class Follet_Filters extends Follet {
 
 		return $classes;
 	}
-
-	/**
-	 * Filters wp_title to print a neat <title> tag based on what is being viewed.
-	 *
-	 * @param  string $title Default title text for current view.
-	 * @param  string $sep   Optional separator.
-	 * @return string        The filtered title.
-	 * @since  1.0
-	 */
 	function wp_title( $title, $sep ) {
 		if ( is_feed() ) {
 			return $title;
 		}
 
+		global $page, $paged;
+
 		// Process title for custom taxonomies.
 		if ( is_tax() ) {
 			$title = get_queried_object()->name . ' ' . $sep . ' ';
 		}
-
-		global $page, $paged;
 
 		// Add the blog name
 		$title .= get_bloginfo( 'name', 'display' );
@@ -244,6 +235,7 @@ class Follet_Filters extends Follet {
 
 		return $title;
 	}
+
 
 	/**
 	 * Sets the authordata global when viewing an author archive.
