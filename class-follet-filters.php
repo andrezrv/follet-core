@@ -68,7 +68,7 @@ class Follet_Filters extends Follet {
 		if ( get_theme_support( 'bootstrap' ) ) {
 			$transformed_items = array();
 			$previous_item = false;
-			foreach ($items as $id => $item ) {
+			foreach ( $items as $id => $item ) {
 				$transformed_items[$id] = $item;
 				if ( in_array( 'menu-item-has-children', $transformed_items[$id]->classes ) ) {
 					if (    is_object( $previous_item )
@@ -77,9 +77,11 @@ class Follet_Filters extends Follet {
 						)
 					) {
 						$transformed_items[$id]->classes[] = 'dropdown-submenu';
-					} else {
+					} elseif ( ! $transformed_items[$id]->menu_item_parent ) {
 						$transformed_items[$id]->classes[] = 'dropdown';
 						$transformed_items[$id]->title .= ' <b class="icon icon-arrow-down"></b>';
+					} else {
+						$transformed_items[$id]->classes[] = 'dropdown-submenu';
 					}
 				}
 				if ( in_array( 'current-menu-item', $transformed_items[$id]->classes ) ) {
