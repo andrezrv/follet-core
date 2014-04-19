@@ -18,6 +18,9 @@ class Follet_Filters extends Follet {
 	 */
 	protected $follet;
 
+	/**
+	 * Execute actions and add necessary filters.
+	 */
 	protected function __construct() {
 
 		// Process actions before the ones here.
@@ -28,7 +31,7 @@ class Follet_Filters extends Follet {
 		add_filter( 'wp_nav_menu_objects',            array( $this, 'nav_menu_primary_items' ), 10, 2 );
 		add_filter( 'nav_menu_link_attributes',       array( $this, 'nav_menu_link_attributes' ), 10, 3 );
 		add_filter( 'the_password_form',              array( $this, 'the_password_form' ) );
-		add_filter( 'post_thumbnail_html',            array( $this, 'thumbnail_class' ), 10, 5 );
+		add_filter( 'post_thumbnail_html',            array( $this, 'thumbnail_class' ), 10, 3 );
 		add_filter( 'wp_page_menu_args',              array( $this, 'page_menu_args' ) );
 		add_filter( 'body_class',                     array( $this, 'body_classes' ) );
 		add_filter( 'wp_title',                       array( $this, 'wp_title' ), 10, 2 );
@@ -57,7 +60,7 @@ class Follet_Filters extends Follet {
 	 * Apply Bootstrap classes to menu items.
 	 *
 	 * @param  array $items Menu items.
-	 * @param  array $args  (unused) Arguments for menu.
+	 * @param  array $args  (unused)
 	 * @return array        Filtered items.
 	 * @since  1.0
 	 */
@@ -95,11 +98,10 @@ class Follet_Filters extends Follet {
 	 *
 	 * @param  array  $atts Menu link attributes.
 	 * @param  object $item Menu item.
-	 * @param  array  $args Menu attributes.
 	 * @return array        Filtered menu link attributes.
 	 * @since  1.0
 	 */
-	function nav_menu_link_attributes( $atts, $item, $args ) {
+	function nav_menu_link_attributes( $atts, $item ) {
 		if (   get_theme_support( 'bootstrap' )
 			&& is_array( $item->classes )
 			&& !empty( $item->classes )
@@ -132,14 +134,19 @@ class Follet_Filters extends Follet {
 	}
 
 	/**
-	* Add support for Vertical Featured Images.
-	*
-	* {@link http://johnregan3.wordpress.com/2014/01/02/adding-support-for-vertical-featured-images-in-wordpress-themes/}
-	*
-	* @return Filtered HTML
-	* @since  1.0
-	*/
-	function thumbnail_class( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+	 * Add support for Vertical Featured Images.
+	 *
+	 * {@link http://johnregan3.wordpress.com/2014/01/02/adding-support-for-vertical-featured-images-in-wordpress-themes/}
+	 *
+	 * @param $html              string  Default unfiltered content.
+	 * @param $post_id           integer ID of the post.
+	 * @param $post_thumbnail_id integer ID of the thumbnail.
+	 * @return                   string  Filtered HTML
+	 * @since  1.0
+	 */
+	function thumbnail_class( $html, $post_id, $post_thumbnail_id ) {
+
+		$post_id = $post_id ? $post_id : get_the_ID();
 
 		$image_data = wp_get_attachment_image_src( $post_thumbnail_id , 'large' );
 
@@ -147,7 +154,7 @@ class Follet_Filters extends Follet {
 		$width = $image_data[1];
 		$height = $image_data[2];
 
-		$html = '<div class="entry-thumbnail">' . $html . '</div>';
+		$html = '<div class="entry-thumbnail entry-thumbnail-' . $post_id . '">' . $html . '</div>';
 
 		if ( $height > $width ) {
 			$html = str_replace( 'attachment-', 'vertical-image attachment-', $html );
@@ -207,6 +214,18 @@ class Follet_Filters extends Follet {
 
 		return $classes;
 	}
+
+
+	/**
+	 * Set HTML title.
+	 *
+	 * @param $title
+	 * @param $sep
+	 *
+	 * @return string
+	 *
+	 * @since 1.0
+	 */
 	function wp_title( $title, $sep ) {
 		if ( is_feed() ) {
 			return $title;
