@@ -87,10 +87,17 @@ class Follet_Actions extends Follet {
 
 		// Enable support for Post Formats.
 		add_theme_support(
-			'post-formats',
-			apply_filters(
-				'follet_post_formats',
-				array( 'aside', 'image', 'video', 'quote', 'link', 'status' )
+			'post-formats', apply_filters( 'follet_post_formats', array(
+					'aside',
+					'gallery',
+					'image',
+					'video',
+					'quote',
+					'link',
+					'status',
+					'audio',
+					'chat',
+				)
 			)
 		);
 
