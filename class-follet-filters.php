@@ -126,7 +126,7 @@ class Follet_Filters extends Follet {
 		if ( get_theme_support( 'bootstrap' ) ) {
 			global $post;
 			$label = 'pwbox-'.( empty( $post->ID ) ? rand() : $post->ID );
-			$content = '<form class="protected-post-form" action="' . get_option( 'siteurl' ) . '/wp-pass.php" method="post">
+			$content = '<form class="protected-post-form" action="' . get_option( 'siteurl' ) . '/wp-login.php?action=postpass" method="post">
 			' . __( 'This post is password protected. To view it please enter your password below:', wp_get_theme()->get( 'TextDomain' ) ) . '
 			<div class="input-group"><input name="post_password" id="' . $label . '" type="password" class="form-control" placeholder="' . __( 'Password', wp_get_theme()->get( 'TextDomain' ) ) . '" /><span class="input-group-btn"><button type="submit" name="' . __( 'Submit', wp_get_theme()->get( 'TextDomain' ) ) . '" class="btn btn-primary">' . __( 'Submit', wp_get_theme()->get( 'TextDomain' ) ) . '</button></span></div>
 			</form>

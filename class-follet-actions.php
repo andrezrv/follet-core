@@ -19,7 +19,6 @@ class Follet_Actions extends Follet {
 	/**
 	 * Setup theme.
 	 *
-	 * @return void
 	 * @since  1.0
 	 */
 	protected function __construct() {
@@ -91,7 +90,7 @@ class Follet_Actions extends Follet {
 			'post-formats',
 			apply_filters(
 				'follet_post_formats',
-				array( 'aside', 'image', 'video', 'quote', 'link' )
+				array( 'aside', 'image', 'video', 'quote', 'link', 'status' )
 			)
 		);
 
@@ -139,8 +138,6 @@ class Follet_Actions extends Follet {
 	 * @since  1.0
 	 */
 	function enqueue_scripts() {
-
-		$template_uri = $this->follet->template_directory_uri;
 
 		// Bootstrap styles.
 		if ( get_theme_support( 'bootstrap' ) ) {
@@ -190,8 +187,6 @@ class Follet_Actions extends Follet {
 
 	public function add_editor_styles() {
 
-		$template_uri = $this->follet->template_directory_uri;
-
 		// Bootstrap styles.
 		if ( get_theme_support( 'bootstrap' ) ) {
 			add_editor_style( $this->follet->directory_uri . '/includes/bootstrap/css/bootstrap.min.css' );
@@ -208,8 +203,7 @@ class Follet_Actions extends Follet {
 	 *
 	 * {@link http://getbootstrap.com/getting-started/#support-ie-compatibility-modes}
 	 *
-	 * @param  string $content Current content.
-	 * @return string          Filtered content.
+	 * @return void
 	 * @since  1.0
 	 */
 	public function add_ie_compatibility_modes() {
