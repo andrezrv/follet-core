@@ -137,27 +137,30 @@ function follet_next_post_exists() {
 }
 
 /**
- * Copy a stylesheet, replace some colors and print.
+ * Copy a stylesheet and replace colors to pass result to wp_add_inline_style().
  *
  * Use this function wisely. It's REALLY experimental.
  *
  * @example
  *
 	function follet_primary_color() {
-		_follet_override_stylesheet_colors(
+		$primary_color_style = follet_override_stylesheet_colors(
 			get_theme_mod( 'primary_color', '#428BCA' ),
-			get_template_directory() . '/styles/primary-color.css',
+			get_template_directory() . '/css/primary-color.css',
 			'#428BCA',
 			array( '#428BCA' )
 		);
+		if ( $primary_color_style ) {
+			wp_add_inline_style( 'primary-color-style', $primary_color_style );
+		}
 	}
-	add_action( 'wp_head', 'follet_primary_color' );
+	add_action( 'wp_enqueue_scripts', 'follet_primary_color' );
 
  * @param  string $current_value Current color value.
  * @param  string $stylesheet    Path of the stylesheet to copy.
  * @param  string $default_color Default color to check.
  * @param  array  $colors        List of color values to replace.
- * @return void
+ * @return string
  * @since  1.0
  */
 function follet_override_stylesheet_colors( $current_value, $stylesheet, $default_color, $colors = array() ) {
@@ -172,8 +175,7 @@ function follet_override_stylesheet_colors( $current_value, $stylesheet, $defaul
 				$content = str_replace( strtolower( $color ), $current_value, $content );
 			}
 		}
-		echo '<style type="text/css">' . "\n";
-		echo $content;
-		echo '</style>' . "\n";
+		return $content;
 	}
+	return '';
 }
