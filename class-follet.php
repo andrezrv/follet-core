@@ -79,7 +79,6 @@ class Follet extends Follet_Singleton {
 	/**
 	 * Initialize Follet.
 	 *
-	 * @return void
 	 * @since  1.0
 	 */
 	protected function __construct() {

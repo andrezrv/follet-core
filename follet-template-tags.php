@@ -100,6 +100,8 @@ function follet_categorized_blog() {
 endif;
 
 if ( ! function_exists( 'follet_category_transient_flusher' ) ) :
+add_action( 'edit_category', 'follet_category_transient_flusher' );
+add_action( 'save_post',     'follet_category_transient_flusher' );
 /**
  * Flush out the transients used in follet_categorized_blog().
  *
@@ -110,8 +112,6 @@ function follet_category_transient_flusher() {
 	delete_transient( 'follet_categories_list' );
 }
 endif;
-add_action( 'edit_category', 'follet_category_transient_flusher' );
-add_action( 'save_post',     'follet_category_transient_flusher' );
 
 if ( ! function_exists( 'follet_link_pages' ) ) :
 /**

@@ -65,8 +65,8 @@ function follet_directory_uri() {
  * @return void
  * @since  1.0
  */
-function follet_register_option( $name, $default, $current ) {
-	return follet()->register_option( $name, $default, $current );
+function follet_register_option( $name, $default, $current = null ) {
+	follet()->register_option( $name, $default, $current );
 }
 
 /**
@@ -78,7 +78,7 @@ function follet_register_option( $name, $default, $current ) {
  * @since  1.0
  */
 function follet_remove_option( $name ) {
-	return follet()->remove_option( $name );
+	follet()->remove_option( $name );
 }
 
 /**
@@ -110,6 +110,8 @@ function follet_get_current( $name ) {
  *
  * @uses   Follet->option_exists()
  * @param  string $name Name of the option.
+ *
+ * @return boolean
  * @since  1.0
  */
 function follet_option_exists( $name ) {
