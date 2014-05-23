@@ -62,6 +62,7 @@ function follet_posted_on() {
 		esc_html( $comments_number ),
 		apply_filters( 'follet_posted_on_icon_comments', '<span class="icon icon-comments"></span>&nbsp;' )
 	);
+	$comments_link = html_entity_decode( $comments_link );
 	$comments_link = apply_filters( 'follet_post_comments_section', $comments_link );
 	echo $comments_link;
 
