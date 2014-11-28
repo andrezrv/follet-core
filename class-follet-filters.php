@@ -196,14 +196,19 @@ class Follet_Filters extends Follet {
 	 * @since  1.0
 	 */
 	function body_classes( $classes ) {
-		// Adds a class of group-blog to blogs with more than 1 published author.
+        // Adds a class of group-blog to blogs with more than 1 published author.
 		if ( is_multi_author() ) {
 			$classes[] = 'group-blog';
 		}
+
 		if ( is_singular() ) {
-			global $post;
-			array_unshift( $classes, 'author-' . get_userdata( $post->post_author )->user_nicename );
+            global $post;
+
+            if ( $userdata = get_userdata( $post->post_author ) ) {
+                array_unshift( $classes, 'author-' . $userdata->user_nicename );
+            }
 		}
+
 		array_unshift(
 			$classes,
 			'wordpress',
