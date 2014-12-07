@@ -23,6 +23,7 @@ if ( ! function_exists( 'follet_posted_on' ) ) :
  * @since  1.0
  */
 function follet_posted_on() {
+	$follet = Follet::get_instance();
 
 	$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
 
@@ -49,9 +50,9 @@ function follet_posted_on() {
 
 	ob_start();
 	comments_number(
-		__( '0 Comments', 'follet_theme' ),
-		__( '1 Comment', 'follet_theme' ),
-		__( '% Comments', 'follet_theme' )
+		__( '0 Comments', $follet->textdomain ),
+		__( '1 Comment',  $follet->textdomain ),
+		__( '% Comments', $follet->textdomain )
 	);
 	$comments_number = ob_get_contents();
 	$comments_number = apply_filters( 'follet_comments_number', $comments_number );
@@ -159,17 +160,18 @@ if ( ! function_exists( 'follet_edit_post_link' ) ) :
  * @since  1.0
  */
 function follet_edit_post_link() {
+	$follet = Follet::get_instance();
 
 	if ( current_user_can( 'edit_posts' ) ) {
 		$link = sprintf( '<section class="edit-link"><a href="%1$s">%3$s%2$s</a></section>',
 			esc_url( get_edit_post_link() ),
-			esc_html( __( 'Edit', 'follet_theme' ) ),
+			esc_html( __( 'Edit', $follet->textdomain ) ),
 			apply_filters( 'follet_edit_post_icon', '<span class="icon icon-edit"></span>&nbsp;' )
 		);
 		$link = apply_filters( 'follet_edit_post_link', $link );
+
 		echo $link;
 	}
-
 }
 endif;
 

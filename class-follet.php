@@ -82,20 +82,20 @@ class Follet extends Follet_Singleton {
 	 * @since  1.0
 	 */
 	protected function __construct() {
-
 		// Process actions before setup.
 		do_action( 'follet_setup' );
 
-		$this->theme_version = wp_get_theme()->get( 'Version' );
-		$this->textdomain = wp_get_theme()->get( 'TextDomain' );
-		$this->template_directory = get_template_directory();
+		$theme = wp_get_theme();
+
+		$this->theme_version          = $theme->get( 'Version' );
+		$this->textdomain             = $theme->get( 'TextDomain' );
+		$this->template_directory     = get_template_directory();
 		$this->template_directory_uri = get_template_directory_uri();
-		$this->directory = $this->get_directory();
-		$this->directory_uri = $this->get_directory_uri();
+		$this->directory              = $this->get_directory();
+		$this->directory_uri          = $this->get_directory_uri();
 
 		// Process actions after setup.
 		do_action( 'follet_after_setup' );
-
 	}
 
 	/**

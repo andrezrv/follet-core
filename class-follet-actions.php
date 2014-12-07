@@ -50,12 +50,11 @@ class Follet_Actions extends Follet {
 	 * @since  1.0
 	 */
 	public function load_textdomain() {
-		load_theme_textdomain( wp_get_theme()->get( 'TextDomain' ), apply_filters(
+		load_theme_textdomain( $this->follet->textdomain, apply_filters(
 				'follet_textdomain_location',
 				$this->follet->template_directory . '/languages'
 			)
 		);
-
 	}
 
 	/**
