@@ -119,6 +119,7 @@ class Follet {
 	 * @return Follet Self instance of this class.
 	 */
 	final public static function get_instance() {
+		// Load all dependencies that need to be active before the class is instantiated.
 		self::load_dependencies();
 
 		static $instances = array();
@@ -180,6 +181,9 @@ class Follet {
 
 		// Add all files inside `./includes`.
 		self::load_library( $dirname . '/includes/' );
+
+		// Add all files inside `./includes/navigation`.
+		self::load_library( $dirname . '/includes/navigation/' );
 	}
 
 	/**

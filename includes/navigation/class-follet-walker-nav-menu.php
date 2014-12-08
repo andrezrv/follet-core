@@ -11,7 +11,7 @@ if ( ! class_exists( 'Follet_Walker_Nav_Menu' ) ) :
 /**
  * Follet_Walker_Nav_Menu
  *
- * Extend Walker_Nav_Menu to apply Bootstrap classes to submenus.
+ * Extend Walker_Nav_Menu to apply Bootstrap classes to sub-menus.
  *
  * @package Follet
  * @since   1.0

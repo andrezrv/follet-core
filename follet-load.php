@@ -19,11 +19,6 @@ require $dirname . '/class-follet.php';
 require $dirname . '/class-follet-text-control.php';
 
 /**
- * Extend Walker_Nav_Menu.
- */
-require $dirname . '/class-follet-walker-nav-menu.php';
-
-/**
  * Instance Follet.
  */
 $follet = Follet::get_instance();
