@@ -1,13 +1,13 @@
 <?php
-if ( ! function_exists( 'follet_enqueue_scripts' ) ) :
-add_action( 'wp_enqueue_scripts', 'follet_enqueue_scripts' );
+if ( ! function_exists( 'follet_do_enqueue_scripts' ) ) :
+add_action( 'follet_enqueue_scripts', 'follet_do_enqueue_scripts' );
 /**
  * Enqueue scripts and styles.
  *
  * @return void
  * @since  1.0
  */
-function follet_enqueue_scripts() {
+function follet_do_enqueue_scripts() {
 	// Bootstrap styles.
 	if ( get_theme_support( 'bootstrap' ) ) {
 		wp_enqueue_style(
