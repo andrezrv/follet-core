@@ -23,7 +23,7 @@ require $dirname . '/follet-template-tags.php';
  * Load Follet main classes.
  */
 require $dirname . '/class-follet.php';
-require $dirname . '/class-follet-actions.php';
+require $dirname . '/includes/actions.php';
 require $dirname . '/includes/filters.php';
 
 /**
@@ -40,7 +40,6 @@ require $dirname . '/class-follet-walker-nav-menu.php';
  * Instance Follet.
  */
 $follet = Follet::get_instance();
-$follet_actions = Follet_Actions::get_instance();
 
 /**
  * Remember to add `do_action( 'follet_setup' );` in your functions.php!
