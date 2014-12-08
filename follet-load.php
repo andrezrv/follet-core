@@ -12,7 +12,7 @@ $dirname = dirname( __FILE__ );
  * Load utilitary functions.
  */
 require $dirname . '/follet-functions.php';
-require $dirname . '/follet-internal.php';
+require $dirname . '/includes/internal.php';
 
 /**
  * Load standard template tags.
