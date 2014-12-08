@@ -9,22 +9,9 @@
 $dirname = dirname( __FILE__ );
 
 /**
- * Load utilitary functions.
- */
-require $dirname . '/includes/functions.php';
-require $dirname . '/includes/internal.php';
-
-/**
- * Load standard template tags.
- */
-require $dirname . '/follet-template-tags.php';
-
-/**
- * Load Follet main classes.
+ * Load Follet main class.
  */
 require $dirname . '/class-follet.php';
-require $dirname . '/includes/actions.php';
-require $dirname . '/includes/filters.php';
 
 /**
  * Extend Customizer.

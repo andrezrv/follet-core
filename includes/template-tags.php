@@ -23,16 +23,11 @@ if ( ! function_exists( 'follet_posted_on' ) ) :
  * @since  1.0
  */
 function follet_posted_on() {
-	$follet = Follet::get_instance();
+	global $follet;
 
-	$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
-
-	$time_string = sprintf( $time_string,
-		esc_attr( get_the_date( 'c' ) ),
-		esc_html( get_the_date() )
-	);
-
-	$author = sprintf( '<section class="author vcard"><a class="url fn n" href="%1$s">%3$s%2$s</a></section>',
+	// Process author.
+	$author_section_template = '<section class="author vcard"><a class="url fn n" href="%1$s">%3$s%2$s</a></section>';
+	$author = sprintf( $author_section_template,
 		esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
 		esc_html( get_the_author() ),
 		apply_filters( 'follet_posted_on_icon_user', '<span class="icon icon-user"></span>&nbsp;' )
@@ -40,6 +35,12 @@ function follet_posted_on() {
 	$author = apply_filters( 'follet_post_author_section', $author );
 	echo $author;
 
+	// Process time.
+	$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
+	$time_string = sprintf( $time_string,
+		esc_attr( get_the_date( 'c' ) ),
+		esc_html( get_the_date() )
+	);
 	$time = sprintf( '<section class="time created" title="%2$s">%3$s%1$s</section>',
 		$time_string,
 		esc_html( get_the_date( 'l, F j, Y g:i a' ) ),
@@ -48,6 +49,7 @@ function follet_posted_on() {
 	$time = apply_filters( 'follet_post_time_section', $time );
 	echo $time;
 
+	// Process comments.
 	ob_start();
 	comments_number(
 		__( '0 Comments', $follet->textdomain ),
@@ -66,7 +68,6 @@ function follet_posted_on() {
 	$comments_link = html_entity_decode( $comments_link );
 	$comments_link = apply_filters( 'follet_post_comments_section', $comments_link );
 	echo $comments_link;
-
 }
 endif;
 
@@ -96,6 +97,7 @@ function follet_categorized_blog() {
 		// This blog has more than 1 category so follet_categorized_blog should return true.
 		return true;
 	}
+
 	// This blog has only 1 category so follet_categorized_blog should return false.
 	return false;
 }
@@ -215,49 +217,6 @@ function follet_continue_reading( $display = false, $excerpt = false ) {
 }
 endif;
 
-if ( ! function_exists( 'follet_comment_form' ) ) :
-/**
- * Print a modified comment form.
- *
- * Take on this function by declaring it before this file is loaded.
- *
- * @return void
- * @since  1.0
- */
-function follet_comment_form() {
-
-	$req = get_option( 'require_name_email' );
-	$bootstrap = _follet_bootstrap_active();
-
-	$fields =  array(
-		'author' => '<div class="comment-form-element name"><label for="author">' . __( 'Name:', wp_get_theme()->get( 'TextDomain' ) ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label><div' . ( $bootstrap ? ' class="input-group"' : '' ) . '><span' . ( $bootstrap ? ' class="input-group-addon"' : '' ) . '>@</span><input id="author" name="author" class="form-control" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" aria-required="true"' . ' required /></div></div>',
-		'email'  => '<div class="comment-form-element email"><label for="email">' . __( 'Email Address:', wp_get_theme()->get( 'TextDomain' ) ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label><div' . ( $bootstrap ? ' class="input-group"' : '' ) . '><span' . ( $bootstrap ? ' class="input-group-addon glyphicon glyphicon-envelope"' : '' ) . '></span><input id="email" name="email" class="form-control" type="text" value="' . esc_attr( $commenter['comment_author_email'] ) . '" aria-required="true"' . ' required /></div></div>',
-		'url'    => '<div class="comment-form-element url"><label for="url">' . __( 'Your Website:', wp_get_theme()->get( 'TextDomain' ) ) . '</label><div' . ( $bootstrap ? ' class="input-group"' : '' ) . '><span' . ( $bootstrap ? ' class="input-group-addon glyphicon glyphicon-link"' : '' ) . '></span><input id="url" name="url" class="form-control" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" aria-required="true"' . ' /></div></div>',
-	);
-
-	$comments_args = array(
-		'fields'        => $fields,
-		'comment_field' => '<div class="comment-form-element comment"><label for="comment">' . 'Comment' . '</label><textarea id="comment" name="comment" class="' . ( $bootstrap ? 'col-sm-12 ' : '' ) . 'form-control" rows="5" aria-required="true"></textarea></div>',
-	);
-
-	$comments_args = apply_filters( 'follet_comment_form_args', $comments_args );
-
-	ob_start();
-
-	comment_form( $comments_args );
-
-	$form = ob_get_contents();
-
-	ob_clean();
-
-	$form = $bootstrap ? str_replace( 'id="submit"', 'id="submit" class="btn btn-primary"', $form ) : $form;
-	$form = apply_filters( 'follet_comment_form', $form );
-
-	echo $form;
-
-}
-endif;
-
 if ( ! function_exists( 'follet_list_comments' ) ) :
 /**
  * Get a slightly modified list of comments.
@@ -273,9 +232,11 @@ function follet_list_comments( $args ) {
 	wp_list_comments( $args );
 	$comments = ob_get_contents();
 	ob_end_clean();
+
 	$comments = str_replace( '<footer', '<header', $comments );
 	$comments = str_replace( '</footer', '</header', $comments );
 	$comments = apply_filters( 'follet_list_comments', $comments );
+
 	echo $comments;
 }
 endif;
@@ -288,7 +249,6 @@ if ( ! function_exists( 'follet_breadcrumb' ) ) :
  * @return mixed        If $args['display'] is set to false, the output will be returned instead of echoed.
  */
 function follet_breadcrumb( $args = array() ) {
-
     global $post;
 
     // Restrict the list type to  be <ul> or <ol>.
@@ -419,10 +379,9 @@ function follet_breadcrumb( $args = array() ) {
 
     if ( $display ) {
 	    echo $output;
-    } else {
-    	return $output;
     }
 
+	return $output;
 }
 endif;
 
@@ -437,7 +396,7 @@ if ( ! function_exists( 'follet_microdata' ) ) :
  */
 function follet_microdata( $section, $display = true ) {
 	if ( ! $section ) {
-		return;
+		return null;
 	}
 	switch ( $section ) {
 		case 'body':
@@ -520,10 +479,9 @@ function follet_microdata( $section, $display = true ) {
 
 	if ( $display ) {
 		echo $microdata;
-	} else {
-		return $microdata;
 	}
 
+	return $microdata;
 }
 endif;
 
@@ -538,11 +496,12 @@ if ( ! function_exists( 'follet_container_class' ) ) :
 function follet_container_class( $location, $display = true ) {
 	$class = 'container';
 	$class = apply_filters( 'follet_container_class', $class, $location );
+
 	if ( $display ) {
 		echo $class;
-	} else {
-		return $class;
 	}
+
+	return $class;
 }
 endif;
 
@@ -554,9 +513,12 @@ if ( ! function_exists( 'follet_post_classes' ) ) :
  */
 function follet_post_classes() {
 	global $post;
-	$array[] = 'author-' . get_userdata( $post->post_author )->user_nicename;
+	$user_data = get_userdata( $post->post_author );
+	$array[] = 'author-' . $user_data->user_nicename;
+
 	$classes = implode( ' ', $array );
 	$classes = apply_filters( 'follet_post_classes', $classes, $array, $post );
+
 	return $classes;
 }
 endif;

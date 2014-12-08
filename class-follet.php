@@ -106,6 +106,8 @@ class Follet {
 		// Process global variables.
 		$this->process_globals();
 
+		// $this->load_dependencies();
+
 		// Process actions after setup.
 		do_action( 'follet_after_setup' );
 	}
@@ -117,6 +119,8 @@ class Follet {
 	 * @return Follet Self instance of this class.
 	 */
 	final public static function get_instance() {
+		self::load_dependencies();
+
 		static $instances = array();
 
 		$called_class = _follet_get_called_class();
@@ -157,10 +161,25 @@ class Follet {
 	 *
 	 * @since 1.1
 	 */
-	public function process_globals() {
+	private function process_globals() {
 		global $follet;
 
 		$follet = $this;
+	}
+
+	/**
+	 * Load all dependencies that need to be active before the class is instantiated.
+	 *
+	 * @see   Follet::get_instance()
+	 * @uses  Follet::load_library()
+	 *
+	 * @since 1.1
+	 */
+	private static function load_dependencies() {
+		$dirname = dirname( __FILE__ );
+
+		// Add all files inside `./includes`.
+		self::load_library( $dirname . '/includes/' );
 	}
 
 	/**
@@ -258,7 +277,7 @@ class Follet {
 	/**
 	 * Obtain current value of an option. Kind-of an alias for this::get_current().
 	 *
-	 * @since  1.0
+	 * @since  1.1
 	 *
 	 * @param  string $name Name of the option.
 	 * @return mixed        Current value of the option.
@@ -282,6 +301,28 @@ class Follet {
 	 */
 	public function option_exists( $name ) {
 		return isset( $this->_options[ $name ] );
+	}
+
+	/**
+	 * Load a PHP library given a file or a folder.
+	 *
+	 * @since 1.1
+	 * @param string $dependency Name of folder or php file.
+	 */
+	public static function load_library( $dependency ){
+		if ( is_dir( $dependency ) ) {
+			if ( $d = opendir( $dependency ) ) {
+				while ( ( $file = readdir( $d ) ) !== false ) {
+					if( stristr( $file , '.php' ) !== false ) {
+						require_once( $dependency . $file );
+					}
+				}
+			}
+		} elseif ( ( is_file( $dependency ) ) && ( is_readable( $dependency ) ) ) {
+			if ( stristr( $dependency , '.php' ) !== false ) {
+				require_once( $dependency );
+			}
+		}
 	}
 }
 endif;
