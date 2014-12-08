@@ -184,6 +184,9 @@ class Follet {
 
 		// Add all files inside `./includes/navigation`.
 		self::load_library( $dirname . '/includes/navigation/' );
+
+		// Add all files inside `./includes/customizer`.
+		self::load_library( $dirname . '/includes/customizer/' );
 	}
 
 	/**

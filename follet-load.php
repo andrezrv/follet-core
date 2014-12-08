@@ -6,23 +6,16 @@
  * @since   1.0
  */
 
-$dirname = dirname( __FILE__ );
-
 /**
  * Load Follet main class.
+ *
+ * @since 1.0
  */
-require $dirname . '/class-follet.php';
-
-/**
- * Extend Customizer.
- */
-require $dirname . '/class-follet-text-control.php';
+require dirname( __FILE__ ) . '/class-follet.php';
 
 /**
  * Instance Follet.
+ *
+ * @since 1.0
  */
-$follet = Follet::get_instance();
-
-/**
- * Remember to add `do_action( 'follet_setup' );` in your functions.php!
- */
+Follet::get_instance();
