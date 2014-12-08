@@ -16,13 +16,12 @@ add_filter( 'previous_posts_link_attributes', 'follet_navigate_posts_link_attrib
 /**
  * Apply Bootstrap classes to posts navigation.
  *
- * @param  string $attr HTML properties for links.
- *
- * @return string       Filtered HTML.
  * @since  1.0
+ *
+ * @param  string $attr HTML properties for links.
+ * @return string       Filtered HTML.
  */
 function follet_navigate_posts_link_attributes( $attr ) {
-	// @TODO: check if this can be simplified.
 	if ( get_theme_support( 'bootstrap' ) ) {
 		$attr = $attr . ' class="btn btn-primary btn-lg"';
 	}
@@ -36,10 +35,10 @@ add_filter( 'wp_nav_menu_objects', 'follet_nav_menu_primary_items' );
 /**
  * Apply Bootstrap classes to menu items.
  *
- * @param  array $items Menu items.
- *
- * @return array        Filtered items.
  * @since  1.0
+ *
+ * @param  array $items Menu items.
+ * @return array        Filtered items.
  */
 function follet_nav_menu_primary_items( $items ) {
 	if ( get_theme_support( 'bootstrap' ) ) {
@@ -84,11 +83,12 @@ add_filter( 'nav_menu_link_attributes', 'follet_nav_menu_link_attributes', 10, 3
 /**
  * Apply Bootstrap classes to menu links.
  *
- * @param  array $atts Menu link attributes.
+ * @since  1.0
+ *
+ * @param  array  $atts Menu link attributes.
  * @param  object $item Menu item.
  *
  * @return array        Filtered menu link attributes.
- * @since  1.0
  */
 function follet_nav_menu_link_attributes( $atts, $item ) {
 	if ( get_theme_support( 'bootstrap' )
@@ -109,21 +109,23 @@ add_filter( 'the_password_form', 'follet_the_password_form' );
 /**
  * Format password protected post form to apply Bootstrap styles to it.
  *
- * @param  string $content HTML for password form.
- *
- * @return string          Filtered HTML.
  * @since  1.0
+ *
+ * @global WP_Post $post    Current post object.
+ *
+ * @param  string  $content HTML for password form.
+ * @return string           Filtered HTML.
  */
 function follet_the_password_form( $content ) {
-	// @TODO: check if this can be simplified.
 	if ( get_theme_support( 'bootstrap' ) ) {
 		global $post;
+
 		$label   = 'pwbox-' . ( empty( $post->ID ) ? rand() : $post->ID );
 		$content = '<form class="protected-post-form" action="' . get_option( 'siteurl' ) . '/wp-login.php?action=postpass" method="post">
-	' . __( 'This post is password protected. To view it please enter your password below:', wp_get_theme()->get( 'TextDomain' ) ) . '
-	<div class="input-group"><input name="post_password" id="' . $label . '" type="password" class="form-control" placeholder="' . __( 'Password', wp_get_theme()->get( 'TextDomain' ) ) . '" /><span class="input-group-btn"><button type="submit" name="' . __( 'Submit', wp_get_theme()->get( 'TextDomain' ) ) . '" class="btn btn-primary">' . __( 'Submit', wp_get_theme()->get( 'TextDomain' ) ) . '</button></span></div>
-	</form>
-	';
+		' . __( 'This post is password protected. To view it please enter your password below:', wp_get_theme()->get( 'TextDomain' ) ) . '
+		<div class="input-group"><input name="post_password" id="' . $label . '" type="password" class="form-control" placeholder="' . __( 'Password', wp_get_theme()->get( 'TextDomain' ) ) . '" /><span class="input-group-btn"><button type="submit" name="' . __( 'Submit', wp_get_theme()->get( 'TextDomain' ) ) . '" class="btn btn-primary">' . __( 'Submit', wp_get_theme()->get( 'TextDomain' ) ) . '</button></span></div>
+		</form>
+		';
 	}
 
 	return $content;
@@ -137,12 +139,13 @@ add_filter( 'post_thumbnail_html', 'follet_thumbnail_class', 10, 3 );
  *
  * {@link http://johnregan3.wordpress.com/2014/01/02/adding-support-for-vertical-featured-images-in-wordpress-themes/}
  *
+ * @since  1.0
+ *
  * @param $html              string  Default unfiltered content.
  * @param $post_id           integer ID of the post.
  * @param $post_thumbnail_id integer ID of the thumbnail.
  *
  * @return                   string  Filtered HTML
- * @since  1.0
  */
 function follet_thumbnail_class( $html, $post_id, $post_thumbnail_id ) {
 	$post_id    = $post_id ? $post_id : get_the_ID();
@@ -172,10 +175,10 @@ add_filter( 'wp_page_menu_args', 'follet_page_menu_args' );
 /**
  * Get our wp_nav_menu() fallback, wp_page_menu(), to show a home link.
  *
- * @param  array $args Configuration arguments.
- *
- * @return array
  * @since  1.0
+ *
+ * @param  array $args Configuration arguments.
+ * @return array
  */
 function follet_page_menu_args( $args ) {
 	$args['show_home'] = true;
@@ -189,10 +192,12 @@ add_filter( 'body_class', 'follet_body_classes' );
 /**
  * Adds custom classes to the array of body classes.
  *
- * @param  array $classes Classes for the body element.
- *
- * @return array          Filtered classes.
  * @since  1.0
+ *
+ * @global WP_Post $post    Current post object.
+ *
+ * @param  array   $classes Classes for the body element.
+ * @return array            Filtered classes.
  */
 function follet_body_classes( $classes ) {
 	// Adds a class of group-blog to blogs with more than 1 published author.
@@ -227,12 +232,15 @@ add_filter( 'wp_title', 'follet_wp_title', 10, 2 );
 /**
  * Set HTML title.
  *
+ * @since  1.0
+ *
+ * @global integer $page  Number of current page.
+ * @global integer $paged Number of current page.
+ *
  * @param $title
  * @param $sep
  *
  * @return string
- *
- * @since 1.0
  */
 function follet_wp_title( $title, $sep ) {
 	if ( is_feed() ) {
@@ -275,9 +283,10 @@ add_action( 'wp', 'follet_setup_author' );
  * It removes the need to call the_post() and rewind_posts() in an author
  * template to print information about the author.
  *
+ * @since  1.0
+ *
  * @global WP_Query $wp_query WordPress Query object.
  * @return void
- * @since  1.0
  */
 function follet_setup_author() {
 	global $wp_query;
