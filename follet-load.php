@@ -11,7 +11,7 @@ $dirname = dirname( __FILE__ );
 /**
  * Load utilitary functions.
  */
-require $dirname . '/follet-functions.php';
+require $dirname . '/includes/functions.php';
 require $dirname . '/includes/internal.php';
 
 /**
