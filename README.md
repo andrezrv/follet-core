@@ -8,23 +8,19 @@ Please note that this is not a theme, and it won't work if you just drop it into
 ## Getting Started
 
 1. `git clone git@github.com:andrezrv/follet-core.git` into `/wp-content/themes/my-theme/includes/`, or download and unzip `follet-core.zip` and copy the `follet-core` folder to your `/wp-content/themes/my-theme/includes/` directory.
-2. Add the following code, customized to your own needs, to your `functions.php` file:
+2. Add the following code to your `functions.php` file:
 
 ```PHP
-// Top of file ...
 require get_template_directory() . '/includes/follet-core/follet-load.php';
 
 // Your own code here ...
-
-// End of file ...
-do_action( 'follet_setup' ); // --> This will initialize the Follet Core
 ```
 
 ## What did that do?
 
-Just by initializing Follet core, the following features are automatically available:
+Just by initializing Follet Core, the following features are automatically available:
 
-* Autoloaded textdomain for text localization.
+* Autoloaded text domain for text localization.
 * Autoloaded theme support for automatic feed links, featured images, post formats, custom background, HTML5 and Infinite Scroll for Jetpack.
 * Autoloaded `style.css` and [Bootstrap](http://getbootstrap.com) styles and scripts.
 * Autoloaded editor styles.
