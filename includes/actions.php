@@ -18,11 +18,9 @@ add_action( 'after_setup_theme', 'follet_load_textdomain' );
  * @since  1.0
  */
 function follet_load_textdomain() {
-	global $follet;
-
-	load_theme_textdomain( $follet->textdomain, apply_filters(
+	load_theme_textdomain( follet( 'textdomain' ), apply_filters(
 			'follet_textdomain_location',
-			$follet->template_directory . '/languages'
+			follet( 'template_directory' ) . '/languages'
 		)
 	);
 }
@@ -34,13 +32,14 @@ add_action( 'after_setup_theme', 'follet_theme_support' );
  * Initialize default theme support.
  *
  * Default theme support includes:
- * automatic-feed-links
- * post-thumbnails
- * post-formats (all post formats)
- * custom-background
- * html5
- * bootstrap (custom, for Bootstrap)
- * infinite-scroll (for Jetpack)
+ *
+ * - automatic-feed-links
+ * - post-thumbnails
+ * - post-formats (all post formats)
+ * - custom-background
+ * - html5
+ * - bootstrap (custom, for Bootstrap)
+ * - infinite-scroll (for Jetpack)
  *
  * @uses   add_theme_support()
  * @return void
@@ -118,26 +117,24 @@ add_action( 'wp_enqueue_scripts', 'follet_enqueue_scripts' );
  * @since  1.0
  */
 function follet_enqueue_scripts() {
-	global $follet;
-
 	// Bootstrap styles.
 	if ( get_theme_support( 'bootstrap' ) ) {
 		wp_enqueue_style(
 			'follet-bootstrap-styles',
 			apply_filters(
 				'follet_bootstrap_uri',
-				$follet->directory_uri . '/includes/assets/bootstrap/css/bootstrap.min.css'
+				follet( 'directory_uri' ) . '/includes/assets/bootstrap/css/bootstrap.min.css'
 			)
 		);
 	}
 
 	// Main style.
-	if ( $follet->get_current( 'load_main_style' ) ) {
+	if ( follet_get_option( 'load_main_style' ) ) {
 		wp_enqueue_style(
 			'follet-style',
 			get_stylesheet_uri(),
 			apply_filters( 'follet_main_style_dependencies', array() ),
-			$follet->theme_version
+			follet( 'theme_version' )
 		);
 	}
 
@@ -145,7 +142,7 @@ function follet_enqueue_scripts() {
 	if ( get_theme_support( 'bootstrap' ) ) {
 		wp_enqueue_script(
 			'follet-bootstrap-js',
-			$follet->directory_uri . '/includes/assets/bootstrap/js/bootstrap.min.js',
+			follet( 'directory_uri' ) . '/includes/assets/bootstrap/js/bootstrap.min.js',
 			array( 'jquery' ),
 			'3.1.1',
 			true
@@ -156,7 +153,7 @@ function follet_enqueue_scripts() {
 	if ( get_theme_support( 'bootstrap' ) ) {
 		wp_enqueue_script(
 			'respond',
-			$follet->directory_uri . '/includes/assets/respond/min/respond.min.js',
+			follet( 'directory_uri' ) . '/includes/assets/respond/min/respond.min.js',
 			array( 'jquery' ),
 			false,
 			false
@@ -173,15 +170,13 @@ endif;
 if ( ! function_exists( 'follet_add_editor_styles' ) ) :
 add_action( 'init', 'follet_add_editor_styles' );
 function follet_add_editor_styles() {
-	global $follet;
-
 	// Bootstrap styles.
 	if ( get_theme_support( 'bootstrap' ) ) {
-		add_editor_style( $follet->directory_uri . '/includes/assets/bootstrap/css/bootstrap.min.css' );
+		add_editor_style( follet( 'directory_uri' ) . '/includes/assets/bootstrap/css/bootstrap.min.css' );
 	}
 
 	// Main style.
-	if ( $follet->get_current( 'load_main_style' ) ) {
+	if ( follet_get_option( 'load_main_style' ) ) {
 		add_editor_style( get_stylesheet_uri() );
 	}
 }
