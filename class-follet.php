@@ -307,20 +307,21 @@ class Follet {
 	 * Load a PHP library given a file or a folder.
 	 *
 	 * @since 1.1
-	 * @param string $dependency Name of folder or php file.
+	 *
+	 * @param string $library Name of folder or php file.
 	 */
-	public static function load_library( $dependency ){
-		if ( is_dir( $dependency ) ) {
-			if ( $d = opendir( $dependency ) ) {
+	public static function load_library( $library ){
+		if ( is_dir( $library ) ) {
+			if ( $d = opendir( $library ) ) {
 				while ( ( $file = readdir( $d ) ) !== false ) {
 					if( stristr( $file , '.php' ) !== false ) {
-						require_once( $dependency . $file );
+						require_once( $library . $file );
 					}
 				}
 			}
-		} elseif ( ( is_file( $dependency ) ) && ( is_readable( $dependency ) ) ) {
-			if ( stristr( $dependency , '.php' ) !== false ) {
-				require_once( $dependency );
+		} elseif ( ( is_file( $library ) ) && ( is_readable( $library ) ) ) {
+			if ( stristr( $library , '.php' ) !== false ) {
+				require_once( $library );
 			}
 		}
 	}
