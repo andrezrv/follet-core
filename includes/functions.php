@@ -25,6 +25,19 @@ function follet( $value = '' ) {
 }
 
 /**
+ * Load a PHP library given a file or a folder.
+ *
+ * @uses  Follet::load_library()
+ *
+ * @since 1.1
+ *
+ * @param string $library Name of folder or php file.
+ */
+function follet_load_library( $library ) {
+	Follet::load_library( $library );
+}
+
+/**
  * Overhead-free alias for get_template_directory().
  *
  * @since  1.0
