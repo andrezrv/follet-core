@@ -1,6 +1,6 @@
 <?php
-if ( ! function_exists( 'follet_theme_support' ) ) :
-add_action( 'after_setup_theme', 'follet_theme_support' );
+if ( ! function_exists( 'follet_do_theme_support' ) ) :
+add_action( 'follet_theme_support', 'follet_do_theme_support' );
 /**
  * Initialize default theme support.
  *
@@ -18,10 +18,7 @@ add_action( 'after_setup_theme', 'follet_theme_support' );
  * @return void
  * @since  1.0
  */
-function follet_theme_support() {
-	// Process actions before theme support. Use it to register new theme support.
-	do_action( 'follet_theme_support' );
-
+function follet_do_theme_support() {
 	// Add default posts and comments RSS feed links to head.
 	add_theme_support( 'automatic-feed-links' );
 
@@ -75,8 +72,5 @@ function follet_theme_support() {
 			)
 		)
 	);
-
-	// Process actions after theme support. Use to remove theme support.
-	do_action( 'follet_after_theme_support' );
 }
 endif;

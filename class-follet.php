@@ -106,8 +106,6 @@ class Follet {
 		// Process global variables.
 		$this->process_globals();
 
-		// $this->load_dependencies();
-
 		// Process actions after setup.
 		do_action( 'follet_after_setup' );
 	}
