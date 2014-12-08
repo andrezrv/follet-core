@@ -126,7 +126,7 @@ function follet_enqueue_scripts() {
 			'follet-bootstrap-styles',
 			apply_filters(
 				'follet_bootstrap_uri',
-				$follet->directory_uri . '/includes/bootstrap/css/bootstrap.min.css'
+				$follet->directory_uri . '/includes/assets/bootstrap/css/bootstrap.min.css'
 			)
 		);
 	}
@@ -145,7 +145,7 @@ function follet_enqueue_scripts() {
 	if ( get_theme_support( 'bootstrap' ) ) {
 		wp_enqueue_script(
 			'follet-bootstrap-js',
-			$follet->directory_uri . '/includes/bootstrap/js/bootstrap.min.js',
+			$follet->directory_uri . '/includes/assets/bootstrap/js/bootstrap.min.js',
 			array( 'jquery' ),
 			'3.1.1',
 			true
@@ -156,7 +156,7 @@ function follet_enqueue_scripts() {
 	if ( get_theme_support( 'bootstrap' ) ) {
 		wp_enqueue_script(
 			'respond',
-			$follet->directory_uri . '/includes/respond/min/respond.min.js',
+			$follet->directory_uri . '/includes/assets/respond/min/respond.min.js',
 			array( 'jquery' ),
 			false,
 			false
@@ -177,7 +177,7 @@ function follet_add_editor_styles() {
 
 	// Bootstrap styles.
 	if ( get_theme_support( 'bootstrap' ) ) {
-		add_editor_style( $follet->directory_uri . '/includes/bootstrap/css/bootstrap.min.css' );
+		add_editor_style( $follet->directory_uri . '/includes/assets/bootstrap/css/bootstrap.min.css' );
 	}
 
 	// Main style.
@@ -200,6 +200,7 @@ add_filter( 'wp_head', 'follet_add_ie_compatibility_modes' );
 function follet_add_ie_compatibility_modes() {
 	if ( get_theme_support( 'bootstrap' ) ) {
 		$content = '<meta http-equiv="X-UA-Compatible" content="IE=edge" />' . "\n";
+
 		echo $content;
 	}
 }
@@ -248,10 +249,8 @@ add_filter( 'user_contactmethods', 'follet_add_to_author_profile' );
  * @return array                  Mixed list of contact methods.
  */
 function follet_add_to_author_profile( $contact_methods ) {
-	global $follet;
-
-	if ( $follet->get_current( 'contact_methods_show' ) ) {
-		$supported_contact_methods = $follet->get_current( 'contact_methods' );
+	if ( follet_get_option( 'contact_methods_show' ) ) {
+		$supported_contact_methods = follet_get_option( 'contact_methods' );
 
 		foreach ( $supported_contact_methods as $key => $value ) {
 			$contact_methods[ $key ] = $value;
