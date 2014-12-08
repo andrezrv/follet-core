@@ -9,46 +9,59 @@
 /**
  * Get Follet instance.
  *
- * @return Follet Current Follet instance.
+ * @since  1.0
+ *
+ * @param  string $value Name of a public Follet property.
+ * @return mixed         Value of a Follet property, or current Follet instance.
  */
-function follet() {
-	return Follet::get_instance();
+function follet( $value = '' ) {
+	global $follet;
+
+	if ( $value && property_exists( $follet, $value ) ) {
+		return $follet->$value;
+	}
+
+	return $follet;
 }
 
 /**
  * Overhead-free alias for get_template_directory().
  *
+ * @since  1.0
  * @return string
  */
 function follet_template_directory() {
-	return follet()->template_directory;
+	return follet( 'template_directory' );
 }
 
 /**
  * Overhead-free alias for get_template_directory_uri().
  *
+ * @since  1.0
  * @return string
  */
 function follet_template_directory_uri() {
-	return follet()->template_directory_uri;
+	return follet( 'template_directory_uri' );
 }
 
 /**
  * Follet directory.
  *
+ * @since  1.0
  * @return string
  */
 function follet_directory() {
-	return follet()->directory;
+	return follet( 'directory' );
 }
 
 /**
  * Follet directory URI.
  *
+ * @since  1.0
  * @return string
  */
 function follet_directory_uri() {
-	return follet()->directory_uri;
+	return follet( 'directory_uri' );
 }
 
 /**
@@ -58,15 +71,17 @@ function follet_directory_uri() {
  *
 	follet_register_option( 'my-option', 'foo', get_option( 'foo' ) );
 
+ * @since  1.0
+ *
  * @uses   Follet->register_option()
+ *
  * @param  string $name    Name of the new option.
  * @param  mixed  $default Default value for the option.
  * @param  mixed  $current Current value of the option.
- * @return void
- * @since  1.0
  */
 function follet_register_option( $name, $default, $current = null ) {
-	follet()->register_option( $name, $default, $current );
+	global $follet;
+	$follet->register_option( $name, $default, $current );
 }
 
 /**
@@ -78,7 +93,8 @@ function follet_register_option( $name, $default, $current = null ) {
  * @since  1.0
  */
 function follet_remove_option( $name ) {
-	follet()->remove_option( $name );
+	global $follet;
+	$follet->remove_option( $name );
 }
 
 /**
@@ -90,7 +106,8 @@ function follet_remove_option( $name ) {
  * @since  1.0
  */
 function follet_get_default( $name ) {
-	return follet()->get_default( $name );
+	global $follet;
+	return $follet->get_default( $name );
 }
 
 /**
@@ -102,20 +119,41 @@ function follet_get_default( $name ) {
  * @since  1.0
  */
 function follet_get_current( $name ) {
-	return follet()->get_current( $name );
+	global $follet;
+	return $follet->get_current( $name );
+}
+
+/**
+ * Get the value of a Follet option.
+ *
+ * Usage of this function is preferred to `follet_get_current()`.
+ *
+ * @since  1.1
+ *
+ * @uses   Follet->get_option()
+ * @see    follet_get_current()
+ *
+ * @param  string $name Name of the option.
+ * @return mixed        Current value of the option.
+ */
+function follet_get_option( $name ) {
+	global $follet;
+	return $follet->get_option( $name );
 }
 
 /**
  * Get the current value of a Follet option.
  *
- * @uses   Follet->option_exists()
- * @param  string $name Name of the option.
- *
- * @return boolean
  * @since  1.0
+ *
+ * @uses   Follet->option_exists()
+ *
+ * @param  string $name Name of the option.
+ * @return boolean
  */
 function follet_option_exists( $name ) {
-	return follet()->option_exists( $name );
+	global $follet;
+	return $follet->option_exists( $name );
 }
 
 /**
@@ -125,7 +163,8 @@ function follet_option_exists( $name ) {
  * @since  1.0
  */
 function follet_previous_post_exists() {
-	return ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
+	$post = get_post();
+	return ( is_attachment() ) ? get_post( $post->post_parent ) : get_adjacent_post( false, '', true );
 }
 
 /**
@@ -168,7 +207,9 @@ function follet_next_post_exists() {
 function follet_override_stylesheet_colors( $current_value, $stylesheet, $default_color, $colors = array() ) {
 	if ( ( $default_color != $current_value ) && ( strtolower( $default_color ) != $current_value ) ) {
 		ob_start();
+
 		include $stylesheet;
+
 		$content = ob_get_contents();
 		ob_end_clean();
 		if ( ! empty( $colors ) ) {
@@ -177,7 +218,9 @@ function follet_override_stylesheet_colors( $current_value, $stylesheet, $defaul
 				$content = str_replace( strtolower( $color ), $current_value, $content );
 			}
 		}
+
 		return $content;
 	}
+
 	return '';
 }
