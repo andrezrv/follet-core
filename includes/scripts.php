@@ -9,7 +9,7 @@ add_action( 'follet_enqueue_scripts', 'follet_bootstrap_scripts' );
  */
 function follet_bootstrap_scripts() {
 	// Bootstrap JS.
-	if ( get_theme_support( 'bootstrap' ) ) {
+	if ( _follet_bootstrap_active() ) {
 		wp_enqueue_script(
 			'follet-bootstrap-js',
 			follet( 'directory_uri' ) . '/includes/assets/bootstrap/js/bootstrap.min.js',
@@ -29,7 +29,7 @@ add_action( 'follet_enqueue_scripts', 'follet_response_scripts' );
  * @since 1.1
  */
 function follet_response_scripts() {
-	if ( get_theme_support( 'bootstrap' ) ) {
+	if ( _follet_bootstrap_active() ) {
 		wp_enqueue_script(
 			'respond',
 			follet( 'directory_uri' ) . '/includes/assets/respond/min/respond.min.js',
@@ -66,7 +66,7 @@ add_filter( 'wp_head', 'follet_add_html5_shim' );
  * @return void
  */
 function follet_add_html5_shim() {
-	if ( get_theme_support( 'bootstrap' ) ) {
+	if ( _follet_bootstrap_active() ) {
 		ob_start();
 		?>
 		<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->

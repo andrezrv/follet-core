@@ -12,11 +12,20 @@
  *
  * @internal
  *
- * @return boolean
  * @since  1.0
+ *
+ * @param  boolean $check_style CHeck if stylesheet is loaded.
+ * @return boolean
+ *
  */
-function _follet_bootstrap_active() {
-	$bootstrap = get_theme_support( 'bootstrap' ) && wp_style_is( 'follet-bootstrap-styles' );
+function _follet_bootstrap_active( $check_style = false ) {
+	$theme_support = get_theme_support( 'bootstrap' );
+	$bootstrap     = $theme_support;
+
+	if ( $check_style && $theme_support ) {
+		$bootstrap = $bootstrap && wp_style_is( 'follet-bootstrap-styles' );
+	}
+
 	return $bootstrap;
 }
 
@@ -32,15 +41,19 @@ function _follet_bootstrap_active() {
  */
 function _follet_modify_link_pages( $link, $i ) {
 	global $page;
-	$bootstrap = _follet_bootstrap_active();
+	$bootstrap = _follet_bootstrap_active( true );
+
 	if ( ! is_home() && ! is_archive() && ! is_search() && $i == $page ) {
 		$link = _wp_link_page( $i ) . $link . '</a>';
 	}
+
 	$replace = $bootstrap ? 'class="btn btn-default page-' . $i . '" href' : 'class="" href';
-	$link = $bootstrap ? str_replace( 'href', $replace, $link ) : $link;
+	$link    = $bootstrap ? str_replace( 'href', $replace, $link ) : $link;
+
 	if ( $i == $page ) {
 		$link = str_replace( 'class="', 'class="active ', $link );
 	}
+
 	return $link;
 }
 

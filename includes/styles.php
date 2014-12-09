@@ -9,7 +9,7 @@ add_action( 'follet_enqueue_styles', 'follet_bootstrap_styles' );
  */
 function follet_bootstrap_styles() {
 	// Bootstrap styles.
-	if ( get_theme_support( 'bootstrap' ) ) {
+	if ( _follet_bootstrap_active() ) {
 		wp_enqueue_style(
 			'follet-bootstrap-styles',
 			apply_filters(
@@ -53,7 +53,7 @@ add_filter( 'wp_head', 'follet_add_ie_compatibility_modes' );
  * @return void
  */
 function follet_add_ie_compatibility_modes() {
-	if ( get_theme_support( 'bootstrap' ) ) {
+	if ( _follet_bootstrap_active() ) {
 		$content = '<meta http-equiv="X-UA-Compatible" content="IE=edge" />' . "\n";
 
 		echo $content;
