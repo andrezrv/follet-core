@@ -1,4 +1,47 @@
 <?php
+if ( ! function_exists( 'follet_bootstrap_styles' ) ) :
+add_action( 'follet_enqueue_styles', 'follet_bootstrap_styles' );
+/**
+ * Enqueue Bootstrap styles.
+ *
+ * @return void
+ * @since  1.1
+ */
+function follet_bootstrap_styles() {
+	// Bootstrap styles.
+	if ( get_theme_support( 'bootstrap' ) ) {
+		wp_enqueue_style(
+			'follet-bootstrap-styles',
+			apply_filters(
+				'follet_bootstrap_uri',
+				follet( 'directory_uri' ) . '/includes/assets/bootstrap/css/bootstrap.min.css'
+			)
+		);
+	}
+}
+endif;
+
+if ( ! function_exists( 'follet_main_styles' ) ) :
+add_action( 'follet_enqueue_styles', 'follet_main_styles' );
+/**
+ * Enqueue main stylesheet.
+ *
+ * @since 1.1
+ */
+function follet_main_styles() {
+	// Main style.
+	if ( follet_get_option( 'load_main_style' ) ) {
+		wp_enqueue_style(
+			'follet-style',
+			get_stylesheet_uri(),
+			apply_filters( 'follet_main_style_dependencies', array() ),
+			follet( 'theme_version' )
+		);
+	}
+}
+endif;
+
+
 if ( ! function_exists( 'follet_add_ie_compatibility_modes' ) ) :
 add_filter( 'wp_head', 'follet_add_ie_compatibility_modes' );
 /**
