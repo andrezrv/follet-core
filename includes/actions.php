@@ -1,13 +1,15 @@
 <?php
 if ( ! function_exists( 'follet_editor_styles' ) ) :
-add_action( 'init', 'follet_editor_styles' );
+add_action( 'after_setup_theme', 'follet_editor_styles' );
 /**
  * Run a hook to register editor styles to.
  *
  * @since 1.1
  */
 function follet_editor_styles() {
-	do_action( 'follet_editor_styles' );
+	if ( is_admin() && ! follet( 'doing_ajax' ) ) {
+		do_action( 'follet_editor_styles' );
+	}
 }
 endif;
 
@@ -19,6 +21,10 @@ add_action( 'wp_enqueue_scripts', 'follet_enqueue_scripts' );
  * @since 1.1
  */
 function follet_enqueue_scripts() {
+	if ( follet( 'doing_ajax' ) ) {
+		return;
+	}
+
 	do_action( 'follet_enqueue_scripts' );
 }
 endif;
@@ -31,6 +37,10 @@ add_action( 'wp_enqueue_scripts', 'follet_enqueue_styles' );
  * @since 1.1
  */
 function follet_enqueue_styles() {
+	if ( follet( 'doing_ajax' ) ) {
+		return;
+	}
+
 	do_action( 'follet_enqueue_styles' );
 }
 endif;

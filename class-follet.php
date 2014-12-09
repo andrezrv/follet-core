@@ -69,6 +69,14 @@ class Follet {
 	public $textdomain;
 
 	/**
+	 * Check if we're in an AJAX context.
+	 *
+	 * @var   bool
+	 * @since 1.1
+	 */
+	public $doing_ajax;
+
+	/**
 	 * Current version of package.
 	 *
 	 * @var    string
@@ -97,6 +105,7 @@ class Follet {
 
 		// Process object values.
 		$this->theme_version          = $theme->get( 'Version' );
+		$this->doing_ajax             = defined( 'DOING_AJAX' ) && DOING_AJAX;
 		$this->textdomain             = $theme->get( 'TextDomain' );
 		$this->template_directory     = get_template_directory();
 		$this->template_directory_uri = get_template_directory_uri();
