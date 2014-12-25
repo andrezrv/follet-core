@@ -14,7 +14,7 @@
  *
  * @since  1.0
  *
- * @param  boolean $check_style CHeck if stylesheet is loaded.
+ * @param  boolean $check_style Check if stylesheet is loaded.
  * @return boolean
  *
  */
