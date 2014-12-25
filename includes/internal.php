@@ -51,6 +51,8 @@ function _follet_modify_link_pages( $link, $i ) {
 		$link = str_replace( 'class="', 'class="active ', $link );
 	}
 
+	$link = apply_filters( 'follet_modify_link_pages', $link );
+
 	return $link;
 }
 
