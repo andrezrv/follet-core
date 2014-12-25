@@ -1,12 +1,19 @@
 <?php
 /**
+ * Follet Core.
+ *
  * Standard template tags for Follet themes.
  *
- * All the functions in this file can be plugged or hooked in.
- *
- * @package Follet_Core
- * @since   1.0
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.0
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Add a hook for custom actions before loading this file.
@@ -17,9 +24,8 @@ if ( ! function_exists( 'follet_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.
  *
- * Take on this function by declaring it before this file is loaded.
+ * @global Follet $follet Current Follet global object.
  *
- * @return void
  * @since  1.0
  */
 function follet_posted_on() {
@@ -75,10 +81,9 @@ if ( ! function_exists( 'follet_categorized_blog' ) ) :
 /**
  * Check if a blog has more than one category.
  *
- * Take on this function by declaring it before this file is loaded.
+ * @since  1.0
  *
  * @return boolean Returns true if this blog has more than one category.
- * @since  1.0
  */
 function follet_categorized_blog() {
 	if ( false === ( $follet_categories_list = get_transient( 'follet_categories_list' ) ) ) {
@@ -109,8 +114,7 @@ add_action( 'save_post',     'follet_category_transient_flusher' );
 /**
  * Flush out the transients used in follet_categorized_blog().
  *
- * @return void
- * @since  1.0
+ * @since 1.0
  */
 function follet_category_transient_flusher() {
 	delete_transient( 'follet_categories_list' );
@@ -121,13 +125,9 @@ if ( ! function_exists( 'follet_link_pages' ) ) :
 /**
  * Returns HTML for paged posts pagination.
  *
- * Take on this function by declaring it before this file is loaded.
- *
- * @return void
- * @since  1.0
+ * @since 1.0
  */
 function follet_link_pages() {
-
 	$bootstrap = _follet_bootstrap_active();
 	$before = $bootstrap ? ' class="links-container btn-group"' : ' class="links-container"';
 
@@ -157,12 +157,12 @@ if ( ! function_exists( 'follet_edit_post_link' ) ) :
 /**
  * Shortener for edit_post_link().
  *
- * Take on this function by declaring it before this file is loaded.
+ * @global Follet $follet Current Follet global object.
  *
  * @since  1.0
  */
 function follet_edit_post_link() {
-	$follet = Follet::get_instance();
+	global $follet;
 
 	if ( current_user_can( 'edit_posts' ) ) {
 		$link = sprintf( '<section class="edit-link"><a href="%1$s">%3$s%2$s</a></section>',
@@ -181,16 +181,14 @@ if ( ! function_exists( 'follet_continue_reading' ) ) :
 /**
  * Return a continue reading kind of text.
  *
- * Take on this function by declaring it before this file is loaded.
+ * @since  1.0
  *
  * @param  boolean $display If false, the text will be printed.
  * @param  boolean $excerpt Whether the text is gonna be used next to an excerpt.
  *
  * @return string           Text for "continue reading".
- * @since  1.0
  */
 function follet_continue_reading( $display = false, $excerpt = false ) {
-
 	$bootstrap = _follet_bootstrap_active();
 
 	// Create link in case this is gonna be used next to an excerpt.
@@ -223,9 +221,9 @@ if ( ! function_exists( 'follet_list_comments' ) ) :
  *
  * @uses   wp_list_comments()
  *
- * @param  array $args  Arguments for list of comments.
- * @return void
  * @since  1.0
+ *
+ * @param  array $args  Arguments for list of comments.
  */
 function follet_list_comments( $args ) {
 	ob_start();
@@ -245,8 +243,12 @@ if ( ! function_exists( 'follet_breadcrumb' ) ) :
 /**
  * Get breadcrumbs for the current page.
  *
- * @param  array  $args Arguments for the breadcrumb.
- * @return mixed        If $args['display'] is set to false, the output will be returned instead of echoed.
+ * @since  1.0
+ *
+ * @global WP_Post $post Current instance of WP_Post object.
+ *
+ * @param  array   $args Arguments for the breadcrumb.
+ * @return mixed         If $args['display'] is set to false, the output will be returned instead of echoed.
  */
 function follet_breadcrumb( $args = array() ) {
     global $post;
@@ -389,15 +391,18 @@ if ( ! function_exists( 'follet_microdata' ) ) :
 /**
  * Get microdata string for a given section.
  *
+ * @since  1.0
+ *
  * @param  string  $section Name of the section.
  * @param  boolean $display If set to false, the output will be returned instead of echoed.
+ *
  * @return mixed            Microdata string, in case $display is set to false.
- * @since  1.0
  */
 function follet_microdata( $section, $display = true ) {
 	if ( ! $section ) {
 		return null;
 	}
+
 	switch ( $section ) {
 		case 'body':
 			$microdata = 'itemtype="http://schema.org/WebPage" itemscope="itemscope"';
@@ -489,6 +494,8 @@ if ( ! function_exists( 'follet_container_class' ) ) :
 /**
  * Apply default class for containers.
  *
+ * @since  1.0
+ *
  * @param  string  $location Place where the class is being applied.
  * @param  boolean $display  If set to false, the output will be returned instead of echoed.
  * @return mixed             Class string, in case $display is set to false.
@@ -509,7 +516,11 @@ if ( ! function_exists( 'follet_post_classes' ) ) :
 /**
  * Add custom HTML classes for post.
  *
- * @return string HTML classes.
+ * @since  1.0
+ *
+ * @global WP_Post $post Current instance of WP_Post object.
+ *
+ * @return string        HTML classes.
  */
 function follet_post_classes() {
 	global $post;

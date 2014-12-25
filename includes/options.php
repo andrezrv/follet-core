@@ -1,4 +1,20 @@
 <?php
+/**
+ * Follet Core.
+ *
+ * Manage theme options.
+ *
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.1
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! function_exists( 'follet_add_to_author_profile' ) ) :
 add_filter( 'user_contactmethods', 'follet_add_to_author_profile' );
 /**

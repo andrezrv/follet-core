@@ -1,4 +1,20 @@
 <?php
+/**
+ * Follet Core.
+ *
+ * Execute main actions to be hooked within the theme.
+ *
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.1
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! function_exists( 'follet_editor_styles' ) ) :
 add_action( 'after_setup_theme', 'follet_editor_styles' );
 /**

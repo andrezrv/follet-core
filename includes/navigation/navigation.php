@@ -1,4 +1,20 @@
 <?php
+/**
+ * Follet Core.
+ *
+ * This file contains functions to manage navigation functionality.
+ *
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.1
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! function_exists( 'follet_navigate_posts_link_attributes' ) ) :
 add_filter( 'next_posts_link_attributes', 'follet_navigate_posts_link_attributes' );
 add_filter( 'previous_posts_link_attributes', 'follet_navigate_posts_link_attributes' );

@@ -1,18 +1,37 @@
 <?php
+/**
+ * Follet Core.
+ *
+ * This file contains functions to manage loading of basic theme scripts.
+ *
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.1
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! function_exists( 'follet_bootstrap_scripts' ) ) :
 add_action( 'follet_enqueue_scripts', 'follet_bootstrap_scripts' );
 /**
  * Enqueue scripts and styles.
  *
- * @return void
- * @since  1.0
+ * @global Follet $follet Current Follet global object.
+ *
+ * @since  1.1
  */
 function follet_bootstrap_scripts() {
 	// Bootstrap JS.
 	if ( _follet_bootstrap_active() ) {
+		global $follet;
+
 		wp_enqueue_script(
 			'follet-bootstrap-js',
-			follet( 'directory_uri' ) . '/includes/assets/bootstrap/js/bootstrap.min.js',
+			$follet->directory_uri . '/includes/assets/bootstrap/js/bootstrap.min.js',
 			array( 'jquery' ),
 			'3.1.1',
 			true
@@ -26,13 +45,17 @@ add_action( 'follet_enqueue_scripts', 'follet_response_scripts' );
 /**
  * Enqueue Respond scripts.
  *
- * @since 1.1
+ * @global Follet $follet Current Follet global object.
+ *
+ * @since  1.1
  */
 function follet_response_scripts() {
 	if ( _follet_bootstrap_active() ) {
+		global $follet;
+
 		wp_enqueue_script(
 			'respond',
-			follet( 'directory_uri' ) . '/includes/assets/respond/min/respond.min.js',
+			$follet->directory_uri . '/includes/assets/respond/min/respond.min.js',
 			array( 'jquery' ),
 			false,
 			false
@@ -62,8 +85,7 @@ add_filter( 'wp_head', 'follet_add_html5_shim' );
 /**
  * HTML5 shim, for IE6-8 support of HTML5 elements.
  *
- * @since  1.0
- * @return void
+ * @since 1.0
  */
 function follet_add_html5_shim() {
 	if ( _follet_bootstrap_active() ) {

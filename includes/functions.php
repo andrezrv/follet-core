@@ -1,18 +1,34 @@
 <?php
 /**
+ * Follet Core.
+ *
  * Utilitary functions for customization management.
  *
- * @package Follet_Core
- * @since   1.0
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.0
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
+if ( ! function_exists( 'follet' ) ) :
 /**
- * Get Follet instance.
+ * Get Follet instance or given value.
+ *
+ * Usage of this function is not recommended to retrieve values other than the
+ * instance itself, since it's harder to debug. However, it gives the advantage
+ * of not having to call the global object before using it.
  *
  * @since  1.0
  *
- * @param  string $value Name of a public Follet property.
- * @return mixed         Value of a Follet property, or current Follet instance.
+ * @global Follet $follet Current instance of Follet object.
+ *
+ * @param  string $value  Name of a public Follet property.
+ * @return mixed          Value of a Follet property, or current Follet instance.
  */
 function follet( $value = '' ) {
 	global $follet;
@@ -23,7 +39,9 @@ function follet( $value = '' ) {
 
 	return $follet;
 }
+endif;
 
+if ( ! function_exists( 'follet_load_library' ) ) :
 /**
  * Load a PHP library given a file or a folder.
  *
@@ -36,47 +54,73 @@ function follet( $value = '' ) {
 function follet_load_library( $library ) {
 	Follet::load_library( $library );
 }
+endif;
 
+if ( ! function_exists( 'follet_template_directory' ) ) :
 /**
  * Overhead-free alias for get_template_directory().
  *
  * @since  1.0
+ *
+ * @global Follet $follet Current instance of Follet object.
+ *
  * @return string
  */
 function follet_template_directory() {
-	return follet( 'template_directory' );
+	global $follet;
+	return $follet->template_directory;
 }
+endif;
 
+if ( ! function_exists( 'follet_template_directory_uri' ) ) :
 /**
  * Overhead-free alias for get_template_directory_uri().
  *
  * @since  1.0
+ *
+ * @global Follet $follet Current instance of Follet object.
+ *
  * @return string
  */
 function follet_template_directory_uri() {
-	return follet( 'template_directory_uri' );
+	global $follet;
+	return $follet->template_directory_uri;
 }
+endif;
 
+if ( ! function_exists( 'follet_directory' ) ) :
 /**
  * Follet directory.
  *
  * @since  1.0
+ *
+ * @global Follet $follet Current instance of Follet object.
+ *
  * @return string
  */
 function follet_directory() {
-	return follet( 'directory' );
+	global $follet;
+	return $follet->directory;
 }
+endif;
 
+if ( ! function_exists( 'follet_directory_uri' ) ) :
 /**
  * Follet directory URI.
  *
  * @since  1.0
+ *
+ * @global Follet $follet Current instance of Follet object.
+ *
  * @return string
  */
 function follet_directory_uri() {
-	return follet( 'directory_uri' );
+	global $follet;
+	return $follet->directory_uri;
 }
+endif;
 
+if ( ! function_exists( 'follet_register_option' ) ) :
 /**
  * Add an option to the Follet instance.
  *
@@ -88,6 +132,8 @@ function follet_directory_uri() {
  *
  * @uses   Follet->register_option()
  *
+ * @global Follet $follet  Current instance of Follet object.
+ *
  * @param  string $name    Name of the new option.
  * @param  mixed  $default Default value for the option.
  * @param  mixed  $current Current value of the option.
@@ -96,46 +142,66 @@ function follet_register_option( $name, $default, $current = null ) {
 	global $follet;
 	$follet->register_option( $name, $default, $current );
 }
+endif;
 
+if ( ! function_exists( 'follet_remove_option' ) ) :
 /**
  * Remove option from the Follet instance.
  *
- * @uses   Follet->remove_option()
- * @param  string $name Name of the option.
- * @return void
  * @since  1.0
+ *
+ * @uses   Follet->remove_option()
+ *
+ * @global Follet $follet Current instance of Follet object.
+ *
+ * @param  string $name   Name of the option.
  */
 function follet_remove_option( $name ) {
 	global $follet;
 	$follet->remove_option( $name );
 }
+endif;
 
+if ( ! function_exists( 'follet_get_default' ) ) :
 /**
  * Get the default value of a Follet option.
  *
- * @uses   Follet->get_default()
- * @param  string $name Name of the option.
- * @return mixed        Default value of the option.
  * @since  1.0
+ *
+ * @uses   Follet->get_default()
+ *
+ * @global Follet $follet Current instance of Follet object.
+ *
+ * @param  string $name Name of the option.
+ *
+ * @return mixed        Default value of the option.
  */
 function follet_get_default( $name ) {
 	global $follet;
 	return $follet->get_default( $name );
 }
+endif;
 
+if ( ! function_exists( 'follet_get_current' ) ) :
 /**
  * Get the current value of a Follet option.
  *
- * @uses   Follet->get_current()
- * @param  string $name Name of the option.
- * @return mixed        Current value of the option.
  * @since  1.0
+ *
+ * @uses   Follet->get_current()
+ *
+ * @global Follet $follet Current instance of Follet object.
+ *
+ * @param  string $name   Name of the option.
+ * @return mixed          Current value of the option.
  */
 function follet_get_current( $name ) {
 	global $follet;
 	return $follet->get_current( $name );
 }
+endif;
 
+if ( ! function_exists( 'follet_get_option' ) ) :
 /**
  * Get the value of a Follet option.
  *
@@ -146,6 +212,8 @@ function follet_get_current( $name ) {
  * @uses   Follet->get_option()
  * @see    follet_get_current()
  *
+ * @global Follet $follet Current instance of Follet object.
+ *
  * @param  string $name Name of the option.
  * @return mixed        Current value of the option.
  */
@@ -153,13 +221,17 @@ function follet_get_option( $name ) {
 	global $follet;
 	return $follet->get_option( $name );
 }
+endif;
 
+if ( ! function_exists( 'follet_option_exists' ) ) :
 /**
  * Get the current value of a Follet option.
  *
  * @since  1.0
  *
  * @uses   Follet->option_exists()
+ *
+ * @global Follet $follet Current instance of Follet object.
  *
  * @param  string $name Name of the option.
  * @return boolean
@@ -168,28 +240,36 @@ function follet_option_exists( $name ) {
 	global $follet;
 	return $follet->option_exists( $name );
 }
+endif;
 
+if ( ! function_exists( 'follet_previous_post_exists' ) ) :
 /**
  * Check if the current post has a previous one.
  *
- * @return boolean
  * @since  1.0
+ *
+ * @return boolean
  */
 function follet_previous_post_exists() {
 	$post = get_post();
 	return ( is_attachment() ) ? get_post( $post->post_parent ) : get_adjacent_post( false, '', true );
 }
+endif;
 
+if ( ! function_exists( 'follet_next_post_exists' ) ) :
 /**
  * Check if the current post has a next one.
  *
- * @return boolean
  * @since  1.0
+ *
+ * @return boolean
  */
 function follet_next_post_exists() {
 	return get_adjacent_post( false, '', false );
 }
+endif;
 
+if ( ! function_exists( 'follet_override_stylesheet_colors' ) ) :
 /**
  * Copy a stylesheet and replace colors to pass result to wp_add_inline_style().
  *
@@ -209,13 +289,15 @@ function follet_next_post_exists() {
 		}
 	}
 	add_action( 'wp_enqueue_scripts', 'follet_primary_color' );
-
+ *
+ * @since  1.0
+ *
  * @param  string $current_value Current color value.
  * @param  string $stylesheet    Path of the stylesheet to copy.
  * @param  string $default_color Default color to check.
  * @param  array  $colors        List of color values to replace.
+ *
  * @return string
- * @since  1.0
  */
 function follet_override_stylesheet_colors( $current_value, $stylesheet, $default_color, $colors = array() ) {
 	if ( ( $default_color != $current_value ) && ( strtolower( $default_color ) != $current_value ) ) {
@@ -237,3 +319,4 @@ function follet_override_stylesheet_colors( $current_value, $stylesheet, $defaul
 
 	return '';
 }
+endif;

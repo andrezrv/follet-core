@@ -1,4 +1,20 @@
 <?php
+/**
+ * Follet Core.
+ *
+ * This file includes functions for theme support management.
+ *
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.0
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! function_exists( 'follet_theme_support_feed' ) ) :
 add_action( 'follet_theme_support', 'follet_theme_support_feed' );
 /**
@@ -53,8 +69,8 @@ add_action( 'follet_theme_support', 'follet_theme_support_custom_background' );
 /**
  * Setup the WordPress core custom background feature.
  *
- * @uses   add_theme_support()
- * @since  1.1
+ * @uses  add_theme_support()
+ * @since 1.1
  */
 function follet_theme_support_custom_background() {
 	add_theme_support( 'custom-background', apply_filters(
@@ -72,8 +88,8 @@ add_action( 'follet_theme_support', 'follet_theme_support_html5' );
 /**
  * Enable support for HTML5 markup.
  *
- * @since 1.1
  * @uses  add_theme_support()
+ * @since 1.1
  */
 function follet_theme_support_html5() {
 	add_theme_support( 'html5', apply_filters( 'follet_html5_args', array(

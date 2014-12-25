@@ -1,18 +1,34 @@
 <?php
+/**
+ * Follet Core.
+ *
+ * This file includes functions for custom theming management.
+ *
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.0
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! function_exists( 'follet_thumbnail_class' ) ) :
 add_filter( 'post_thumbnail_html', 'follet_thumbnail_class', 10, 3 );
 /**
  * Add support for Vertical Featured Images.
  *
- * {@link http://johnregan3.wordpress.com/2014/01/02/adding-support-for-vertical-featured-images-in-wordpress-themes/}
+ * @link http://johnregan3.wordpress.com/2014/01/02/adding-support-for-vertical-featured-images-in-wordpress-themes/
  *
  * @since  1.0
  *
- * @param $html              string  Default unfiltered content.
- * @param $post_id           integer ID of the post.
- * @param $post_thumbnail_id integer ID of the thumbnail.
+ * @param  string  $html              Default unfiltered content.
+ * @param  integer $post_id           ID of the post.
+ * @param  integer $post_thumbnail_id ID of the thumbnail.
  *
- * @return                   string  Filtered HTML
+ * @return string                     Filtered HTML
  */
 function follet_thumbnail_class( $html, $post_id, $post_thumbnail_id ) {
 	$post_id    = $post_id ? $post_id : get_the_ID();
@@ -86,8 +102,8 @@ add_filter( 'wp_title', 'follet_wp_title', 10, 2 );
  * @global integer $page  Number of current page.
  * @global integer $paged Number of current page.
  *
- * @param $title
- * @param $sep
+ * @param  string $title
+ * @param  string $sep
  *
  * @return string
  */

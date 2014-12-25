@@ -11,7 +11,6 @@ if ( ! class_exists( 'Follet' ) ) :
  * @since   1.0
  */
 class Follet {
-
 	/**
 	 * Instance for singleton.
 	 *
