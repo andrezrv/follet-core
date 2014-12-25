@@ -243,14 +243,18 @@ class Follet {
 	private static function load_dependencies() {
 		$dirname = dirname( __FILE__ );
 
-		// Add all files inside `./includes`.
-		self::load_library( $dirname . '/includes/' );
+		$dependencies = array(
+			$dirname . '/includes/',                    // All files inside `./includes`.
+			$dirname . '/includes/navigation/',         // All files inside `./includes/navigation`.
+			$dirname . '/includes/customizer/',         // All files inside `./includes/customizer`.
+			$dirname . '/includes/customizer-library/', // All files inside `./includes/customizer-library`.
+		);
 
-		// Add all files inside `./includes/navigation`.
-		self::load_library( $dirname . '/includes/navigation/' );
+		$dependencies = apply_filters( 'follet_dependencies', $dependencies );
 
-		// Add all files inside `./includes/customizer`.
-		self::load_library( $dirname . '/includes/customizer/' );
+		foreach ( $dependencies as $library ) {
+			self::load_library( $library );
+		}
 	}
 
 	/**
