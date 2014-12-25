@@ -1,7 +1,7 @@
 <?php
 if ( ! class_exists( 'Follet' ) ) :
 /**
- * Follet
+ * Class Follet
  *
  * Main class for theme management.
  *
@@ -158,6 +158,10 @@ class Follet {
 		do_action( 'follet_after_setup' );
 	}
 
+	/* ========================================================================
+	   Singleton Class Methods.
+	   ===================================================================== */
+
 	/**
 	 * Obtain self instance of this class.
 	 *
@@ -202,6 +206,10 @@ class Follet {
 		$error = __( 'Invalid operation: you cannot unserialize an instance of ', $this->textdomain ) . $class;
 		trigger_error( $error, E_USER_ERROR );
 	}
+
+	/* ========================================================================
+	   Basic Theme Processes.
+	   ===================================================================== */
 
 	/**
 	 * Process global variables.
@@ -257,6 +265,10 @@ class Follet {
 		}
 	}
 
+	/* ========================================================================
+	   Methods for Paths Management.
+	   ===================================================================== */
+
 	/**
 	 * Get Follet Core path.
 	 *
@@ -277,6 +289,10 @@ class Follet {
 	public function get_directory_uri() {
 		return $this->template_directory_uri . str_replace( $this->template_directory, '', dirname( __FILE__ ) );
 	}
+
+	/* ========================================================================
+	   Methods for Theme Options Management.
+	   ===================================================================== */
 
 	/**
 	 * Add an option to $this->_options.
@@ -379,6 +395,10 @@ class Follet {
 
 		return $current;
 	}
+
+	/* ========================================================================
+	   Methods for Customizer Management.
+	   ===================================================================== */
 
 	/**
 	 * Obtain current value of an option. Kind-of an alias for this::get_current().
