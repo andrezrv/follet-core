@@ -19,11 +19,8 @@
  *
  */
 function _follet_bootstrap_active( $check_style = false ) {
-	$theme_support = get_theme_support( 'bootstrap' );
-	$bootstrap     = $theme_support;
-
-	if ( $check_style && $theme_support ) {
-		$bootstrap = $bootstrap && wp_style_is( 'follet-bootstrap-styles' );
+	if ( $check_style && $theme_support = get_theme_support( 'bootstrap' ) ) {
+		$bootstrap = $theme_support && wp_style_is( 'follet-bootstrap-styles' );
 	}
 
 	return $bootstrap;
