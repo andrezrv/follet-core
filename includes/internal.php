@@ -16,12 +16,12 @@
  *
  * @param  boolean $check_style Check if stylesheet is loaded.
  * @return boolean
- *
  */
 function _follet_bootstrap_active( $check_style = false ) {
 	if ( $check_style && $theme_support = get_theme_support( 'bootstrap' ) ) {
 		$bootstrap = $theme_support && wp_style_is( 'follet-bootstrap-styles' );
 	}
+	$bootstrap = apply_filters( 'follet_bootstrap_active', $bootstrap );
 
 	return $bootstrap;
 }
