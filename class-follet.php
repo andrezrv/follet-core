@@ -148,6 +148,9 @@ class Follet {
 		// Process global variables.
 		$this->process_globals();
 
+		// Process theme options.
+		$this->process_options();
+
 		// Process customizer settings.
 		$this->process_customizations();
 
@@ -212,6 +215,15 @@ class Follet {
 	}
 
 	/**
+	 * Register theme options on `init` action.
+	 *
+	 * @since 1.1
+	 */
+	private function process_options() {
+		add_action( 'init', array( $this, 'register_options' ) );
+	}
+
+	/**
 	 * Process theme customization settings on `customize_register` action.
 	 *
 	 * @since 1.1
@@ -270,13 +282,44 @@ class Follet {
 	 * @param  string $name    Name of the new option.
 	 * @param  mixed  $default Default value for the option.
 	 * @param  mixed  $current Current value of the option.
-	 * @return void
 	 */
 	public function register_option( $name, $default, $current = false ) {
+		$atts = $default;
+		$default = is_array( $atts ) && isset( $atts['default'] ) ? $atts['default'] : $atts;
+
 		$this->_options[ $name ] = array(
 			'default' => $default,
 			'current' => $current ? : get_theme_mod( $name, $default ),
 		);
+
+		if ( ! empty( $atts['section'] ) ) {
+			$this->add_customizer_setting( $name, $atts );
+		}
+	}
+
+	/**
+	 * Bulk-register all theme options.
+	 *
+	 * @since 1.1
+	 *
+	 * @uses  self::register_option()
+	 */
+	public function register_options() {
+		$options = apply_filters( 'follet_options', array() );
+
+		// Return early if we have no options set.
+		if ( empty( $options ) ) {
+			return;
+		}
+
+		foreach ( $options as $name => $atts ) {
+			if ( ! $this->option_exists( $name ) ) {
+				// Set default value for the option.
+				$default = empty( $atts['default'] ) ? $atts : $atts['default'];
+
+				$this->register_option( $name, $atts, get_theme_mod( $name, $default ) );
+			}
+		}
 	}
 
 	/**
