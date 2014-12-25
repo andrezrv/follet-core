@@ -174,13 +174,33 @@ class Follet {
 
 		static $instances = array();
 
-		$called_class = _follet_get_called_class();
+		$called_class = self::get_called_class();
 
 		if ( ! isset( $instances[ $called_class ] ) ) {
 			$instances[ $called_class ] = new $called_class();
 		}
 
 		return $instances[ $called_class ];
+	}
+
+	/**
+	 * Add support for get_called_class in PHP < 5.3
+	 *
+	 * @since  1.1
+	 *
+	 * @return string Class name.
+	 */
+	private static function get_called_class() {
+		$bt = debug_backtrace();
+		$l = 0;
+		do {
+			$l ++;
+			$lines      = file( $bt[ $l ]['file'] );
+			$callerLine = $lines[ $bt[ $l ]['line'] - 1 ];
+			preg_match( '/([a-zA-Z0-9\_]+)::' . $bt[ $l ]['function'] . '/', $callerLine, $matches );
+		} while ( $matches[1] === 'parent' && $matches[1] );
+
+		return $matches[1];
 	}
 
 	/**
