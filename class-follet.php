@@ -344,7 +344,7 @@ class Follet {
 	 * @uses  self::register_option()
 	 */
 	public function register_options() {
-		$options = apply_filters( 'follet_options', array() );
+		$options = apply_filters( 'follet_options', $this->_options );
 
 		// Return early if we have no options set.
 		if ( empty( $options ) ) {
@@ -415,10 +415,6 @@ class Follet {
 		return $current;
 	}
 
-	/* ========================================================================
-	   Methods for Customizer Management.
-	   ===================================================================== */
-
 	/**
 	 * Obtain current value of an option. Kind-of an alias for this::get_current().
 	 *
@@ -447,6 +443,10 @@ class Follet {
 	public function option_exists( $name ) {
 		return isset( $this->_options[ $name ] );
 	}
+
+	/* ========================================================================
+	   Methods for Customizer Management.
+	   ===================================================================== */
 
 	/**
 	 * Add a settings section to be initialized via Customizer.
@@ -501,8 +501,12 @@ class Follet {
 		// Initialize options.
 		$options = array();
 
-		// Process Customizer settings.
-		if ( is_array( $this->customizer_settings ) && ! empty( $this->customizer_settings ) ) {
+		/**
+		 * Process Customizer settings.
+		 */
+		$this->customizer_settings = apply_filters( 'follet_customizer_settings', $this->customizer_settings, $wp_customize );
+
+		if ( ! empty( $this->customizer_settings ) ) {
 			foreach ( $this->customizer_settings as $name => $atts ) {
 				// If the setting already exists, we remove and register it again with our own attributes.
 				if ( $setting = $wp_customize->get_setting( $name ) ) {
