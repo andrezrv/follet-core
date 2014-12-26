@@ -514,34 +514,60 @@ class Follet {
 					$atts['id'] = $name;
 				}
 
-				// Add setting to $options array.
-				$options[] = $atts;
+				if ( ! empty( $atts['type'] ) && 'plain-text' == $atts['type'] ) {
+					$wp_customize->add_setting( $name, array(
+						'default'           => $atts['default'],
+						'sanitize_callback' => $atts['sanitize_callback'],
+					) );
+
+					$wp_customize->add_control( new Follet_Plain_Text_Control( $wp_customize, $name, array(
+								'section'  => $atts['section'],
+								'settings' => $name,
+								'priority' => $atts['priority'],
+							)
+						)
+					);
+				} else {
+					// Add setting to $options array.
+					$options[] = $atts;
+				}
 			}
 		}
 
-		// Process Customizer controls.
-		if ( is_array( $this->customizer_controls ) && ! empty( $this->customizer_controls ) ) {
+		/**
+		 * Process Customizer controls.
+		 */
+		$this->customizer_controls = apply_filters( 'follet_customizer_controls', $this->customizer_controls, $wp_customize );
+
+		if ( ! empty( $this->customizer_controls ) ) {
 			foreach ( $this->customizer_controls as $name => $atts ) {
 				// If the control already exists, we remove and register it again with our own attributes.
 				if ( $control = $wp_customize->get_control( $name ) ) {
-					$wp_customize->remove_control( $name );
+					// $wp_customize->remove_control( $name );
 
 					// Merge the previous control attributes with our own.
-					$atts = array_merge( (array) $control, $atts );
+					// $atts = array_merge( (array) $control, $atts );
+					foreach ( $atts as $key => $value ) {
+						$control->$key = $value;
+					}
 				} else {
 					$atts['id'] = $name;
-				}
 
-				/*
-				 * Register control using the WP_Customize_Manager instance directly, since the Customizer_Library
-				 * we use doesn't process controls on its own. Maybe this can be changed in the future.
-				 */
-				$wp_customize->add_control( new WP_Customize_Control( $wp_customize, $name, $atts ) );
+					/*
+					 * Register control using the WP_Customize_Manager instance directly, since the Customizer_Library
+					 * we use doesn't process controls on its own. Maybe this can be changed in the future.
+					 */
+					$wp_customize->add_control( $name, $atts );
+				}
 			}
 		}
 
-		// Process Customizer sections.
-		if ( is_array( $this->customizer_sections ) && ! empty( $this->customizer_sections ) ) {
+		/**
+		 * Process Customizer sections.
+		 */
+		$this->customizer_sections = apply_filters( 'follet_customizer_sections', $this->customizer_sections, $wp_customize );
+
+		if ( ! empty( $this->customizer_sections ) ) {
 			// Initialize our list of sections.
 			$sections = array();
 
