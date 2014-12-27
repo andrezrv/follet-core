@@ -25,8 +25,8 @@ if ( ! function_exists( '_follet_bootstrap_active' ) ) :
  *
  * @since  1.0
  *
- * @param  boolean $check_style Check if stylesheet is loaded.
- * @return boolean
+ * @param  bool $check_style Check if stylesheet is loaded.
+ * @return bool
  */
 function _follet_bootstrap_active( $check_style = false ) {
 	$bootstrap = true;
@@ -41,7 +41,7 @@ function _follet_bootstrap_active( $check_style = false ) {
 }
 endif;
 
-if ( function_exists( '_follet_modify_link_pages' ) ) :
+if ( ! function_exists( '_follet_modify_link_pages' ) ) :
 /**
  * Apply extra styles to wp_link_pages.
  *
@@ -52,7 +52,7 @@ if ( function_exists( '_follet_modify_link_pages' ) ) :
  * @global integer $page Number of current page.
  *
  * @param  string  $link Link to the current page in loop.
- * @param  integer $i    Number of the current page in loop.
+ * @param  int     $i    Number of the current page in loop.
  * @return string        Filtered link to the current page in loop.
  */
 function _follet_modify_link_pages( $link, $i ) {
@@ -77,7 +77,7 @@ function _follet_modify_link_pages( $link, $i ) {
 }
 endif;
 
-if ( function_exists( '_follet_continue_reading_excerpt_link' ) ) :
+if ( ! function_exists( '_follet_continue_reading_excerpt_link' ) ) :
 /**
  * This function is used to filter the "read more" link when called next to an excerpt.
  *
