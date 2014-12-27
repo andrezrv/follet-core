@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'Follet_Plain_Text_Control' ) ) :
+if ( ! class_exists( 'Follet_Plain_Text_Control' ) && class_exists( 'WP_Customize_Control' ) ) :
 /**
  * Class Follet_Plain_Text_Control
  *
