@@ -1,11 +1,23 @@
 <?php
+/**
+ * Follet Core.
+ *
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.1
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'Follet' ) ) :
 /**
  * Class Follet
  *
  * Main class for theme management.
- *
- * This is a pluggable class.
  *
  * @package Follet_Core
  * @since   1.0
@@ -271,10 +283,9 @@ class Follet {
 		$dirname = dirname( __FILE__ );
 
 		$dependencies = array(
-			$dirname . '/includes/',                    // All files inside `./includes`.
-			$dirname . '/includes/navigation/',         // All files inside `./includes/navigation`.
-			$dirname . '/includes/customizer/',         // All files inside `./includes/customizer`.
-			$dirname . '/includes/customizer-library/', // All files inside `./includes/customizer-library`.
+			$dirname . '/includes/',            // All files inside `./includes`.
+			$dirname . '/includes/navigation/', // All files inside `./includes/navigation`.
+			$dirname . '/includes/customizer/', // All files inside `./includes/customizer`.
 		);
 
 		$dependencies = apply_filters( 'follet_dependencies', $dependencies );

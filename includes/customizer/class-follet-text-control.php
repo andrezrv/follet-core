@@ -32,6 +32,5 @@ class Follet_Plain_Text_Control extends WP_Customize_Control {
     public function render_content() {
         echo $this->value();
     }
-
 }
 endif;
