@@ -50,26 +50,42 @@ class Follet {
 	/**
 	 * List of sections to be initialized via Customizer.
 	 *
-	 * @array  var
-	 * @since  1.1
+	 * @var   array
+	 * @since 1.1
 	 */
-	protected $customizer_sections;
+	protected $customizer_sections = array();
 
 	/**
 	 * List of controls to be initialized via Customizer.
 	 *
-	 * @array  var
-	 * @since  1.1
+	 * @var   array
+	 * @since 1.1
 	 */
-	protected $customizer_controls;
+	protected $customizer_controls = array();
 
 	/**
 	 * List of settings to be initialized via Customizer.
 	 *
-	 * @array  var
-	 * @since  1.1
+	 * @var   array
+	 * @since 1.1
 	 */
-	protected $customizer_settings;
+	protected $customizer_settings = array();
+
+	/**
+	 * List of menus for the current theme.
+	 *
+	 * @var   array
+	 * @since 1.1
+	 */
+	protected $menus = array();
+
+	/**
+	 * List of sidebars for the current theme.
+	 *
+	 * @var   array
+	 * @since 1.1
+	 */
+	protected $sidebars = array();
 
 	/**
 	 * Store $template_directory to prevent overhead.
@@ -158,6 +174,12 @@ class Follet {
 
 		// Process global variables.
 		$this->process_globals();
+
+		// Process navigation menus.
+		$this->process_menus();
+
+		// Process navigation sidebars.
+		$this->process_sidebars();
 
 		// Process theme options.
 		$this->process_options();
@@ -269,6 +291,24 @@ class Follet {
 	 */
 	private function process_customizations() {
 		add_action( 'customize_register', array( $this, 'customize_register' ) );
+	}
+
+	/**
+	 * Process registration of menus for the current theme.
+	 *
+	 * @since 1.1
+	 */
+	private function process_menus() {
+		add_action( 'init', array( $this, 'register_menus' ) );
+	}
+
+	/**
+	 * Process registration of menus for the current theme.
+	 *
+	 * @since 1.1
+	 */
+	private function process_sidebars() {
+		add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
 	}
 
 	/**
@@ -607,6 +647,62 @@ class Follet {
 
 		// Register sections and options via Customizer.
 		$this->customizer->add_options( $options );
+	}
+
+	/**
+	 * Register navigation menus.
+	 *
+	 * @since 1.1
+	 *
+	 * @uses  register_nav_menu()
+	 */
+	public function register_menus() {
+		$this->menus = apply_filters( 'follet_menus', $this->menus );
+
+		if ( ! empty( $this->menus ) ) {
+			foreach ( $this->menus as $name => $description ) {
+				register_nav_menu( $name, $description );
+			}
+		}
+	}
+
+	/**
+	 * Register a sidebar.
+	 *
+	 * @since 1.1
+	 *
+	 * @uses  register_sidebar()
+	 *
+	 * @param array $args List of arguments to register the new sidebar.
+	 */
+	public function register_sidebar( $args ) {
+		$defaults = apply_filters( 'follet_register_sidebar_defaults', array(
+			'id'            => 'sidebar',
+			'name'          => __( 'Sidebar', $this->textdomain ),
+			'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</aside>',
+			'before_title'  => '<h4 class="widget-title">',
+			'after_title'   => '</h4><hr class="separator" />',
+		), $args );
+
+		$args = wp_parse_args( $args, $defaults );
+
+		register_sidebar( $args );
+	}
+
+	/**
+	 * Register widget areas.
+	 *
+	 * @since 1.1
+	 */
+	public function register_sidebars() {
+		$this->sidebars = apply_filters( 'follet_sidebars', $this->sidebars );
+
+		if ( ! empty( $this->sidebars ) ) {
+			foreach ( $this->sidebars as $args ) {
+				$this->register_sidebar( $args );
+			}
+		}
 	}
 
 	/**
