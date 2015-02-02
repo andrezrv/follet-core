@@ -15,11 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * Add a hook for custom actions before loading this file.
- */
-do_action( 'follet_before_template_tags' );
-
 if ( ! function_exists( 'follet_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.
@@ -533,8 +528,3 @@ function follet_post_classes() {
 	return $classes;
 }
 endif;
-
-/**
- * Add a hook for custom actions before loading the next file.
- */
-do_action( 'follet_after_template_tags' );
