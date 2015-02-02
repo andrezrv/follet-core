@@ -168,17 +168,17 @@ if ( ! function_exists( 'follet_register_option' ) ) :
 
  * @since  1.0
  *
- * @uses   Follet->register_option()
+ * @uses   Follet_Options_Manager::register_option()
  *
- * @global Follet $follet  Current instance of Follet object.
+ * @global Follet_Options_Manager $follet_options_manager Current instance of options manager.
  *
  * @param  string $name    Name of the new option.
  * @param  mixed  $default Default value for the option.
  * @param  mixed  $current Current value of the option.
  */
 function follet_register_option( $name, $default, $current = null ) {
-	global $follet;
-	$follet->register_option( $name, $default, $current );
+	global $follet_options_manager;
+	$follet_options_manager->register_option( $name, $default, $current );
 }
 endif;
 
@@ -188,15 +188,15 @@ if ( ! function_exists( 'follet_remove_option' ) ) :
  *
  * @since  1.0
  *
- * @uses   Follet->remove_option()
+ * @uses   Follet_Options_Manager::remove_option()
  *
- * @global Follet $follet Current instance of Follet object.
+ * @global Follet_Options_Manager $follet_options_manager Current instance of options manager.
  *
- * @param  string $name   Name of the option.
+ * @param string $name Name of the option.
  */
 function follet_remove_option( $name ) {
-	global $follet;
-	$follet->remove_option( $name );
+	global $follet_options_manager;
+	$follet_options_manager->remove_option( $name );
 }
 endif;
 
@@ -206,17 +206,17 @@ if ( ! function_exists( 'follet_get_default' ) ) :
  *
  * @since  1.0
  *
- * @uses   Follet->get_default()
+ * @uses   Follet_Options_Manager::get_default()
  *
- * @global Follet $follet Current instance of Follet object.
+ * @global Follet_Options_Manager $follet_options_manager Current instance of options manager.
  *
  * @param  string $name Name of the option.
  *
  * @return mixed        Default value of the option.
  */
 function follet_get_default( $name ) {
-	global $follet;
-	return $follet->get_default( $name );
+	global $follet_options_manager;
+	return $follet_options_manager->get_default( $name );
 }
 endif;
 
@@ -226,16 +226,16 @@ if ( ! function_exists( 'follet_get_current' ) ) :
  *
  * @since  1.0
  *
- * @uses   Follet->get_current()
+ * @uses   Follet_Options_Manager::get_current()
  *
- * @global Follet $follet Current instance of Follet object.
+ * @global Follet_Options_Manager $follet_options_manager Current instance of options manager.
  *
  * @param  string $name   Name of the option.
  * @return mixed          Current value of the option.
  */
 function follet_get_current( $name ) {
-	global $follet;
-	return $follet->get_current( $name );
+	global $follet_options_manager;
+	return $follet_options_manager->get_current( $name );
 }
 endif;
 
@@ -247,17 +247,17 @@ if ( ! function_exists( 'follet_get_option' ) ) :
  *
  * @since  1.1
  *
- * @uses   Follet->get_option()
+ * @uses   Follet_Options_Manager::get_option()
  * @see    follet_get_current()
  *
- * @global Follet $follet Current instance of Follet object.
+ * @global Follet_Options_Manager $follet_options_manager Current instance of options manager.
  *
  * @param  string $name Name of the option.
  * @return mixed        Current value of the option.
  */
 function follet_get_option( $name ) {
-	global $follet;
-	return $follet->get_option( $name );
+	global $follet_options_manager;
+	return $follet_options_manager->get_option( $name );
 }
 endif;
 
@@ -267,16 +267,16 @@ if ( ! function_exists( 'follet_option_exists' ) ) :
  *
  * @since  1.0
  *
- * @uses   Follet->option_exists()
+ * @uses   Follet_Options_Manager::option_exists()
  *
- * @global Follet $follet Current instance of Follet object.
+ * @global Follet_Options_Manager $follet_options_manager Current instance of options manager.
  *
  * @param  string $name Name of the option.
  * @return boolean
  */
 function follet_option_exists( $name ) {
-	global $follet;
-	return $follet->option_exists( $name );
+	global $follet_options_manager;
+	return $follet_options_manager->option_exists( $name );
 }
 endif;
 
