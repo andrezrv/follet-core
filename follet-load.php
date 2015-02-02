@@ -16,6 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Load Follet_Singleton class.
+ *
+ * @since 1.0
+ */
+require dirname( __FILE__ ) . '/class-follet-singleton.php';
+
+/**
  * Load Follet main class.
  *
  * @since 1.0
