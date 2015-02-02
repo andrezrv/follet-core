@@ -22,7 +22,7 @@ if ( ! class_exists( 'Follet' ) ) :
  * @package Follet_Core
  * @since   1.0
  */
-class Follet {
+class Follet extends Follet_Singleton {
 	/**
 	 * Instance for singleton.
 	 *
@@ -205,59 +205,7 @@ class Follet {
 		// Load all dependencies that need to be active before the class is instantiated.
 		self::load_dependencies();
 
-		static $instances = array();
-
-		$called_class = self::get_called_class();
-
-		if ( ! isset( $instances[ $called_class ] ) ) {
-			$instances[ $called_class ] = new $called_class();
-		}
-
-		return $instances[ $called_class ];
-	}
-
-	/**
-	 * Add support for get_called_class in PHP < 5.3
-	 *
-	 * @since  1.1
-	 *
-	 * @return string Class name.
-	 */
-	private static function get_called_class() {
-		$bt = debug_backtrace();
-		$l = 0;
-		do {
-			$l ++;
-			$lines      = file( $bt[ $l ]['file'] );
-			$callerLine = $lines[ $bt[ $l ]['line'] - 1 ];
-			preg_match( '/([a-zA-Z0-9\_]+)::' . $bt[ $l ]['function'] . '/', $callerLine, $matches );
-		} while ( $matches[1] === 'parent' && $matches[1] );
-
-		return $matches[1];
-	}
-
-	/**
-	 * Prevent clone() for an instance of this class.
-	 *
-	 * @return void
-	 * @since  1.1
-	 */
-	public function __clone() {
-		$class = get_class( $this );
-		$error = __( 'Invalid operation: you cannot clone an instance of ', $this->textdomain ) . $class;
-		trigger_error( $error, E_USER_ERROR );
-	}
-
-	/**
-	 * Prevent unserialize() for an instance of this class.
-	 *
-	 * @return void
-	 * @since  1.1
-	 */
-	public function __wakeup() {
-		$class = get_class( $this );
-		$error = __( 'Invalid operation: you cannot unserialize an instance of ', $this->textdomain ) . $class;
-		trigger_error( $error, E_USER_ERROR );
+		return parent::get_instance();
 	}
 
 	/* ========================================================================
