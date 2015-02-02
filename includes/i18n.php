@@ -27,9 +27,7 @@ add_action( 'after_setup_theme', 'follet_load_textdomain' );
  * @global Follet $follet Current instance of Follet object.
  */
 function follet_load_textdomain() {
-	global $follet;
-	$follet_textdomain_location = apply_filters( 'follet_textdomain_location', $follet->template_directory . '/languages' );
-
-	load_theme_textdomain( $follet->textdomain, $follet_textdomain_location );
+	$follet_textdomain_location = apply_filters( 'follet_textdomain_location', follet_template_directory() . '/languages' );
+	load_theme_textdomain( follet_textdomain(), $follet_textdomain_location );
 }
 endif;
