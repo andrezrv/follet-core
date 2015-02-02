@@ -56,6 +56,44 @@ function follet_load_library( $library ) {
 }
 endif;
 
+if ( ! function_exists( 'follet_textdomain' ) ) :
+/**
+ * Obtain theme text domain.
+ *
+ * @since 1.1
+ */
+function follet_textdomain() {
+	global $follet;
+	return $follet->textdomain;
+}
+endif;
+
+if ( ! function_exists( 'follet_doing_ajax' ) ) :
+/**
+ * Check if we're operating in an AJAX context.
+ *
+ * @since  1.1
+ * @return bool
+ */
+function follet_doing_ajax() {
+	global $follet;
+	return $follet->doing_ajax;
+}
+endif;
+
+if ( ! function_exists( 'follet_theme_version' ) ) :
+/**
+ * Obtain current version of the theme.
+ *
+ * @since  1.1
+ * @return bool
+ */
+function follet_theme_version() {
+	global $follet;
+	return $follet->theme_version;
+}
+endif;
+
 if ( ! function_exists( 'follet_template_directory' ) ) :
 /**
  * Overhead-free alias for get_template_directory().
