@@ -135,19 +135,6 @@ class Follet extends Follet_Singleton {
 		do_action( 'follet_after_setup' );
 	}
 
-	/**
-	 * Obtain self instance of this class.
-	 *
-	 * @since  1.1
-	 * @return Follet Self instance of this class.
-	 */
-	final public static function get_instance() {
-		// Load all dependencies that need to be active before the class is instantiated.
-		// self::load_dependencies();
-
-		return parent::get_instance();
-	}
-
 	/* ========================================================================
 	   Basic Theme Processes.
 	   ===================================================================== */
