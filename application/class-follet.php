@@ -159,20 +159,25 @@ class Follet extends Follet_Singleton {
 	 *
 	 * @since  1.0
 	 *
+	 * @const  FOLLET_DIR
+	 *
 	 * @return string
 	 */
 	public function get_directory() {
-		return $this->template_directory . str_replace( $this->template_directory, '', dirname( __FILE__ ) );
+		return $this->template_directory . str_replace( $this->template_directory, '', FOLLET_DIR );
 	}
 
 	/**
 	 * Get Follet Core directory URI.
 	 *
 	 * @return string
+	 *
+	 * @const  FOLLET_DIR
+	 *
 	 * @since  1.0
 	 */
 	public function get_directory_uri() {
-		return $this->template_directory_uri . str_replace( $this->template_directory, '', dirname( __FILE__ ) );
+		return $this->template_directory_uri . str_replace( $this->template_directory, '', FOLLET_DIR );
 	}
 }
 endif;

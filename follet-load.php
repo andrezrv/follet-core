@@ -16,18 +16,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Define framework directory.
+ *
+ * @since 1.1
+ */
+define( 'FOLLET_DIR', trailingslashit( dirname( __FILE__ ) ) );
+
+/**
  * Load auto-loader class.
  *
  * @since 1.1
  */
-require dirname( __FILE__ ) . '/bootstrap/class-follet-loader.php';
+require FOLLET_DIR . 'bootstrap/class-follet-loader.php';
 
 /**
  * Auto-load all PHP files.
  *
  * @since 1.1
  */
-new Follet_Loader( dirname( __FILE__ ) );
+new Follet_Loader( FOLLET_DIR );
 
 /**
  * Initialize Follet.
