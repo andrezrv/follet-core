@@ -143,7 +143,7 @@ class Follet extends Follet_Singleton {
 	 */
 	final public static function get_instance() {
 		// Load all dependencies that need to be active before the class is instantiated.
-		self::load_dependencies();
+		// self::load_dependencies();
 
 		return parent::get_instance();
 	}
@@ -161,37 +161,6 @@ class Follet extends Follet_Singleton {
 		global $follet;
 
 		$follet = $this;
-	}
-
-	/**
-	 * Load all dependencies that need to be active before the class is instantiated.
-	 *
-	 * @see   Follet::get_instance()
-	 * @uses  Follet::load_library()
-	 *
-	 * @since 1.1
-	 */
-	private static function load_dependencies() {
-		$dirname = dirname( __FILE__ );
-
-		$dependencies = array(
-			$dirname . '/includes/',            // All files inside `./includes`.
-			$dirname . '/includes/modules/',    // All files inside `./includes`.
-			$dirname . '/includes/styles/',     // All files inside `./includes/styles`.
-			$dirname . '/includes/scripts/',    // All files inside `./includes/scripts`.
-			$dirname . '/includes/navigation/', // All files inside `./includes/navigation`.
-			$dirname . '/includes/sidebars/',   // All files inside `./includes/sidebars`.
-			$dirname . '/includes/customizer-library/', // All files inside `./includes/customizer`.
-			$dirname . '/includes/customizer/', // All files inside `./includes/customizer`.
-			$dirname . '/includes/theme-support/', // All files inside `./includes/theme-support`.
-			$dirname . '/includes/options/', // All files inside `./includes/options`.
-		);
-
-		$dependencies = apply_filters( 'follet_dependencies', $dependencies );
-
-		foreach ( $dependencies as $library ) {
-			self::load_library( $library );
-		}
 	}
 
 	/* ========================================================================
@@ -217,29 +186,6 @@ class Follet extends Follet_Singleton {
 	 */
 	public function get_directory_uri() {
 		return $this->template_directory_uri . str_replace( $this->template_directory, '', dirname( __FILE__ ) );
-	}
-
-	/**
-	 * Load a PHP library given a file or a folder.
-	 *
-	 * @since 1.1
-	 *
-	 * @param string $library Name of folder or php file.
-	 */
-	public static function load_library( $library ) {
-		if ( is_dir( $library ) ) {
-			if ( $d = opendir( $library ) ) {
-				while ( ( $file = readdir( $d ) ) !== false ) {
-					if( stristr( $file , '.php' ) !== false ) {
-						require_once( $library . $file );
-					}
-				}
-			}
-		} elseif ( ( is_file( $library ) ) && ( is_readable( $library ) ) ) {
-			if ( stristr( $library , '.php' ) !== false ) {
-				require_once( $library );
-			}
-		}
 	}
 }
 endif;

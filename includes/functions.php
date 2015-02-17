@@ -45,14 +45,16 @@ if ( ! function_exists( 'follet_load_library' ) ) :
 /**
  * Load a PHP library given a file or a folder.
  *
- * @uses  Follet::load_library()
+ * @uses  Follet_Loader::__get_instance()
  *
  * @since 1.1
  *
- * @param string $library Name of folder or php file.
+ * @param  string        $library Name of folder or PHP file.
+ *
+ * @return Follet_Loader
  */
 function follet_load_library( $library ) {
-	Follet::load_library( $library );
+	return new Follet_Loader( $library );
 }
 endif;
 

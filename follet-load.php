@@ -16,21 +16,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Load Follet_Singleton class.
+ * Load auto-loader class.
  *
- * @since 1.0
+ * @since 1.1
  */
-require dirname( __FILE__ ) . '/class-follet-singleton.php';
+require dirname( __FILE__ ) . '/bootstrap/class-follet-loader.php';
 
 /**
- * Load Follet main class.
+ * Auto-load all PHP files.
  *
- * @since 1.0
+ * @since 1.1
  */
-require dirname( __FILE__ ) . '/class-follet.php';
+new Follet_Loader( dirname( __FILE__ ) );
 
 /**
- * Instance Follet.
+ * Initialize Follet.
  *
  * @since 1.0
  */
