@@ -181,6 +181,7 @@ class Follet extends Follet_Singleton {
 			$dirname . '/includes/scripts/',    // All files inside `./includes/scripts`.
 			$dirname . '/includes/navigation/', // All files inside `./includes/navigation`.
 			$dirname . '/includes/sidebars/',   // All files inside `./includes/sidebars`.
+			$dirname . '/includes/customizer-library/', // All files inside `./includes/customizer`.
 			$dirname . '/includes/customizer/', // All files inside `./includes/customizer`.
 			$dirname . '/includes/theme-support/', // All files inside `./includes/theme-support`.
 			$dirname . '/includes/options/', // All files inside `./includes/options`.
