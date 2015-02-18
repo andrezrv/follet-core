@@ -1,6 +1,6 @@
 <?php
 if ( ! class_exists( 'Follet_Styles_Module' ) ) :
-class Follet_Styles_Module extends Follet_Module {
+class Follet_Styles_Module extends Follet_Singleton implements Follet_ModuleInterface {
 	/**
 	 * Instance for singleton.
 	 *
