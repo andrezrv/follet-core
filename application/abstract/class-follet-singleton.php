@@ -1,4 +1,18 @@
 <?php
+/**
+ * Follet Core.
+ *
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.1
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'Follet_Singleton' ) ) :
 /**
  * Follet_Singleton
@@ -20,6 +34,7 @@ abstract class Follet_Singleton {
 	 * Obtain self instance of this class.
 	 *
 	 * @since  1.0
+	 *
 	 * @return Follet_Singleton Self instance of this class.
 	 */
 	public static function get_instance() {
@@ -32,6 +47,25 @@ abstract class Follet_Singleton {
 		}
 
 		return $instances[ $called_class ];
+	}
+
+	/**
+	 * Obtain the value of a non-public property.
+	 *
+	 * @since  1.1
+	 *
+	 * @param  string     $property
+	 *
+	 * @return mixed|null
+	 */
+	public function __get( $property ) {
+		$value = null;
+
+		if ( property_exists( $this, $property ) ) {
+			$value = $this->$property;
+		}
+
+		return $value;
 	}
 
 	/**

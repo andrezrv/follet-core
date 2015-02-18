@@ -1,6 +1,6 @@
 <?php
-if ( ! class_exists( 'Follet_Options_Manager' ) ) :
-class Follet_Options_Manager extends Follet_Singleton {
+if ( ! class_exists( 'Follet_Options_Module' ) ) :
+class Follet_Options_Module extends Follet_Singleton implements Follet_ModuleInterface {
 	/**
 	 * Utilitary property to store theme options.
 	 *
@@ -10,13 +10,7 @@ class Follet_Options_Manager extends Follet_Singleton {
 	protected $options = array();
 
 	protected function __construct() {
-		/**
-		 * Register theme options on `init` action.
-		 *
-		 * @since 1.1
-		 */
-		add_action( 'init', array( $this, 'register_options' ) );
-
+		$this->register();
 		$this->process_globals();
 	}
 
@@ -26,17 +20,26 @@ class Follet_Options_Manager extends Follet_Singleton {
 	}
 
 	/**
+	 * Register theme options on `init` action.
+	 *
+	 * @since 1.1
+	 */
+	public function register() {
+		add_action( 'init', array( $this, 'register_options' ) );
+	}
+
+	/**
 	 * Add an option to $this->_options.
 	 *
 	 * @since  1.0
 	 *
-	 * @global Follet_Customizer_Manager $follet_customizer
+	 * @global Follet_Customizer_Module $follet_customizer
 	 *
 	 * @param  string $name    Name of the new option.
 	 * @param  mixed  $default Default value for the option.
 	 * @param  mixed  $current Current value of the option.
 	 */
-	public function register_option( $name, $default, $current = false ) {
+	protected function register_option( $name, $default, $current = false ) {
 		$atts = $default;
 		$default = is_array( $atts ) && isset( $atts['default'] ) ? $atts['default'] : $atts;
 

@@ -1,6 +1,6 @@
 <?php
 if ( ! class_exists( 'Follet_Sidebars_Manager' ) ) :
-class Follet_Sidebars_Manager extends Follet_Singleton {
+class Follet_Sidebars_Manager extends Follet_Singleton implements Follet_ModuleInterface {
 	/**
 	 * List of sidebars for the current theme.
 	 *
@@ -15,9 +15,12 @@ class Follet_Sidebars_Manager extends Follet_Singleton {
 	 * @since 1.1
 	 */
 	protected function __construct() {
-		add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
-
+		$this->register();
 		$this->process_globals();
+	}
+
+	public function register() {
+		add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
 	}
 
 	private function process_globals() {

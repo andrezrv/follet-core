@@ -108,7 +108,7 @@ if ( ! function_exists( 'follet_template_directory' ) ) :
  */
 function follet_template_directory() {
 	global $follet;
-	return $follet->template_directory;
+	return $follet->template->directory;
 }
 endif;
 
@@ -124,7 +124,7 @@ if ( ! function_exists( 'follet_template_directory_uri' ) ) :
  */
 function follet_template_directory_uri() {
 	global $follet;
-	return $follet->template_directory_uri;
+	return $follet->template->directory_uri;
 }
 endif;
 

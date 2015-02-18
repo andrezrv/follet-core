@@ -1,10 +1,10 @@
 <?php
-if ( ! class_exists( 'Follet_Scripts_Manager' ) ) :
-class Follet_Scripts_Manager extends Follet_Singleton {
+if ( ! class_exists( 'Follet_Scripts_Module' ) ) :
+class Follet_Scripts_Module extends Follet_Singleton implements Follet_ModuleInterface {
 	/**
 	 * Instance for singleton.
 	 *
-	 * @var   Follet_Scripts_Manager
+	 * @var   Follet_Scripts_Module
 	 * @since 1.1
 	 */
 	protected static $instance;
@@ -23,13 +23,17 @@ class Follet_Scripts_Manager extends Follet_Singleton {
 	 * @since 1.1
 	 */
 	protected function __construct() {
+		$this->register();
+
+		// Process global variables.
+		$this->process_globals();
+	}
+
+	public function register() {
 		// Register theme styles on `wp_enqueue_scripts` action.
 		if ( ! follet_doing_ajax() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 		}
-
-		// Process global variables.
-		$this->process_globals();
 	}
 
 	private function process_globals() {

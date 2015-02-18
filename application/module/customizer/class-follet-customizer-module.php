@@ -1,6 +1,6 @@
 <?php
-if ( ! class_exists( 'Follet_Customizer_Manager' ) ) :
-class Follet_Customizer_Manager extends Follet_Singleton {
+if ( ! class_exists( 'Follet_Customizer_Module' ) ) :
+class Follet_Customizer_Module extends Follet_Singleton implements Follet_ModuleInterface {
 	/**
 	 * Instance for singleton.
 	 *
@@ -51,10 +51,14 @@ class Follet_Customizer_Manager extends Follet_Singleton {
 	protected function __construct() {
 		$this->customizer = Customizer_Library::instance();
 
-		add_action( 'customize_register', array( $this, 'customize_register' ) );
-		add_action( 'customize_preview_init', array( $this, 'register_customizer_scripts' ) );
+		$this->register();
 
 		$this->process_globals();
+	}
+
+	public function register() {
+		add_action( 'customize_register', array( $this, 'customize_register' ) );
+		add_action( 'customize_preview_init', array( $this, 'register_customizer_scripts' ) );
 	}
 
 	private function process_globals() {

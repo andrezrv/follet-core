@@ -1,6 +1,6 @@
 <?php
 if ( ! class_exists( 'Follet_Editor_Styles_Manager' ) ) :
-class Follet_Editor_Styles_Manager extends Follet_Singleton {
+class Follet_Editor_Styles_Manager extends Follet_Singleton implements Follet_ModuleInterface {
 	/**
 	 * Instance for singleton.
 	 *
@@ -17,11 +17,14 @@ class Follet_Editor_Styles_Manager extends Follet_Singleton {
 	 * @since 1.1
 	 */
 	protected function __construct() {
+		$this->register();
+		$this->process_globals();
+	}
+
+	public function register() {
 		if ( is_admin() && ! follet_doing_ajax() ) {
 			add_action( 'after_setup_theme', array( $this, 'register_editor_styles' ) );
 		}
-
-		$this->process_globals();
 	}
 
 	private function process_globals() {

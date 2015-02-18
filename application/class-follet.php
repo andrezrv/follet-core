@@ -41,6 +41,8 @@ class Follet extends Follet_Singleton {
 	 */
 	protected $_options = array();
 
+	protected $template = null;
+
 	/**
 	 * Store $template_directory to prevent overhead.
 	 *
@@ -120,8 +122,9 @@ class Follet extends Follet_Singleton {
 		$this->theme_version          = $theme->get( 'Version' );
 		$this->doing_ajax             = defined( 'DOING_AJAX' ) && DOING_AJAX;
 		$this->textdomain             = $theme->get( 'TextDomain' );
-		$this->template_directory     = get_template_directory();
-		$this->template_directory_uri = get_template_directory_uri();
+		$this->template               = $this->get_template();
+		//$this->template_directory     = get_template_directory();
+		//$this->template_directory_uri = get_template_directory_uri();
 		$this->directory              = $this->get_directory();
 		$this->directory_uri          = $this->get_directory_uri();
 
@@ -129,7 +132,7 @@ class Follet extends Follet_Singleton {
 		$this->process_globals();
 
 		// Initialize modules.
-		$this->modules = Follet_Modules_Manager::get_instance();
+		$this->modules = Follet_Module_Manager::get_instance();
 
 		// Process actions after setup.
 		do_action( 'follet_after_setup' );
@@ -154,6 +157,14 @@ class Follet extends Follet_Singleton {
 	   Methods for Paths Management.
 	   ===================================================================== */
 
+	private function get_template() {
+		if ( ( $template = apply_filters( 'follet_get_template_module', null ) ) instanceof Follet_ModuleInterface ) {
+			return $template;
+		}
+
+		return null;
+	}
+
 	/**
 	 * Get Follet Core path.
 	 *
@@ -164,7 +175,7 @@ class Follet extends Follet_Singleton {
 	 * @return string
 	 */
 	public function get_directory() {
-		return $this->template_directory . str_replace( $this->template_directory, '', FOLLET_DIR );
+		return $this->template->directory . str_replace( $this->template->directory, '', FOLLET_DIR );
 	}
 
 	/**
@@ -177,7 +188,7 @@ class Follet extends Follet_Singleton {
 	 * @since  1.0
 	 */
 	public function get_directory_uri() {
-		return $this->template_directory_uri . str_replace( $this->template_directory, '', FOLLET_DIR );
+		return $this->template->directory_uri . str_replace( $this->template->directory, '', FOLLET_DIR );
 	}
 }
 endif;

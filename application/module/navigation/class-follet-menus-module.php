@@ -1,6 +1,6 @@
 <?php
 if ( ! class_exists( 'Follet_Menus_Manager' ) ) :
-class Follet_Menus_Manager extends Follet_Singleton {
+class Follet_Menus_Manager extends Follet_Singleton implements Follet_ModuleInterface {
 	/**
 	 * Instance for singleton.
 	 *
@@ -17,15 +17,18 @@ class Follet_Menus_Manager extends Follet_Singleton {
 	 */
 	protected $menus = array();
 
-	protected  function __construct() {
-		/**
-		 * Process registration of menus for the current theme.
-		 *
-		 * @since 1.1
-		 */
-		add_action( 'init', array( $this, 'register_menus' ) );
-
+	protected function __construct() {
+		$this->register();
 		$this->process_globals();
+	}
+
+	/**
+	 * Process registration of menus for the current theme.
+	 *
+	 * @since 1.1
+	 */
+	public function register() {
+		add_action( 'init', array( $this, 'register_menus' ) );
 	}
 
 	private function process_globals() {

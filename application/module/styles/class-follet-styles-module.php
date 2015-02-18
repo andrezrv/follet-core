@@ -1,10 +1,10 @@
 <?php
-if ( ! class_exists( 'Follet_Styles_Manager' ) ) :
-class Follet_Styles_Manager extends Follet_Singleton {
+if ( ! class_exists( 'Follet_Styles_Module' ) ) :
+class Follet_Styles_Module extends Follet_Module {
 	/**
 	 * Instance for singleton.
 	 *
-	 * @var   Follet_Styles_Manager
+	 * @var   Follet_Styles_Module
 	 * @since 1.1
 	 */
 	protected static $instance;
@@ -23,13 +23,16 @@ class Follet_Styles_Manager extends Follet_Singleton {
 	 * @since 1.1
 	 */
 	protected function __construct() {
+		$this->register();
+		// Process global variables.
+		$this->process_globals();
+	}
+
+	public function register() {
 		// Register theme styles on `wp_enqueue_scripts` action.
 		if ( ! follet_doing_ajax() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'register_styles' ) );
 		}
-
-		// Process global variables.
-		$this->process_globals();
 	}
 
 	private function process_globals() {

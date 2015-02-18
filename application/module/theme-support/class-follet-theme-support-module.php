@@ -1,11 +1,15 @@
 <?php
-if ( ! class_exists( 'Follet_Theme_Support_Manager' ) ) :
-class Follet_Theme_Support_Manager extends Follet_Singleton {
+if ( ! class_exists( 'Follet_Theme_Support_Module' ) ) :
+class Follet_Theme_Support_Module extends Follet_Singleton implements Follet_ModuleInterface {
 	protected $theme_support = array();
 
 	protected function __construct() {
-		add_action( 'after_setup_theme', array( $this, 'register_theme_support' ) );
+		$this->register();
 		$this->process_globals();
+	}
+
+	public function register() {
+		add_action( 'after_setup_theme', array( $this, 'register_theme_support' ) );
 	}
 
 	private function process_globals() {
