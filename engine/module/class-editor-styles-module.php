@@ -1,10 +1,12 @@
 <?php
-if ( ! class_exists( 'Follet_Editor_Styles_Manager' ) ) :
-class Follet_Editor_Styles_Manager extends Follet_Singleton implements Follet_ModuleInterface {
+namespace Follet\Module;
+use Follet\Application\ModuleAbstract;
+
+class EditorStylesModule extends ModuleAbstract {
 	/**
 	 * Instance for singleton.
 	 *
-	 * @var    Follet
+	 * @var    EditorStylesModule
 	 * @since  1.0
 	 */
 	protected static $instance;
@@ -47,4 +49,3 @@ class Follet_Editor_Styles_Manager extends Follet_Singleton implements Follet_Mo
 		}
 	}
 }
-endif;

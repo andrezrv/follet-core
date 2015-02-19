@@ -1,10 +1,12 @@
 <?php
-if ( ! class_exists( 'Follet_Scripts_Module' ) ) :
-class Follet_Scripts_Module extends Follet_Singleton implements Follet_ModuleInterface {
+namespace Follet\Module;
+use Follet\Application\ModuleAbstract;
+
+class ScriptsModule extends ModuleAbstract {
 	/**
 	 * Instance for singleton.
 	 *
-	 * @var   Follet_Scripts_Module
+	 * @var   ScriptsModule
 	 * @since 1.1
 	 */
 	protected static $instance;
@@ -81,4 +83,3 @@ class Follet_Scripts_Module extends Follet_Singleton implements Follet_ModuleInt
 		}
 	}
 }
-endif;

@@ -1,6 +1,8 @@
 <?php
-if ( ! class_exists( 'Follet_Sidebars_Manager' ) ) :
-class Follet_Sidebars_Manager extends Follet_Singleton implements Follet_ModuleInterface {
+namespace Follet\Module;
+use Follet\Application\ModuleAbstract;
+
+class SidebarModule extends ModuleAbstract {
 	/**
 	 * List of sidebars for the current theme.
 	 *
@@ -76,4 +78,3 @@ class Follet_Sidebars_Manager extends Follet_Singleton implements Follet_ModuleI
 		}
 	}
 }
-endif;

@@ -7,26 +7,35 @@
  * @license   GPL-2.0+
  * @link      http://github.com/andrezrv/follet-core
  * @copyright 2014-2015 Andrés Villarreal
- * @since     1.1
+ * @since     1.0
  */
+namespace Follet\Application;
+
+/**
+ * Declare dependencies.
+ *
+ * @since 1.1
+ */
+use Follet\Module\ModuleManager;
+use Follet\Module\TemplateModule;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'Follet' ) ) :
 /**
- * Class Follet
+ * Class Core (ex Follet)
  *
  * Main class for theme management.
  *
  * @package Follet_Core
  * @since   1.0
  */
-class Follet extends Follet_Singleton {
+class Core extends SingletonAbstract {
 	/**
 	 * Instance for singleton.
 	 *
-	 * @var    Follet
+	 * @var    Core
 	 * @since  1.0
 	 */
 	protected static $instance;
@@ -123,8 +132,6 @@ class Follet extends Follet_Singleton {
 		$this->doing_ajax             = defined( 'DOING_AJAX' ) && DOING_AJAX;
 		$this->textdomain             = $theme->get( 'TextDomain' );
 		$this->template               = $this->get_template();
-		//$this->template_directory     = get_template_directory();
-		//$this->template_directory_uri = get_template_directory_uri();
 		$this->directory              = $this->get_directory();
 		$this->directory_uri          = $this->get_directory_uri();
 
@@ -132,7 +139,7 @@ class Follet extends Follet_Singleton {
 		$this->process_globals();
 
 		// Initialize modules.
-		$this->modules = Follet_Module_Manager::get_instance();
+		$this->modules = ModuleManager::get_instance();
 
 		// Process actions after setup.
 		do_action( 'follet_after_setup' );
@@ -158,7 +165,7 @@ class Follet extends Follet_Singleton {
 	   ===================================================================== */
 
 	private function get_template() {
-		if ( ( $template = apply_filters( 'follet_get_template_module', null ) ) instanceof Follet_ModuleInterface ) {
+		if ( ( $template = apply_filters( 'follet_get_template_module', null ) ) instanceof TemplateModule ) {
 			return $template;
 		}
 
@@ -191,4 +198,3 @@ class Follet extends Follet_Singleton {
 		return $this->template->directory_uri . str_replace( $this->template->directory, '', FOLLET_DIR );
 	}
 }
-endif;

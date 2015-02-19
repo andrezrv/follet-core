@@ -1,10 +1,12 @@
 <?php
-if ( ! class_exists( 'Follet_Menus_Manager' ) ) :
-class Follet_Menus_Manager extends Follet_Singleton implements Follet_ModuleInterface {
+namespace Follet\Module;
+use Follet\Application\ModuleAbstract;
+
+class MenuModule extends ModuleAbstract {
 	/**
 	 * Instance for singleton.
 	 *
-	 * @var    Follet
+	 * @var    MenuManager
 	 * @since  1.0
 	 */
 	protected static $instance;
@@ -54,4 +56,3 @@ class Follet_Menus_Manager extends Follet_Singleton implements Follet_ModuleInte
 		}
 	}
 }
-endif;

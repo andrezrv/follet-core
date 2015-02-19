@@ -1,4 +1,5 @@
 <?php
+namespace Follet\Application;
 /**
  * Follet Core.
  *
@@ -13,7 +14,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! class_exists( 'Follet_Singleton' ) ) :
 /**
  * Follet_Singleton
  *
@@ -24,7 +24,7 @@ if ( ! class_exists( 'Follet_Singleton' ) ) :
  * @package Follet_Core
  * @since   1.0
  */
-abstract class Follet_Singleton {
+abstract class SingletonAbstract {
 
 	protected function __construct() {
 		// Do nothing.
@@ -35,12 +35,12 @@ abstract class Follet_Singleton {
 	 *
 	 * @since  1.0
 	 *
-	 * @return Follet_Singleton Self instance of this class.
+	 * @return SingletonAbstract Self instance of this class.
 	 */
 	public static function get_instance() {
 		static $instances = array();
 
-		$called_class = self::get_called_class();
+		$called_class = get_called_class();
 
 		if ( ! isset( $instances[ $called_class ] ) ) {
 			$instances[ $called_class ] = new $called_class();
@@ -110,4 +110,3 @@ abstract class Follet_Singleton {
 		return $matches[1];
 	}
 }
-endif;

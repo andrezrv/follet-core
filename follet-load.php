@@ -27,18 +27,19 @@ define( 'FOLLET_DIR', trailingslashit( dirname( __FILE__ ) ) );
  *
  * @since 1.1
  */
-require FOLLET_DIR . 'bootstrap/class-follet-loader.php';
+require FOLLET_DIR . 'engine/bootstrap/class-loader.php';
 
 /**
  * Auto-load all PHP files.
  *
  * @since 1.1
  */
-new Follet_Loader( FOLLET_DIR );
+new \Follet\Bootstrap\Loader( FOLLET_DIR, 'engine' );
+
 
 /**
  * Initialize Follet.
  *
  * @since 1.0
  */
-Follet::get_instance();
+Follet\Application\Core::get_instance();

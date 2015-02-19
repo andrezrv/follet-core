@@ -1,20 +1,18 @@
 <?php
-if ( ! class_exists( 'Follet_Template_Module' ) ) :
-class Follet_Template_Module extends Follet_Singleton implements Follet_ModuleInterface {
+namespace Follet\Module;
+use Follet\Application\ModuleAbstract;
+
+class TemplateModule extends ModuleAbstract {
     protected $directory = '';
     protected $directory_uri = '';
-    private $locked = false;
 
     protected function __construct() {
         $this->register();
     }
 
     public function register() {
-        if ( ! $this->locked ) {
-            $this->register_directory();
-            $this->register_directory_uri();
-            $this->locked = true;
-        }
+        $this->register_directory();
+        $this->register_directory_uri();
     }
 
     private function register_directory() {
@@ -29,4 +27,3 @@ class Follet_Template_Module extends Follet_Singleton implements Follet_ModuleIn
         }
     }
 }
-endif;

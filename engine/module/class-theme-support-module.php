@@ -1,7 +1,8 @@
 <?php
-if ( ! class_exists( 'Follet_Theme_Support_Module' ) ) :
-class Follet_Theme_Support_Module extends Follet_Singleton implements Follet_ModuleInterface {
-	protected $theme_support = array();
+namespace Follet\Module;
+use Follet\Application\ModuleAbstract;
+
+class ThemeSupportModule extends ModuleAbstract {	protected $theme_support = array();
 
 	protected function __construct() {
 		$this->register();
@@ -30,4 +31,3 @@ class Follet_Theme_Support_Module extends Follet_Singleton implements Follet_Mod
 		}
 	}
 }
-endif;

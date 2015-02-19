@@ -10,9 +10,9 @@ add_filter( 'follet_get_template_module', 'follet_get_template_module' );
  *
  * @return Follet_Template_Module
  */
-function follet_get_template_module( Follet_Template_Module $template = null ) {
+function follet_get_template_module( \Follet\Application\ModuleAbstract $template = null ) {
 	if ( ! $template ) {
-        $template = Follet_Template_Module::get_instance();
+        $template = Follet\Module\TemplateModule::get_instance();
     }
 
     return $template;

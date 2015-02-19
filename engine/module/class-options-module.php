@@ -1,6 +1,8 @@
 <?php
-if ( ! class_exists( 'Follet_Options_Module' ) ) :
-class Follet_Options_Module extends Follet_Singleton implements Follet_ModuleInterface {
+namespace Follet\Module;
+use Follet\Application\ModuleAbstract;
+
+class OptionsModule extends ModuleAbstract {
 	/**
 	 * Utilitary property to store theme options.
 	 *
@@ -33,7 +35,7 @@ class Follet_Options_Module extends Follet_Singleton implements Follet_ModuleInt
 	 *
 	 * @since  1.0
 	 *
-	 * @global Follet_Customizer_Module $follet_customizer
+	 * @global CustomizerModule $follet_customizer
 	 *
 	 * @param  string $name    Name of the new option.
 	 * @param  mixed  $default Default value for the option.
@@ -162,4 +164,3 @@ class Follet_Options_Module extends Follet_Singleton implements Follet_ModuleInt
 		return isset( $this->options[ $name ] );
 	}
 }
-endif;

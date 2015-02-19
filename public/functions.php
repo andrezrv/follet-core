@@ -49,12 +49,12 @@ if ( ! function_exists( 'follet_load_library' ) ) :
  *
  * @since 1.1
  *
- * @param  string        $library Name of folder or PHP file.
+ * @param  string                  $library Name of folder or PHP file.
  *
- * @return Follet_Loader
+ * @return Follet\Bootstrap\Loader
  */
 function follet_load_library( $library ) {
-	return new Follet_Loader( $library );
+	return new Follet\Bootstrap\Loader( $library );
 }
 endif;
 

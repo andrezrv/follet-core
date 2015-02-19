@@ -1,6 +1,8 @@
 <?php
-if ( ! class_exists( 'Follet_Customizer_Module' ) ) :
-class Follet_Customizer_Module extends Follet_Singleton implements Follet_ModuleInterface {
+namespace Follet\Module;
+use Follet\Application\ModuleAbstract;
+
+class CustomizerModule extends ModuleAbstract {
 	/**
 	 * Instance for singleton.
 	 *
@@ -49,11 +51,15 @@ class Follet_Customizer_Module extends Follet_Singleton implements Follet_Module
 	 * @since 1.1
 	 */
 	protected function __construct() {
-		$this->customizer = Customizer_Library::instance();
+		$this->customizer = \Customizer_Library::instance();
 
 		$this->register();
 
 		$this->process_globals();
+	}
+
+	public static function get_instance() {
+		return parent::get_instance();
 	}
 
 	public function register() {
@@ -283,4 +289,3 @@ class Follet_Customizer_Module extends Follet_Singleton implements Follet_Module
 		}
 	}
 }
-endif;

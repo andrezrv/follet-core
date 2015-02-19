@@ -1,10 +1,13 @@
 <?php
-if ( ! class_exists( 'Follet_Module_Manager' ) ) :
-class Follet_Module_Manager extends Follet_Singleton {
+namespace Follet\Module;
+
+use Follet\Application\SingletonAbstract;
+
+class ModuleManager extends SingletonAbstract {
 	/**
 	 * Instance for singleton.
 	 *
-	 * @var   Follet_Module_Manager
+	 * @var   ModuleManager
 	 * @since 1.0
 	 */
 	protected static $instance;
@@ -27,4 +30,3 @@ class Follet_Module_Manager extends Follet_Singleton {
 		$this->modules = apply_filters( 'follet_modules', array() );
 	}
 }
-endif;
