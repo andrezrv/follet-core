@@ -11,6 +11,8 @@
  * @copyright 2014-2015 Andrés Villarreal
  * @since     1.0
  */
+namespace Follet;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -23,22 +25,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'FOLLET_DIR', trailingslashit( dirname( __FILE__ ) ) );
 
 /**
+ * Define main application directory.
+ *
+ * @since 1.1
+ */
+define( 'FOLLET_ENGINE_DIR', FOLLET_DIR . 'engine/' );
+
+/**
+ * Define directory for third-party dependencies.
+ *
+ * @since 1.1
+ */
+define( 'FOLLET_LIB_DIR', FOLLET_ENGINE_DIR . 'lib' );
+
+/**
  * Load auto-loader class.
  *
  * @since 1.1
  */
-require FOLLET_DIR . 'engine/bootstrap/class-loader.php';
+require FOLLET_ENGINE_DIR . 'bootstrap/class-loader.php';
 
 /**
  * Auto-load all PHP files.
  *
  * @since 1.1
  */
-new \Follet\Bootstrap\Loader( FOLLET_DIR, 'engine', array( FOLLET_DIR . 'engine/lib' ) );
+new Bootstrap\Loader( FOLLET_DIR, 'engine', array( FOLLET_LIB_DIR ) );
 
 /**
  * Initialize Follet.
  *
  * @since 1.0
  */
-Follet\Application\Core::get_instance();
+Application\Core::get_instance();

@@ -108,7 +108,6 @@ class Loader {
     protected function get_library() {
         $library    = array();
         $path       = $this->path;
-        $exclusions = array();
 
         /**
          * If the given path is a directory, implement `autoload_register()`
@@ -152,7 +151,7 @@ class Loader {
 
         } elseif ( ( is_file( $path ) ) && ( is_readable( $path ) ) ) {
             if ( ! empty( $this->exclude ) && in_array( dirname( $path ), $this->exclude ) ) {
-                return;
+                return null;
             }
 
             /**
