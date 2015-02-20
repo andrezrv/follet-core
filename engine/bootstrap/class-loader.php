@@ -46,6 +46,15 @@ class Loader {
     private $root_directory = '';
 
     /**
+     * List of files and directories excluded from loading.
+     *
+     * @since 1.1
+     *
+     * @var   array
+     */
+    private $exclude = array();
+
+    /**
      * List of files loaded by the current instance.
      *
      * @since 1.1
@@ -59,10 +68,11 @@ class Loader {
      *
      * @since  1.1
      *
-     * @param  string     $path
-     * @param  string     $root_directory
+     * @param string $path
+     * @param string $root_directory
+     * @param array  $exclude
      */
-    public function __construct( $path, $root_directory = '' ) {
+    public function __construct( $path, $root_directory = '', array $exclude = null ) {
         try {
             /**
              * Obtain object values and load PHP library from the given path.
@@ -71,6 +81,7 @@ class Loader {
              */
             $this->path           = $path;
             $this->root_directory = $root_directory;
+            $this->exclude        = $exclude;
             $this->library        = $this->get_library();
 
         } catch ( \Exception $e ) {
@@ -95,8 +106,9 @@ class Loader {
      * @throws \Exception When $path is not valid.
      */
     protected function get_library() {
-        $library = array();
-        $path    = $this->path;
+        $library    = array();
+        $path       = $this->path;
+        $exclusions = array();
 
         /**
          * If the given path is a directory, implement `autoload_register()`
@@ -119,17 +131,30 @@ class Loader {
              *
              * @since 1.1
              */
-            $directory_iterator = new \RecursiveDirectoryIterator( $path );
+            $directory_iterator = new \RecursiveDirectoryIterator( $path, \RecursiveDirectoryIterator::SKIP_DOTS );
             $recursive_iterator = new \RecursiveIteratorIterator( $directory_iterator );
 
+
             foreach ( $recursive_iterator as $filename => $file ) {
-                if( stristr( $filename , '.php' ) !== false ) {
+                if ( ! empty( $this->exclude ) && in_array( $dir = dirname( $filename ), $this->exclude ) ) {
+                    $exclude = dirname( $filename );
+                }
+
+                if ( ! empty( $exclude ) && false !== stripos( $filename, $exclude ) ) {
+                    continue;
+                }
+
+                if ( stristr( $filename , '.php' ) !== false ) {
                     require_once( $filename );
                     $library[] = $filename;
                 }
             }
 
         } elseif ( ( is_file( $path ) ) && ( is_readable( $path ) ) ) {
+            if ( ! empty( $this->exclude ) && in_array( dirname( $path ), $this->exclude ) ) {
+                return;
+            }
+
             /**
              * Load a single PHP file.
              *
