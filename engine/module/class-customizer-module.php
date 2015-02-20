@@ -1,6 +1,7 @@
 <?php
 namespace Follet\Module;
 use Follet\Application\ModuleAbstract;
+use Follet\Bootstrap\Loader;
 
 class CustomizerModule extends ModuleAbstract {
 	/**
@@ -51,6 +52,8 @@ class CustomizerModule extends ModuleAbstract {
 	 * @since 1.1
 	 */
 	protected function __construct() {
+		new Loader( FOLLET_DIR . 'engine/lib/customizer-library/customizer-library.php' );
+
 		$this->customizer = \Customizer_Library::instance();
 
 		$this->register();
@@ -115,14 +118,10 @@ class CustomizerModule extends ModuleAbstract {
 	 * @since 1.1
 	 *
 	 * @uses  self::customizer->add_options() (AKA Customizer_Library::add_options())
-	 * @param WP_Customize_Manager $wp_customize Active Customizer instance.
+	 *
+	 * @param \WP_Customize_Manager $wp_customize Active Customizer instance.
 	 */
-	public function customize_register( $wp_customize ) {
-		// Return early if $wp_customize is not what we expect.
-		if ( ! $wp_customize instanceof WP_Customize_Manager ) {
-			return;
-		}
-
+	public function customize_register( \WP_Customize_Manager $wp_customize ) {
 		// Initialize options.
 		$options = array();
 
@@ -158,7 +157,7 @@ class CustomizerModule extends ModuleAbstract {
 						'sanitize_callback' => $atts['sanitize_callback'],
 					) );
 
-					$wp_customize->add_control( new Follet_Plain_Text_Control( $wp_customize, $name, array(
+					$wp_customize->add_control( new \Follet_Plain_Text_Control( $wp_customize, $name, array(
 								'section'  => $atts['section'],
 								'settings' => $name,
 								'priority' => $atts['priority'],

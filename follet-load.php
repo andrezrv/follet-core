@@ -34,8 +34,7 @@ require FOLLET_DIR . 'engine/bootstrap/class-loader.php';
  *
  * @since 1.1
  */
-new \Follet\Bootstrap\Loader( FOLLET_DIR, 'engine' );
-
+new \Follet\Bootstrap\Loader( FOLLET_DIR, 'engine', array( FOLLET_DIR . 'engine/lib' ) );
 
 /**
  * Initialize Follet.

@@ -1,0 +1,22 @@
+{
+  "config": {
+    "vendor-dir": "engine/lib/"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "customizer-library",
+        "version": "dev-master",
+        "source": {
+          "url": "https://github.com/devinsays/customizer-library",
+          "type": "git",
+          "reference": "origin/master"
+        }
+      }
+    }
+  ],
+  "require": {
+    "customizer-library": "dev-master"
+  }
+}
