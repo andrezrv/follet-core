@@ -29,15 +29,6 @@ use Follet\Bootstrap\Loader;
  */
 class CustomizerModule extends ModuleAbstract {
 	/**
-	 * Instance for singleton.
-	 *
-	 * @var    self
-	 *
-	 * @since  1.0
-	 */
-	protected static $instance;
-
-	/**
 	 * Customizer object for API interactions.
 	 *
 	 * @var   \Customizer_Library

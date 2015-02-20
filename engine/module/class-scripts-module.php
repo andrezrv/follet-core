@@ -4,14 +4,6 @@ use Follet\Application\ModuleAbstract;
 
 class ScriptsModule extends ModuleAbstract {
 	/**
-	 * Instance for singleton.
-	 *
-	 * @var   ScriptsModule
-	 * @since 1.1
-	 */
-	protected static $instance;
-
-	/**
 	 * List of styles to be registered.
 	 *
 	 * @var   array

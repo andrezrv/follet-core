@@ -32,14 +32,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since   1.0
  */
 class Core extends SingletonAbstract {
-	/**
-	 * Instance for singleton.
-	 *
-	 * @var    Core
-	 * @since  1.0
-	 */
-	protected static $instance;
-
 	protected $modules = array();
 
 	/**

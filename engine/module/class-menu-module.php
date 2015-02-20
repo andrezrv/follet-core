@@ -4,14 +4,6 @@ use Follet\Application\ModuleAbstract;
 
 class MenuModule extends ModuleAbstract {
 	/**
-	 * Instance for singleton.
-	 *
-	 * @var    MenuManager
-	 * @since  1.0
-	 */
-	protected static $instance;
-
-	/**
 	 * List of menus for the current theme.
 	 *
 	 * @var   array

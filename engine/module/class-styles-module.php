@@ -4,14 +4,6 @@ use Follet\Application\ModuleAbstract;
 
 class StylesModule extends ModuleAbstract {
 	/**
-	 * Instance for singleton.
-	 *
-	 * @var   StylesModule
-	 * @since 1.1
-	 */
-	protected static $instance;
-
-	/**
 	 * List of styles to be registered.
 	 *
 	 * @var   array

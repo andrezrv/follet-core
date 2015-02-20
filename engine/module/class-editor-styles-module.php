@@ -3,14 +3,6 @@ namespace Follet\Module;
 use Follet\Application\ModuleAbstract;
 
 class EditorStylesModule extends ModuleAbstract {
-	/**
-	 * Instance for singleton.
-	 *
-	 * @var    EditorStylesModule
-	 * @since  1.0
-	 */
-	protected static $instance;
-
 	protected $editor_styles = array();
 
 	/**
