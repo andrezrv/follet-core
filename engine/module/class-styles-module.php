@@ -24,9 +24,7 @@ class StylesModule extends ModuleAbstract {
 
 	public function register() {
 		// Register theme styles on `wp_enqueue_scripts` action.
-		if ( ! follet_doing_ajax() ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_styles' ) );
-		}
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_styles' ) );
 	}
 
 	private function process_globals() {
@@ -36,6 +34,10 @@ class StylesModule extends ModuleAbstract {
 	}
 
 	private function register_style( $name, $args ) {
+		if ( follet_doing_ajax() ) {
+			return;
+		}
+
 		if ( ! is_array( $args ) ) {
 			$src = $args;
 			unset( $args );

@@ -1,7 +1,31 @@
 <?php
+/**
+ * Follet Core.
+ *
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.1
+ */
 namespace Follet\Module;
+
+/**
+ * Declare namespace dependencies.
+ *
+ * @since 1.1
+ */
 use Follet\Application\ModuleAbstract;
 
+/**
+ * Class OptionsModule
+ *
+ * Manage options retrieving and registration.
+ *
+ * @package Follet_Core
+ * @since   1.1
+ */
 class OptionsModule extends ModuleAbstract {
 	/**
 	 * Utilitary property to store theme options.
@@ -13,20 +37,19 @@ class OptionsModule extends ModuleAbstract {
 
 	protected function __construct() {
 		$this->register();
-		$this->process_globals();
-	}
-
-	private function process_globals() {
-		$GLOBALS['follet_options_manager'] = $this;
-		$GLOBALS['follet_options'] = $this->options;
 	}
 
 	/**
-	 * Register theme options on `init` action.
+	 * Setup module hooks.
 	 *
 	 * @since 1.1
 	 */
 	public function register() {
+		/**
+		 * Register theme options when initializing WordPress.
+		 *
+		 * @since 1.1
+		 */
 		add_action( 'init', array( $this, 'register_options' ) );
 	}
 
@@ -37,11 +60,12 @@ class OptionsModule extends ModuleAbstract {
 	 *
 	 * @global CustomizerModule $follet_customizer
 	 *
-	 * @param  string $name    Name of the new option.
-	 * @param  mixed  $default Default value for the option.
-	 * @param  mixed  $current Current value of the option.
+	 * @param  string           $name       Name of the new option.
+	 * @param  mixed            $default    Default value for the option.
+	 * @param  mixed            $current    Current value of the option.
+	 * @param  CustomizerModule $customizer Current instance of Customizer handler.
 	 */
-	protected function register_option( $name, $default, $current = false ) {
+	public function register_option( $name, $default, $current = false, CustomizerModule $customizer = null ) {
 		$atts = $default;
 		$default = is_array( $atts ) && isset( $atts['default'] ) ? $atts['default'] : $atts;
 
@@ -51,8 +75,11 @@ class OptionsModule extends ModuleAbstract {
 		);
 
 		if ( ! empty( $atts['section'] ) ) {
-			$follet_customizer = CustomizerModule::get_instance();
-			$follet_customizer->add_setting( $name, $atts );
+			if ( ! $customizer ) {
+				$customizer = CustomizerModule::get_instance();
+			}
+
+			$customizer->add_setting( $name, $atts );
 		}
 	}
 
@@ -61,7 +88,7 @@ class OptionsModule extends ModuleAbstract {
 	 *
 	 * @since 1.1
 	 *
-	 * @uses   self::register_option()
+	 * @uses  self::register_option()
 	 */
 	public function register_options() {
 		$options = apply_filters( 'follet_options', $this->options );
@@ -76,7 +103,7 @@ class OptionsModule extends ModuleAbstract {
 				// Set default value for the option.
 				$default = empty( $atts['default'] ) ? $atts : $atts['default'];
 
-				$this->register_option( $name, $atts, get_theme_mod( $name, $default ) );
+				$this->register_option( $name, $atts, get_theme_mod( $name, $default ), CustomizerModule::get_instance() );
 			}
 		}
 	}

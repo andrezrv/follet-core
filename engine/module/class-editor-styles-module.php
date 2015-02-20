@@ -16,9 +16,7 @@ class EditorStylesModule extends ModuleAbstract {
 	}
 
 	public function register() {
-		if ( is_admin() && ! follet_doing_ajax() ) {
-			add_action( 'after_setup_theme', array( $this, 'register_editor_styles' ) );
-		}
+		add_action( 'after_setup_theme', array( $this, 'register_editor_styles' ) );
 	}
 
 	private function process_globals() {
@@ -32,6 +30,10 @@ class EditorStylesModule extends ModuleAbstract {
 	}
 
 	public function register_editor_styles() {
+		if ( ! is_admin() || follet_doing_ajax() ) {
+			return;
+		}
+
 		$this->editor_styles = apply_filters( 'follet_editor_styles', $this->editor_styles, $this );
 
 		if ( ! empty( $this->editor_styles ) ) {

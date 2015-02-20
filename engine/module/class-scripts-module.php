@@ -25,9 +25,7 @@ class ScriptsModule extends ModuleAbstract {
 
 	public function register() {
 		// Register theme styles on `wp_enqueue_scripts` action.
-		if ( ! follet_doing_ajax() ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
-		}
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 	}
 
 	private function process_globals() {
@@ -66,6 +64,10 @@ class ScriptsModule extends ModuleAbstract {
 	}
 
 	public function register_scripts() {
+		if ( follet_doing_ajax() ) {
+			return;
+		}
+
 		$this->scripts = apply_filters( 'follet_scripts', $this->scripts, $this );
 
 		if ( ! empty( $this->scripts ) ) {

@@ -24,8 +24,6 @@ if ( ! function_exists( 'follet_posted_on' ) ) :
  * @since  1.0
  */
 function follet_posted_on() {
-	global $follet;
-
 	// Process author.
 	$author_section_template = '<section class="author vcard"><a class="url fn n" href="%1$s">%3$s%2$s</a></section>';
 	$author = sprintf( $author_section_template,
@@ -53,9 +51,9 @@ function follet_posted_on() {
 	// Process comments.
 	ob_start();
 	comments_number(
-		__( '0 Comments', $follet->textdomain ),
-		__( '1 Comment',  $follet->textdomain ),
-		__( '% Comments', $follet->textdomain )
+		__( '0 Comments', follet_textdomain() ),
+		__( '1 Comment',  follet_textdomain() ),
+		__( '% Comments', follet_textdomain() )
 	);
 	$comments_number = ob_get_contents();
 	$comments_number = apply_filters( 'follet_comments_number', $comments_number );
@@ -162,7 +160,7 @@ function follet_edit_post_link() {
 	if ( current_user_can( 'edit_posts' ) ) {
 		$link = sprintf( '<section class="edit-link"><a href="%1$s">%3$s%2$s</a></section>',
 			esc_url( get_edit_post_link() ),
-			esc_html( __( 'Edit', $follet->textdomain ) ),
+			esc_html( __( 'Edit', follet_textdomain() ) ),
 			apply_filters( 'follet_edit_post_icon', '<span class="icon icon-edit"></span>&nbsp;' )
 		);
 		$link = apply_filters( 'follet_edit_post_link', $link );

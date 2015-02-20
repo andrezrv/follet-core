@@ -127,29 +127,11 @@ class Core extends SingletonAbstract {
 		$this->directory              = $this->get_directory();
 		$this->directory_uri          = $this->get_directory_uri();
 
-		// Process global variables.
-		$this->process_globals();
-
 		// Initialize modules.
 		$this->modules = ModuleManager::get_instance();
 
 		// Process actions after setup.
 		do_action( 'follet_after_setup' );
-	}
-
-	/* ========================================================================
-	   Basic Theme Processes.
-	   ===================================================================== */
-
-	/**
-	 * Process global variables.
-	 *
-	 * @since 1.1
-	 */
-	private function process_globals() {
-		global $follet;
-
-		$follet = $this;
 	}
 
 	/* ========================================================================
