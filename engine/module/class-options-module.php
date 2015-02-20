@@ -51,8 +51,8 @@ class OptionsModule extends ModuleAbstract {
 		);
 
 		if ( ! empty( $atts['section'] ) ) {
-			global $follet_customizer;
-			$follet_customizer->add_customizer_setting( $name, $atts );
+			$follet_customizer = CustomizerModule::get_instance();
+			$follet_customizer->add_setting( $name, $atts );
 		}
 	}
 

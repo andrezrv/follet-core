@@ -1,50 +1,86 @@
 <?php
+/**
+ * Follet Core.
+ *
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.1
+ */
 namespace Follet\Module;
+
+/**
+ * Declare namespace dependencies.
+ *
+ * @since 1.1
+ */
 use Follet\Application\ModuleAbstract;
 use Follet\Bootstrap\Loader;
 
+/**
+ * Class CustomizerModule
+ *
+ * Manage automatic registrations for Customizer sections, controls and settings.
+ *
+ * @package Follet_Core
+ * @since   1.1
+ */
 class CustomizerModule extends ModuleAbstract {
 	/**
 	 * Instance for singleton.
 	 *
-	 * @var    Follet
+	 * @var    self
+	 *
 	 * @since  1.0
 	 */
 	protected static $instance;
 
 	/**
-	 * Customizer interfacing object for API interactions.
+	 * Customizer object for API interactions.
 	 *
-	 * @var   Customizer_Library
+	 * @var   \Customizer_Library
+	 *
 	 * @since 1.1
 	 */
-	protected $customizer;
+	protected $customizer = null;
 
 	/**
 	 * List of sections to be initialized via Customizer.
 	 *
 	 * @var   array
+	 *
 	 * @since 1.1
 	 */
-	protected $customizer_sections = array();
+	protected $sections = array();
 
 	/**
 	 * List of controls to be initialized via Customizer.
 	 *
 	 * @var   array
+	 *
 	 * @since 1.1
 	 */
-	protected $customizer_controls = array();
+	protected $controls = array();
 
 	/**
 	 * List of settings to be initialized via Customizer.
 	 *
 	 * @var   array
+	 *
 	 * @since 1.1
 	 */
-	protected $customizer_settings = array();
+	protected $settings = array();
 
-	protected $customizer_scripts = array();
+	/**
+	 * List of scripts to be initialized via Customizer.
+	 *
+	 * @var   array
+	 *
+	 * @since 1.1
+	 */
+	protected $scripts = array();
 
 	/**
 	 * Process theme customization settings on `customize_register` action.
@@ -52,28 +88,59 @@ class CustomizerModule extends ModuleAbstract {
 	 * @since 1.1
 	 */
 	protected function __construct() {
-		new Loader( FOLLET_DIR . 'engine/lib/customizer-library/customizer-library.php' );
-
-		$this->customizer = \Customizer_Library::instance();
-
 		$this->register();
-
-		$this->process_globals();
-	}
-
-	public static function get_instance() {
-		return parent::get_instance();
 	}
 
 	public function register() {
+		/**
+		 * Load Customizer Library dependency.
+		 *
+		 * @since 1.1
+		 */
+		add_action( 'customize_register', array( $this, 'load_customizer' ) );
+
+		/**
+		 * Initialize Customizer Library and set internal reference.
+		 *
+		 * @since 1.1
+		 */
+		add_action( 'customize_register', array( $this, 'set_customizer' ) );
+
+		/**
+		 * Register Customizer additions.
+		 *
+		 * @since 1.1
+		 */
 		add_action( 'customize_register', array( $this, 'customize_register' ) );
-		add_action( 'customize_preview_init', array( $this, 'register_customizer_scripts' ) );
+
+		/**
+		 * Register Customizer scripts.
+		 *
+		 * @since 1.1
+		 */
+		add_action( 'customize_preview_init', array( $this, 'register_scripts' ) );
 	}
 
-	private function process_globals() {
-		global $follet_customizer;
+	/**
+	 * Load Customizer Library as dependency.
+	 *
+	 * @since 1.1
+	 */
+	public function load_customizer() {
+		if ( ! class_exists( '\Customizer_Library' ) ) {
+			new Loader( FOLLET_DIR . 'engine/lib/customizer-library/customizer-library.php' );
+		}
+	}
 
-		$follet_customizer = $this;
+	/**
+	 * Initialize Customizer Library and set internal reference.
+	 *
+	 * @since 1.1
+	 */
+	public function set_customizer() {
+		if ( class_exists( '\Customizer_Library' ) ) {
+			$this->customizer = \Customizer_Library::instance();
+		}
 	}
 
 	/**
@@ -84,8 +151,8 @@ class CustomizerModule extends ModuleAbstract {
 	 * @param string $name Internal name for the section.
 	 * @param array  $atts Section attributes.
 	 */
-	public function add_customizer_section( $name, $atts ) {
-		$this->customizer_sections[ $name ] = $atts;
+	public function add_section( $name, $atts ) {
+		$this->sections[ $name ] = $atts;
 	}
 
 	/**
@@ -96,8 +163,8 @@ class CustomizerModule extends ModuleAbstract {
 	 * @param string $name Internal name for the control.
 	 * @param array  $atts Control attributes.
 	 */
-	public function add_customizer_control( $name, $atts ) {
-		$this->customizer_controls[ $name ] = $atts;
+	public function add_control( $name, $atts ) {
+		$this->controls[ $name ] = $atts;
 	}
 
 	/**
@@ -108,8 +175,8 @@ class CustomizerModule extends ModuleAbstract {
 	 * @param string $name Internal name for setting.
 	 * @param array  $atts Setting attributes.
 	 */
-	public function add_customizer_setting( $name, $atts ) {
-		$this->customizer_settings[ $name ] = $atts;
+	public function add_setting( $name, $atts ) {
+		$this->settings[ $name ] = $atts;
 	}
 
 	/**
@@ -128,10 +195,10 @@ class CustomizerModule extends ModuleAbstract {
 		/**
 		 * Process Customizer settings.
 		 */
-		$this->customizer_settings = apply_filters( 'follet_customizer_settings', $this->customizer_settings, $wp_customize );
+		$this->settings = apply_filters( __CLASS__ . '\\customizer_settings', $this->settings, $wp_customize );
 
-		if ( ! empty( $this->customizer_settings ) ) {
-			foreach ( $this->customizer_settings as $name => $atts ) {
+		if ( ! empty( $this->settings ) ) {
+			foreach ( $this->settings as $name => $atts ) {
 				// Check if this setting should be registered.
 				if ( isset( $atts['eval'] ) ) {
 					if ( ! $atts['eval'] ) {
@@ -147,15 +214,17 @@ class CustomizerModule extends ModuleAbstract {
 
 					// Merge the previous setting attributes with our own.
 					$atts = array_merge( (array) $setting, $atts );
+
 				} else {
 					$atts['id'] = $name;
 				}
 
 				if ( ! empty( $atts['type'] ) && 'plain-text' == $atts['type'] ) {
 					$wp_customize->add_setting( $name, array(
-						'default'           => $atts['default'],
-						'sanitize_callback' => $atts['sanitize_callback'],
-					) );
+							'default'           => $atts['default'],
+							'sanitize_callback' => $atts['sanitize_callback'],
+						)
+					);
 
 					$wp_customize->add_control( new \Follet_Plain_Text_Control( $wp_customize, $name, array(
 								'section'  => $atts['section'],
@@ -164,6 +233,7 @@ class CustomizerModule extends ModuleAbstract {
 							)
 						)
 					);
+
 				} else {
 					// Add setting to $options array.
 					$options[] = $atts;
@@ -174,10 +244,10 @@ class CustomizerModule extends ModuleAbstract {
 		/**
 		 * Process Customizer controls.
 		 */
-		$this->customizer_controls = apply_filters( 'follet_customizer_controls', $this->customizer_controls, $wp_customize );
+		$this->controls = apply_filters( 'customizer_controls', $this->controls, $wp_customize );
 
-		if ( ! empty( $this->customizer_controls ) ) {
-			foreach ( $this->customizer_controls as $name => $atts ) {
+		if ( ! empty( $this->controls ) ) {
+			foreach ( $this->controls as $name => $atts ) {
 				// Check if this control should be registered.
 				if ( isset( $atts['eval'] ) ) {
 					if ( ! $atts['eval'] ) {
@@ -189,17 +259,13 @@ class CustomizerModule extends ModuleAbstract {
 
 				// If the control already exists, we remove and register it again with our own attributes.
 				if ( $control = $wp_customize->get_control( $name ) ) {
-					// $wp_customize->remove_control( $name );
-
-					// Merge the previous control attributes with our own.
-					// $atts = array_merge( (array) $control, $atts );
 					foreach ( $atts as $key => $value ) {
 						$control->$key = $value;
 					}
 				} else {
 					$atts['id'] = $name;
 
-					/*
+					/**
 					 * Register control using the WP_Customize_Manager instance directly, since the Customizer_Library
 					 * we use doesn't process controls on its own. Maybe this can be changed in the future.
 					 */
@@ -211,13 +277,13 @@ class CustomizerModule extends ModuleAbstract {
 		/**
 		 * Process Customizer sections.
 		 */
-		$this->customizer_sections = apply_filters( 'follet_customizer_sections', $this->customizer_sections, $wp_customize );
+		$this->sections = apply_filters( __CLASS__ . '\\customizer_sections', $this->sections, $wp_customize );
 
-		if ( ! empty( $this->customizer_sections ) ) {
+		if ( ! empty( $this->sections ) ) {
 			// Initialize our list of sections.
 			$sections = array();
 
-			foreach ( $this->customizer_sections as $name => $atts ) {
+			foreach ( $this->sections as $name => $atts ) {
 				// Check if this section should be registered.
 				if ( isset( $atts['eval'] ) ) {
 					if ( ! $atts['eval'] ) {
@@ -252,24 +318,27 @@ class CustomizerModule extends ModuleAbstract {
 	/**
 	 * Scripts are printed by default in the footer.
 	 *
-	 * @param $name
-	 * @param array $args
+	 * @since 1.1
+	 *
+	 * @param string $name
+	 * @param array  $args
 	 */
-	private function register_customizer_script( $name, $args = array() ) {
+	private function register_script( $name, $args = array() ) {
 		if ( ! is_array( $args ) ) {
 			$src = $args;
 			unset( $args );
 			$args['src'] = $src;
 		}
 
-		$defaults = apply_filters( 'follet_customizer_script_defaults', array(
-			'handle'    => $name,
-			'src'       => '',
-			'deps'      => array( 'customize-preview' ),
-			'version'   => follet_theme_version(),
-			'in_footer' => true,
-			'eval'      => true,
-		), $args );
+		$defaults = apply_filters( __CLASS__ . '\\customizer_script_defaults', array(
+				'handle'    => $name,
+				'src'       => '',
+				'deps'      => array( 'customize-preview' ),
+				'version'   => follet_theme_version(),
+				'in_footer' => true,
+				'eval'      => true,
+			), $args
+		);
 
 		$args = wp_parse_args( $args, $defaults );
 
@@ -278,12 +347,17 @@ class CustomizerModule extends ModuleAbstract {
 		}
 	}
 
-	public function register_customizer_scripts() {
-		$this->customizer_scripts = apply_filters( 'follet_customizer_scripts', $this->customizer_scripts );
+	/**
+	 * Register JavaScript files.
+	 *
+	 * @since 1.1
+	 */
+	public function register_scripts() {
+		$this->scripts = apply_filters( __CLASS__ . '\\customizer_scripts', $this->scripts );
 
-		if ( ! empty( $this->customizer_scripts ) ) {
-			foreach ( $this->customizer_scripts as $name => $args ) {
-				$this->register_customizer_script( $name, $args );
+		if ( ! empty( $this->scripts ) ) {
+			foreach ( $this->scripts as $name => $args ) {
+				$this->register_script( $name, $args );
 			}
 		}
 	}
