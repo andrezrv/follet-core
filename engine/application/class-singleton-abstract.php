@@ -25,7 +25,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since   1.0
  */
 abstract class SingletonAbstract {
-
+	/**
+	 * Let classes implement their custom constructors.
+	 *
+	 * @since 1.0
+	 */
 	protected function __construct() {
 		// Do nothing.
 	}
