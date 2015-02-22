@@ -56,7 +56,7 @@ if ( ! function_exists( 'follet_textdomain' ) ) :
  * @since 1.1
  */
 function follet_textdomain() {
-	return follet()->textdomain;
+	return follet()->get_module( 'theme' )->textdomain;
 }
 endif;
 
@@ -68,7 +68,7 @@ if ( ! function_exists( 'follet_doing_ajax' ) ) :
  * @return bool
  */
 function follet_doing_ajax() {
-	return follet()->doing_ajax;
+	return follet()->get_module( 'ajax' )->ajax;
 }
 endif;
 
@@ -80,7 +80,20 @@ if ( ! function_exists( 'follet_theme_version' ) ) :
  * @return bool
  */
 function follet_theme_version() {
-	return follet()->theme_version;
+	return follet()->get_module( 'theme' )->version;
+}
+endif;
+
+if ( ! function_exists( 'follet_template' ) ) :
+/**
+ * Obtain template data.
+ *
+ * @since  1.1
+ *
+ * @return Follet\Module\TemplateModule
+ */
+function follet_template() {
+	return follet()->get_module( 'template' );
 }
 endif;
 
@@ -90,12 +103,10 @@ if ( ! function_exists( 'follet_template_directory' ) ) :
  *
  * @since  1.0
  *
- * @global Follet $follet Current instance of Follet object.
- *
  * @return string
  */
 function follet_template_directory() {
-	return follet()->template->directory;
+	return follet_template()->directory;
 }
 endif;
 
@@ -105,12 +116,10 @@ if ( ! function_exists( 'follet_template_directory_uri' ) ) :
  *
  * @since  1.0
  *
- * @global Follet $follet Current instance of Follet object.
- *
  * @return string
  */
 function follet_template_directory_uri() {
-	return follet()->template->directory_uri;
+	return follet_template()->directory_uri;
 }
 endif;
 
@@ -149,7 +158,7 @@ if ( ! function_exists( 'follet_options_manager' ) ) :
  * @return Follet\Module\OptionsModule
  */
 function follet_options_manager() {
-	return Follet\Module\OptionsModule::get_instance();
+	return follet()->get_module( 'options' );
 }
 endif;
 
@@ -233,17 +242,14 @@ if ( ! function_exists( 'follet_get_option' ) ) :
  * @uses   Follet\Module\OptionsModule::option_exists()
  * @see    follet_get_current()
  *
- * @param  string                      $name            Name of the option.
- * @param  Follet\Module\OptionsModule $options_manager
+ * @param  string $name Name of the option.
  *
  * @return mixed        Current value of the option.
  */
-function follet_get_option( $name, Follet\Module\OptionsModule $options_manager = null ) {
-	if ( ! $options_manager ) {
-		$options_manager = Follet\Module\OptionsModule::get_instance();
-	}
+function follet_get_option( $name ) {
+	$options_manager = follet()->get_module( 'options' );
 
-	return $options_manager->option_exists( $name );
+	return method_exists( $options_manager, 'get_option') ? $options_manager->get_option( $name ) : null;
 }
 endif;
 
@@ -255,17 +261,14 @@ if ( ! function_exists( 'follet_option_exists' ) ) :
  *
  * @uses   Follet\Module\OptionsModule::option_exists()
  *
- * @param  string                      $name            Name of the option.
- * @param  Follet\Module\OptionsModule $options_manager
+ * @param  string  $name Name of the option.
  *
  * @return boolean
  */
-function follet_option_exists( $name, Follet\Module\OptionsModule $options_manager = null ) {
-	if ( ! $options_manager ) {
-		$options_manager = Follet\Module\OptionsModule::get_instance();
-	}
+function follet_option_exists( $name ) {
+	$options_manager = follet()->get_module( 'options' );
 
-	return $options_manager->option_exists( $name );
+	return method_exists( $options_manager, 'option_exists') ? $options_manager->option_exists( $name ) : false;
 }
 endif;
 

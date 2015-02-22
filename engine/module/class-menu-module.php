@@ -13,7 +13,6 @@ class MenuModule extends ModuleAbstract {
 
 	protected function __construct() {
 		$this->register();
-		$this->process_globals();
 	}
 
 	/**
@@ -23,12 +22,6 @@ class MenuModule extends ModuleAbstract {
 	 */
 	public function register() {
 		add_action( 'init', array( $this, 'register_menus' ) );
-	}
-
-	private function process_globals() {
-		global $follet_menus;
-
-		$follet_menus = $this;
 	}
 
 	/**

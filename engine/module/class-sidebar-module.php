@@ -18,17 +18,10 @@ class SidebarModule extends ModuleAbstract {
 	 */
 	protected function __construct() {
 		$this->register();
-		$this->process_globals();
 	}
 
 	public function register() {
 		add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
-	}
-
-	private function process_globals() {
-		global $follet_sidebars;
-
-		$follet_sidebars = $this;
 	}
 
 	/**

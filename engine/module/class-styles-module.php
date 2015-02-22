@@ -18,19 +18,11 @@ class StylesModule extends ModuleAbstract {
 	 */
 	protected function __construct() {
 		$this->register();
-		// Process global variables.
-		$this->process_globals();
 	}
 
 	public function register() {
 		// Register theme styles on `wp_enqueue_scripts` action.
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_styles' ) );
-	}
-
-	private function process_globals() {
-		global $follet_styles;
-
-		$follet_styles = $this;
 	}
 
 	private function register_style( $name, $args ) {

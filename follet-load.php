@@ -57,4 +57,4 @@ new Bootstrap\Loader( FOLLET_DIR, 'engine', array( FOLLET_LIB_DIR ) );
  *
  * @since 1.0
  */
-Application\Core::get_instance();
+follet();

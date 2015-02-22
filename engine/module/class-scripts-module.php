@@ -18,20 +18,11 @@ class ScriptsModule extends ModuleAbstract {
 	 */
 	protected function __construct() {
 		$this->register();
-
-		// Process global variables.
-		$this->process_globals();
 	}
 
 	public function register() {
 		// Register theme styles on `wp_enqueue_scripts` action.
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
-	}
-
-	private function process_globals() {
-		global $follet_scripts;
-
-		$follet_scripts = $this;
 	}
 
 	/**

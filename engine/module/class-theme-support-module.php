@@ -6,15 +6,10 @@ class ThemeSupportModule extends ModuleAbstract {	protected $theme_support = arr
 
 	protected function __construct() {
 		$this->register();
-		$this->process_globals();
 	}
 
 	public function register() {
 		add_action( 'after_setup_theme', array( $this, 'register_theme_support' ) );
-	}
-
-	private function process_globals() {
-		$GLOBALS['follet_theme_support'] = $this;
 	}
 
 	public function register_theme_support() {

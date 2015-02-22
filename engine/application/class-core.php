@@ -12,18 +12,6 @@
 namespace Follet\Application;
 
 /**
- * Declare dependencies.
- *
- * @since 1.1
- */
-use Follet\Module\ModuleManager;
-use Follet\Module\TemplateModule;
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
-/**
  * Class Core (ex Follet)
  *
  * Main class for theme management.
@@ -32,33 +20,23 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since   1.0
  */
 class Core extends SingletonAbstract {
+	/**
+	 * Current version of package.
+	 *
+	 * @var    string
+	 *
+	 * @since  1.0
+	 */
+	protected $version = '1.1';
+
+	/**
+	 * List of active modules.
+	 *
+	 * @var   array
+	 *
+	 * @since 1.1
+	 */
 	protected $modules = array();
-
-	/**
-	 * Utilitary property to store theme options.
-	 *
-	 * @var    array
-	 * @since  1.0
-	 */
-	protected $_options = array();
-
-	protected $template = null;
-
-	/**
-	 * Store $template_directory to prevent overhead.
-	 *
-	 * @var    string
-	 * @since  1.0
-	 */
-	public $template_directory;
-
-	/**
-	 * Store $template_directory_uri to prevent overhead.
-	 *
-	 * @var    string
-	 * @since  1.0
-	 */
-	public $template_directory_uri;
 
 	/**
 	 * Follet Core absolute path.
@@ -77,98 +55,172 @@ class Core extends SingletonAbstract {
 	public $directory_uri;
 
 	/**
-	 * Theme text domain.
-	 *
-	 * @var    string
-	 * @since  1.0
-	 */
-	public $textdomain;
-
-	/**
-	 * Check if we're in an AJAX context.
-	 *
-	 * @var   bool
-	 * @since 1.1
-	 */
-	public $doing_ajax;
-
-	/**
-	 * Current version of package.
-	 *
-	 * @var    string
-	 * @since  1.0
-	 */
-	protected $version = '1.1';
-
-	/**
-	 * Current version of the supported theme.
-	 * @var    string
-	 * @since  1.0
-	 */
-	public $theme_version = '1.0';
-
-	/**
-	 * Initialize Follet.
+	 * Initialize Follet Core.
 	 *
 	 * @since  1.0
 	 */
 	protected function __construct() {
-		// Process actions before setup.
-		do_action( 'follet_setup' );
+		/**
+		 * Run actions before Follet setup.
+		 *
+		 * @since 1.1
+		 */
+		$this->before_setup();
 
-		// Obtain theme values.
-		$theme = wp_get_theme();
+		/**
+		 * Process all module-related functionality.
+		 *
+		 * @since 1.1
+		 */
+		$this->process_modules();
 
-		// Process object values.
-		$this->theme_version          = $theme->get( 'Version' );
-		$this->doing_ajax             = defined( 'DOING_AJAX' ) && DOING_AJAX;
-		$this->textdomain             = $theme->get( 'TextDomain' );
-		$this->template               = $this->get_template();
-		$this->directory              = $this->get_directory();
-		$this->directory_uri          = $this->get_directory_uri();
+		/**
+		 * Register internal class events.
+		 *
+		 * @since 1.1
+		 */
+		$this->register_events();
 
-		// Initialize modules.
-		$this->modules = ModuleManager::get_instance();
+		/**
+		 * Process all Follet setup functionality.
+		 *
+		 * @since 1.1
+		 */
+		$this->setup();
 
-		// Process actions after setup.
-		do_action( 'follet_after_setup' );
+		/**
+		 * Run actions after seyup is complete.
+		 *
+		 * @since 1.1
+		 */
+		$this->after_setup();
 	}
 
-	/* ========================================================================
-	   Methods for Paths Management.
-	   ===================================================================== */
+	/**
+	 * Process actions before setup.
+	 *
+	 * @since 1.1
+	 */
+	protected function before_setup() {
+		/**
+		 * Hook all the actions that need to run before setup here.
+		 *
+		 * @since 1.1
+		 */
+		do_action( 'follet_before_setup', $this );
+	}
 
-	private function get_template() {
-		if ( ( $template = apply_filters( 'follet_get_template_module', null ) ) instanceof TemplateModule ) {
-			return $template;
+	/**
+	 * Process actions on setup.
+	 *
+	 * @since 1.1
+	 */
+	protected function setup() {
+		/**
+		 * Hook all the actions that need to run during setup here.
+		 *
+		 * @since 1.1
+		 */
+		do_action( 'follet_setup', $this );
+	}
+
+	/**
+	 * Process actions after setup.
+	 *
+	 * @since 1.1
+	 */
+	protected function after_setup() {
+		/**
+		 * Hook all the actions that need to run after setup here.
+		 *
+		 * @since 1.1
+		 */
+		do_action( 'follet_after_setup', $this );
+	}
+
+	/**
+	 * Process module functionality.
+	 *
+	 * @since 1.1
+	 */
+	protected function process_modules() {
+		/**
+		 * Hook all module-related processes here.
+		 *
+		 * @since 1.1
+		 */
+		do_action( 'follet_process_modules', $this );
+	}
+
+	/**
+	 * Register internal events.
+	 *
+	 * @since 1.1
+	 */
+	protected function register_events() {
+		/**
+		 * Set path and URI for Follet Core directory.
+		 *
+		 * @since 1.1
+		 */
+		add_action( 'follet_setup', array( $this, 'set_directories' ) );
+	}
+
+	/**
+	 * Obtain a module by given key name.
+	 *
+	 * @since  1.1
+	 *
+	 * @param  string $name Name of the module.
+	 *
+	 * @return mixed|null|\Follet\Application\ModuleInterface
+	 */
+	public function get_module( $name ) {
+		return ( ! empty( $this->modules[ $name ] ) ) ? $this->modules[ $name ] : null;
+	}
+
+	/**
+	 * Add a module to the list of modules.
+	 *
+	 * @since 1.1
+	 *
+	 * @param $name
+	 * @param ModuleInterface $module
+	 */
+	public function add_module( $name, ModuleInterface $module ) {
+		$this->modules[ $name ] = $module;
+	}
+
+	/**
+	 * Set Follet Core directories.
+	 *
+	 * @since 1.1
+	 */
+	public function set_directories() {
+		/**
+		 * Locate filters to obtain template paths.
+		 *
+		 * @since 1.1
+		 */
+		$template_directory     = apply_filters( 'follet_setup_template_directory', '', 'template_directory' );
+		$template_directory_uri = apply_filters( 'follet_setup_template_directory_uri', '', 'template_directory_uri' );
+
+		/**
+		 * Set Follet Core path.
+		 *
+		 * @since 1.1
+		 */
+		if ( $template_directory ) {
+			$this->directory = $template_directory . str_replace( $template_directory, '', FOLLET_DIR );
 		}
 
-		return null;
-	}
-
-	/**
-	 * Get Follet Core path.
-	 *
-	 * @since  1.0
-	 *
-	 * @const  FOLLET_DIR
-	 *
-	 * @return string
-	 */
-	public function get_directory() {
-		return $this->template->directory . str_replace( $this->template->directory, '', FOLLET_DIR );
-	}
-
-	/**
-	 * Get Follet Core directory URI.
-	 *
-	 * @return string
-	 *
-	 * @const  FOLLET_DIR
-	 *
-	 * @since  1.0
-	 */
-	public function get_directory_uri() {
-		return $this->template->directory_uri . str_replace( $this->template->directory, '', FOLLET_DIR );
+		/**
+		 * Set Follet Core URI.
+		 *
+		 * @since 1.1
+		 */
+		if ( $template_directory && $template_directory_uri ) {
+			$this->directory_uri = $template_directory_uri . str_replace( $template_directory, '', FOLLET_DIR );
+		}
 	}
 }

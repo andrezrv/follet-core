@@ -6,24 +6,30 @@ class TemplateModule extends ModuleAbstract {
     protected $directory = '';
     protected $directory_uri = '';
 
-    protected function __construct() {
-        $this->register();
-    }
-
     public function register() {
-        $this->register_directory();
-        $this->register_directory_uri();
+        add_action( 'follet_setup', array( $this, 'set_directory' ) );
+        add_action( 'follet_setup', array( $this, 'set_directory_uri' ) );
+        add_filter( 'follet_setup_template_directory', array( $this, 'get_directory' ) );
+        add_filter( 'follet_setup_template_directory_uri', array( $this, 'get_directory_uri' ) );
     }
 
-    private function register_directory() {
+    public function set_directory() {
         if ( ! $this->directory ) {
             $this->directory = get_template_directory();
         }
     }
 
-    private function register_directory_uri() {
+    public function get_directory() {
+        return $this->directory;
+    }
+
+    public function set_directory_uri() {
         if ( ! $this->directory_uri ) {
             $this->directory_uri = get_template_directory_uri();
         }
+    }
+
+    public function get_directory_uri() {
+        return $this->directory_uri;
     }
 }

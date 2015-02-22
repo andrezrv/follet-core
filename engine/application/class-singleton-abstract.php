@@ -93,24 +93,4 @@ abstract class SingletonAbstract {
 		$error = __( 'Invalid operation: you cannot unserialize an instance of ', wp_get_theme()->get( 'TextDomain' ) ) . $class;
 		trigger_error( $error, E_USER_ERROR );
 	}
-
-	/**
-	 * Add support for get_called_class in PHP < 5.3
-	 *
-	 * @since  1.0
-	 *
-	 * @return string Class name.
-	 */
-	protected static function get_called_class() {
-		$bt = debug_backtrace();
-		$l = 0;
-		do {
-			$l ++;
-			$lines      = file( $bt[ $l ]['file'] );
-			$callerLine = $lines[ $bt[ $l ]['line'] - 1 ];
-			preg_match( '/([a-zA-Z0-9\_]+)::' . $bt[ $l ]['function'] . '/', $callerLine, $matches );
-		} while ( $matches[1] === 'parent' && $matches[1] );
-
-		return $matches[1];
-	}
 }

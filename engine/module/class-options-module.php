@@ -31,13 +31,19 @@ class OptionsModule extends ModuleAbstract {
 	 * Utilitary property to store theme options.
 	 *
 	 * @var    array
-	 * @since  1.0
+	 *
+	 * @since  1.1
 	 */
 	protected $options = array();
 
-	protected function __construct() {
-		$this->register();
-	}
+	/**
+	 * Current Customizer module object.
+	 *
+	 * @var   CustomizerModule
+	 *
+	 * @since 1.1
+	 */
+	protected $customizer = null;
 
 	/**
 	 * Setup module hooks.
@@ -45,6 +51,20 @@ class OptionsModule extends ModuleAbstract {
 	 * @since 1.1
 	 */
 	public function register() {
+		/**
+		 * Save reference to Customizer module before registering options.
+		 *
+		 * @since 1.1
+		 */
+		add_action( 'init', array( $this, 'set_customizer' ) );
+
+		/**
+		 * Check that $this->customizer has been assigned.
+		 *
+		 * @since 1.1
+		 */
+		add_action( 'init', array( $this, 'check_customizer' ) );
+
 		/**
 		 * Register theme options when initializing WordPress.
 		 *
@@ -54,18 +74,44 @@ class OptionsModule extends ModuleAbstract {
 	}
 
 	/**
-	 * Add an option to $this->_options.
+	 * Save reference to Customizer module.
 	 *
-	 * @since  1.0
-	 *
-	 * @global CustomizerModule $follet_customizer
-	 *
-	 * @param  string           $name       Name of the new option.
-	 * @param  mixed            $default    Default value for the option.
-	 * @param  mixed            $current    Current value of the option.
-	 * @param  CustomizerModule $customizer Current instance of Customizer handler.
+	 * @since 1.1
 	 */
-	public function register_option( $name, $default, $current = false, CustomizerModule $customizer = null ) {
+	public function set_customizer() {
+		// Check all initialized modules until we find the one we're looking for.
+		foreach ( ModuleManager::get_instance()->modules as $module ) {
+			if ( $module instanceof CustomizerModule ) {
+				// Save reference to found module.
+				$this->customizer = $module;
+
+				// End loop.
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Check that $this->customizer has been assigned.
+	 *
+	 * @since 1.1
+	 */
+	public function check_customizer() {
+		if ( ! $this->customizer ) {
+			wp_die( __( 'The Options module depends on the Customizer module to be initialized to work properly.', follet_textdomain() ) );
+		}
+	}
+
+	/**
+	 * Add an option to $this->options.
+	 *
+	 * @since  1.1
+	 *
+	 * @param  string $name    Name of the new option.
+	 * @param  mixed  $default Default value for the option.
+	 * @param  mixed  $current Current value of the option.
+	 */
+	public function register_option( $name, $default, $current = false ) {
 		$atts = $default;
 		$default = is_array( $atts ) && isset( $atts['default'] ) ? $atts['default'] : $atts;
 
@@ -75,11 +121,7 @@ class OptionsModule extends ModuleAbstract {
 		);
 
 		if ( ! empty( $atts['section'] ) ) {
-			if ( ! $customizer ) {
-				$customizer = CustomizerModule::get_instance();
-			}
-
-			$customizer->add_setting( $name, $atts );
+			$this->customizer->add_setting( $name, $atts );
 		}
 	}
 
@@ -103,7 +145,7 @@ class OptionsModule extends ModuleAbstract {
 				// Set default value for the option.
 				$default = empty( $atts['default'] ) ? $atts : $atts['default'];
 
-				$this->register_option( $name, $atts, get_theme_mod( $name, $default ), CustomizerModule::get_instance() );
+				$this->register_option( $name, $atts, get_theme_mod( $name, $default ) );
 			}
 		}
 	}

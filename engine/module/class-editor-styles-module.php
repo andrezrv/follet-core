@@ -5,24 +5,12 @@ use Follet\Application\ModuleAbstract;
 class EditorStylesModule extends ModuleAbstract {
 	protected $editor_styles = array();
 
-	/**
-	 * Register theme options on `init` action.
-	 *
-	 * @since 1.1
-	 */
 	protected function __construct() {
 		$this->register();
-		$this->process_globals();
 	}
 
 	public function register() {
 		add_action( 'after_setup_theme', array( $this, 'register_editor_styles' ) );
-	}
-
-	private function process_globals() {
-		global $follet_editor_styles;
-
-		$follet_editor_styles = $this;
 	}
 
 	private function register_editor_style( $src ) {
