@@ -118,7 +118,7 @@ class CustomizerModule extends ModuleAbstract {
 	 * @since 2.0
 	 */
 	public function load_customizer() {
-		if ( ! class_exists( '\Customizer_Library' ) ) {
+		if ( ! class_exists( '\Follet_Customizer_Library' ) ) {
 			new Loader( FOLLET_DIR . 'engine/lib/customizer-library/customizer-library.php' );
 		}
 	}
@@ -129,8 +129,8 @@ class CustomizerModule extends ModuleAbstract {
 	 * @since 2.0
 	 */
 	public function set_customizer() {
-		if ( class_exists( '\Customizer_Library' ) ) {
-			$this->customizer = \Customizer_Library::instance();
+		if ( class_exists( '\Follet_Customizer_Library' ) ) {
+			$this->customizer = \Follet_Customizer_Library::instance();
 		}
 	}
 

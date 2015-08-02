@@ -1,2 +1,4 @@
 composer.lock
-engine/lib
+engine/lib/composer
+engine/lib/autoload.php
+!engine/lib/customizer-library
