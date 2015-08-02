@@ -13,6 +13,8 @@
  */
 namespace Follet;
 
+use Follet\Application\PluginAPIManager;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -57,4 +59,4 @@ new Bootstrap\Loader( FOLLET_DIR, 'engine', array( FOLLET_LIB_DIR ) );
  *
  * @since 1.0
  */
-follet();
+follet( follet_config(), new PluginAPIManager() );

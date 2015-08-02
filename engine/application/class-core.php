@@ -19,7 +19,16 @@ namespace Follet\Application;
  * @package Follet_Core
  * @since   1.0
  */
-class Core extends SingletonAbstract {
+class Core extends SingletonAbstract implements EventSubscriberInterface {
+	/**
+	 * Current Follet configuration.
+	 *
+	 * @var   Config
+	 *
+	 * @since 1.1
+	 */
+	protected $config = null;
+
 	/**
 	 * Current version of package.
 	 *
@@ -28,6 +37,15 @@ class Core extends SingletonAbstract {
 	 * @since  1.0
 	 */
 	protected $version = '1.1';
+
+	/**
+	 * Helper class to manage events.
+	 *
+	 * @var   PluginAPIManager
+	 *
+	 * @since 1.1
+	 */
+	protected $api_manager = null;
 
 	/**
 	 * List of active modules.
@@ -58,8 +76,25 @@ class Core extends SingletonAbstract {
 	 * Initialize Follet Core.
 	 *
 	 * @since  1.0
+	 *
+	 * @param  Config           $config      Configuration data.
+	 * @param  PluginAPIManager $api_manager Helper object to deal with events..
 	 */
-	protected function __construct() {
+	protected function __construct( Config $config = null, PluginAPIManager $api_manager = null ) {
+		/**
+		 * Set configuration data.
+		 *
+		 * @since 1.1
+		 */
+		$this->config = $config;
+
+		/**
+		 * Initialize Plugin API Manager.
+		 *
+		 * @since 1.1
+		 */
+		$this->api_manager = $api_manager;
+
 		/**
 		 * Run actions before Follet setup.
 		 *
@@ -107,7 +142,7 @@ class Core extends SingletonAbstract {
 		 *
 		 * @since 1.1
 		 */
-		do_action( 'follet_before_setup', $this );
+		do_action( $this->config->prefix . 'before_setup', $this );
 	}
 
 	/**
@@ -121,7 +156,7 @@ class Core extends SingletonAbstract {
 		 *
 		 * @since 1.1
 		 */
-		do_action( 'follet_setup', $this );
+		do_action( $this->config->prefix . 'setup', $this );
 	}
 
 	/**
@@ -135,7 +170,7 @@ class Core extends SingletonAbstract {
 		 *
 		 * @since 1.1
 		 */
-		do_action( 'follet_after_setup', $this );
+		do_action( $this->config->prefix . 'after_setup', $this );
 	}
 
 	/**
@@ -149,7 +184,7 @@ class Core extends SingletonAbstract {
 		 *
 		 * @since 1.1
 		 */
-		do_action( 'follet_process_modules', $this );
+		do_action( $this->config->prefix . 'process_modules', $this );
 	}
 
 	/**
@@ -159,11 +194,26 @@ class Core extends SingletonAbstract {
 	 */
 	protected function register_events() {
 		/**
-		 * Set path and URI for Follet Core directory.
+		 * Let the API Manager object register our events.
 		 *
 		 * @since 1.1
 		 */
-		add_action( 'follet_setup', array( $this, 'set_directories' ) );
+		$this->api_manager->register( $this );
+	}
+
+	public function get_actions() {
+		return array(
+			/**
+			 * Set path and URI for Follet Core directory.
+			 *
+			 * @since 1.1
+			 */
+			$this->config->prefix . 'setup' => 'set_directories'
+		);
+	}
+
+	public function get_filters() {
+
 	}
 
 	/**
@@ -173,10 +223,16 @@ class Core extends SingletonAbstract {
 	 *
 	 * @param  string $name Name of the module.
 	 *
-	 * @return mixed|null|\Follet\Application\ModuleInterface
+	 * @return mixed|null|ModuleInterface
 	 */
 	public function get_module( $name ) {
-		return ( ! empty( $this->modules[ $name ] ) ) ? $this->modules[ $name ] : null;
+		if ( ! empty( $this->modules[ $name ] ) ) {
+			return $this->modules[ $name ];
+		} else {
+			wp_die( sprintf( __( 'Module "%s" was required, but it\'s not registered.' ), $name ) );
+		}
+
+		return null;
 	}
 
 	/**
@@ -202,8 +258,8 @@ class Core extends SingletonAbstract {
 		 *
 		 * @since 1.1
 		 */
-		$template_directory     = apply_filters( 'follet_setup_template_directory', '', 'template_directory' );
-		$template_directory_uri = apply_filters( 'follet_setup_template_directory_uri', '', 'template_directory_uri' );
+		$template_directory     = apply_filters( $this->config->prefix . 'setup_template_directory', '', 'template_directory' );
+		$template_directory_uri = apply_filters( $this->config->prefix . 'setup_template_directory_uri', '', 'template_directory_uri' );
 
 		/**
 		 * Set Follet Core path.
@@ -211,7 +267,7 @@ class Core extends SingletonAbstract {
 		 * @since 1.1
 		 */
 		if ( $template_directory ) {
-			$this->directory = $template_directory . str_replace( $template_directory, '', FOLLET_DIR );
+			$this->directory = $template_directory . str_replace( $template_directory, '', $this->config->app_dir );
 		}
 
 		/**
@@ -220,7 +276,7 @@ class Core extends SingletonAbstract {
 		 * @since 1.1
 		 */
 		if ( $template_directory && $template_directory_uri ) {
-			$this->directory_uri = $template_directory_uri . str_replace( $template_directory, '', FOLLET_DIR );
+			$this->directory_uri = $template_directory_uri . str_replace( $template_directory, '', $this->config->app_dir );
 		}
 	}
 }

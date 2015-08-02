@@ -1,7 +1,31 @@
 <?php
+/**
+ * Follet Core.
+ *
+ * @package   Follet_Core
+ * @author    Andrés Villarreal <andrezrv@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://github.com/andrezrv/follet-core
+ * @copyright 2014-2015 Andrés Villarreal
+ * @since     1.0
+ */
 namespace Follet\Module;
+
+/**
+ * Load dependencies.
+ *
+ * @since 1.1
+ */
 use Follet\Application\ModuleAbstract;
 
+/**
+ * Class SidebarModule
+ *
+ * Main class for sidebar management.
+ *
+ * @package Follet_Core
+ * @since   1.1
+ */
 class SidebarModule extends ModuleAbstract {
 	/**
 	 * List of sidebars for the current theme.
@@ -12,16 +36,16 @@ class SidebarModule extends ModuleAbstract {
 	protected $sidebars = array();
 
 	/**
-	 * Process registration of menus for the current theme.
+	 * Obtain list of actions hooked by class methods.
 	 *
-	 * @since 1.1
+	 * @since  1.1
+	 *
+	 * @return array
 	 */
-	protected function __construct() {
-		$this->register();
-	}
-
-	public function register() {
-		add_action( 'widgets_init', array( $this, 'register_sidebars' ) );
+	public function get_actions() {
+		return array(
+			'widgets_init' => 'register_sidebars',
+		);
 	}
 
 	/**
@@ -42,7 +66,7 @@ class SidebarModule extends ModuleAbstract {
 			$args['name'] = $name;
 		}
 
-		$defaults = apply_filters( 'follet_register_sidebar_defaults', array(
+		$defaults = apply_filters( $this->config->prefix . 'register_sidebar_defaults', array(
 			'id'            => $id,
 			'name'          => __( 'Sidebar', follet_textdomain() ),
 			'before_widget' => '<aside id="%1$s" class="widget %2$s">',
@@ -62,7 +86,7 @@ class SidebarModule extends ModuleAbstract {
 	 * @since 1.1
 	 */
 	public function register_sidebars() {
-		$this->sidebars = apply_filters( 'follet_sidebars', $this->sidebars );
+		$this->sidebars = apply_filters( $this->config->prefix . 'sidebars', $this->sidebars );
 
 		if ( ! empty( $this->sidebars ) ) {
 			foreach ( $this->sidebars as $name => $args ) {

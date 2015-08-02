@@ -1,13 +1,34 @@
 <?php
 namespace Follet\Application;
 
-abstract class ModuleAbstract extends SingletonAbstract implements ModuleInterface {
+abstract class ModuleAbstract extends SingletonAbstract implements ModuleInterface, EventSubscriberInterface {
+	protected $config = null;
+
 	/**
-	 * Setup module hooks.
+	 * @var   PluginAPIManager
 	 *
 	 * @since 1.1
 	 */
-	function register() {}
+	protected $api_manager = null;
+
+	protected function __construct( Config $config, PluginAPIManager $api_manager ) {
+		$this->config = $config;
+		$this->api_manager = $api_manager;
+	}
+
+	/**
+	 * Register internal events.
+	 *
+	 * @since 1.1
+	 */
+	public function register() {
+		/**
+		 * Let the API Manager object register our events.
+		 *
+		 * @since 1.1
+		 */
+		$this->api_manager->register( $this );
+	}
 
 	/**
 	 * Remove module hooks.
@@ -15,4 +36,12 @@ abstract class ModuleAbstract extends SingletonAbstract implements ModuleInterfa
 	 * @since 1.1
 	 */
 	function unregister() {}
+
+	function get_actions() {
+		return array();
+	}
+
+	function get_filters() {
+		return array();
+	}
 }

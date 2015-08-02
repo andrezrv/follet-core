@@ -25,10 +25,23 @@ if ( ! function_exists( 'follet' ) ) :
  *
  * @since  1.0
  *
- * @return Follet\Application\Core Current Core instance.
+ * @param  Follet\Application\Config $config Configuration data. Default: null.
+ *
+ * @return Follet\Application\Core           Current Core instance.
  */
-function follet() {
-	return Follet\Application\Core::get_instance();
+function follet( Follet\Application\Config $config = null, $api_manager = null ) {
+	return Follet\Application\Core::get_instance( $config, $api_manager );
+}
+endif;
+
+if ( ! function_exists( 'follet_config' ) ) :
+/**
+ * Configure application data.
+ *
+ * @since 1.1
+ */
+function follet_config() {
+	return Follet\Application\Config::get_instance( apply_filters( 'follet_config', array() ) );
 }
 endif;
 

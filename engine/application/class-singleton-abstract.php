@@ -26,9 +26,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 abstract class SingletonAbstract {
 	/**
-	 * Let classes implement their custom constructors.
+	 * Let other classes implement their own constructors.
 	 *
-	 * @since 1.0
+	 * @since  1.0
 	 */
 	protected function __construct() {
 		// Do nothing.
@@ -39,15 +39,56 @@ abstract class SingletonAbstract {
 	 *
 	 * @since  1.0
 	 *
-	 * @return SingletonAbstract Self instance of this class.
+	 * @param  mixed             $param Unique and nullable parameter to initialize class.
+	 *
+	 * @return SingletonAbstract        Self instance of this class.
 	 */
-	public static function get_instance() {
+	public static function get_instance( $param = null ) {
 		static $instances = array();
 
 		$called_class = get_called_class();
 
 		if ( ! isset( $instances[ $called_class ] ) ) {
-			$instances[ $called_class ] = new $called_class();
+			// Obtain number of arguments passed to the current method.
+			$num_args = func_num_args();
+
+			if ( $num_args > 1 ) {
+				/**
+				 * Play around with eval() if this method receives more than one
+				 * parameter, so child objects can implement constructors using any
+				 * number of parameters.
+				 *
+				 * @since 1.1
+				 */
+				// Initialize empty array to store our parameters.
+				$args = array();
+
+				// Initialize empty string to refer to our parameters.
+				$params = '';
+
+				// Obtain arguments as array element and string.
+				for ( $i = 0; $i < $num_args; $i++ ) {
+					$args[] = func_get_arg( $i ); // Get each argument passed.
+					$params .= '$args[' . $i . '],';
+				}
+
+				// Remove additional commas.
+				$params = ! empty( $args ) ? trim( $params, ',' ) : '';
+
+				// Create object call to be evaluated.
+				$new_class = 'return new ' . $called_class . '( ' . $params . ' );';
+
+				// Instance class with any number of arguments.
+				$instances[ $called_class ] = eval( $new_class );
+			} else {
+				/**
+				 * If we have only one parameter (including null), just use that one
+				 * to instantiate the class.
+				 *
+				 * @since 1.1
+				 */
+				$instances[ $called_class ] = new $called_class( $param );
+			}
 		}
 
 		return $instances[ $called_class ];
