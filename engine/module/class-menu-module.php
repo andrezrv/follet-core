@@ -7,7 +7,7 @@ class MenuModule extends ModuleAbstract {
 	 * List of menus for the current theme.
 	 *
 	 * @var   array
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $menus = array();
 
@@ -18,7 +18,7 @@ class MenuModule extends ModuleAbstract {
 	/**
 	 * Process registration of menus for the current theme.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	public function register() {
 		add_action( 'init', array( $this, 'register_menus' ) );
@@ -27,7 +27,7 @@ class MenuModule extends ModuleAbstract {
 	/**
 	 * Register navigation menus.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 *
 	 * @uses  register_nav_menu()
 	 */

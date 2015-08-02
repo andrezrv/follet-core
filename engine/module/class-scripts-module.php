@@ -7,14 +7,14 @@ class ScriptsModule extends ModuleAbstract {
 	 * List of styles to be registered.
 	 *
 	 * @var   array
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $scripts = array();
 
 	/**
 	 * Initialize instance.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected function __construct() {
 		$this->register();

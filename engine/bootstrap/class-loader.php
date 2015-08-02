@@ -7,7 +7,7 @@
  * @license   GPL-2.0+
  * @link      http://github.com/andrezrv/follet-core
  * @copyright 2014-2015 Andrés Villarreal
- * @since     1.1
+ * @since     2.0
  */
 namespace Follet\Bootstrap;
 
@@ -20,7 +20,7 @@ namespace Follet\Bootstrap;
  * `spl_autoload_register()` function before files are included.
  *
  * @package Follet_Core
- * @since   1.1
+ * @since   2.0
  */
 class Loader {
     /**
@@ -28,7 +28,7 @@ class Loader {
      *
      * It can be either a directory or a single file.
      *
-     * @since 1.1
+     * @since 2.0
      *
      * @var   string
      */
@@ -39,7 +39,7 @@ class Loader {
      *
      * Used for autoloader functionality.
      *
-     * @since 1.1
+     * @since 2.0
      *
      * @var   string
      */
@@ -48,7 +48,7 @@ class Loader {
     /**
      * List of files and directories excluded from loading.
      *
-     * @since 1.1
+     * @since 2.0
      *
      * @var   array
      */
@@ -57,7 +57,7 @@ class Loader {
     /**
      * List of files loaded by the current instance.
      *
-     * @since 1.1
+     * @since 2.0
      *
      * @var   array
      */
@@ -66,7 +66,7 @@ class Loader {
     /**
      * Load library and store it as a list of files.
      *
-     * @since  1.1
+     * @since  2.0
      *
      * @param string $path
      * @param string $root_directory
@@ -77,7 +77,7 @@ class Loader {
             /**
              * Obtain object values and load PHP library from the given path.
              *
-             * @since 1.1
+             * @since 2.0
              */
             $this->path           = $path;
             $this->root_directory = $root_directory;
@@ -88,7 +88,7 @@ class Loader {
             /**
              * Catch errors and display them.
              *
-             * @since 1.1
+             * @since 2.0
              */
             wp_die( $e->getMessage() );
         }
@@ -97,7 +97,7 @@ class Loader {
     /**
      * Load a PHP library given a file or a folder.
      *
-     * @since  1.1
+     * @since  2.0
      *
      * @uses   self::autoload_register();
      *
@@ -114,21 +114,21 @@ class Loader {
          * to deal correctly with class dependencies, and then load all PHP
          * files recursively.
          *
-         * @since 1.1
+         * @since 2.0
          */
         if ( is_dir( $path ) ) {
             /**
              * Implement custom autoload to avoid implementing classes with
              * undeclared dependencies.
              *
-             * @since 1.1
+             * @since 2.0
              */
             $this->autoload_register();
 
             /**
              * Iterate path and load only PHP files recursively.
              *
-             * @since 1.1
+             * @since 2.0
              */
             $directory_iterator = new \RecursiveDirectoryIterator( $path, \RecursiveDirectoryIterator::SKIP_DOTS );
             $recursive_iterator = new \RecursiveIteratorIterator( $directory_iterator );
@@ -157,7 +157,7 @@ class Loader {
             /**
              * Load a single PHP file.
              *
-             * @since 1.1
+             * @since 2.0
              */
             if ( stristr( $path , '.php' ) !== false ) {
                 require_once( $path );
@@ -173,7 +173,7 @@ class Loader {
     /**
      * Register autoload functionality.
      *
-     * @since 1.1
+     * @since 2.0
      *
      * @uses  spl_autoload_register()
      */
@@ -183,7 +183,7 @@ class Loader {
          *
          * Keep in mind that setting this filter to false could break things.
          *
-         * @since 1.1
+         * @since 2.0
          */
         if ( ! apply_filters( __CLASS__ . '\\use_autoload_register', true ) ) {
             return;
@@ -195,7 +195,7 @@ class Loader {
     /**
      * Load a PHP file given a fully-qualified class name.
      *
-     * @since 1.1
+     * @since 2.0
      *
      * @uses  Loader::__construct()
      *
@@ -237,7 +237,7 @@ class Loader {
              * Use this same method recursively to load just the required
              * PHP file.
              *
-             * @since 1.1
+             * @since 2.0
              */
             new self( $path . $file_name );
         }

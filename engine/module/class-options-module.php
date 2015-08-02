@@ -7,14 +7,14 @@
  * @license   GPL-2.0+
  * @link      http://github.com/andrezrv/follet-core
  * @copyright 2014-2015 Andrés Villarreal
- * @since     1.1
+ * @since     2.0
  */
 namespace Follet\Module;
 
 /**
  * Declare namespace dependencies.
  *
- * @since 1.1
+ * @since 2.0
  */
 use Follet\Application\ModuleAbstract;
 
@@ -24,7 +24,7 @@ use Follet\Application\ModuleAbstract;
  * Manage options retrieving and registration.
  *
  * @package Follet_Core
- * @since   1.1
+ * @since   2.0
  */
 class OptionsModule extends ModuleAbstract {
 	/**
@@ -32,7 +32,7 @@ class OptionsModule extends ModuleAbstract {
 	 *
 	 * @var    array
 	 *
-	 * @since  1.1
+	 * @since  2.0
 	 */
 	protected $options = array();
 
@@ -41,34 +41,34 @@ class OptionsModule extends ModuleAbstract {
 	 *
 	 * @var   CustomizerModule
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $customizer = null;
 
 	/**
 	 * Setup module hooks.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	public function register() {
 		/**
 		 * Save reference to Customizer module before registering options.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		add_action( 'init', array( $this, 'set_customizer' ) );
 
 		/**
 		 * Check that $this->customizer has been assigned.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		add_action( 'init', array( $this, 'check_customizer' ) );
 
 		/**
 		 * Register theme options when initializing WordPress.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		add_action( 'init', array( $this, 'register_options' ) );
 	}
@@ -76,7 +76,7 @@ class OptionsModule extends ModuleAbstract {
 	/**
 	 * Save reference to Customizer module.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	public function set_customizer() {
 		// Check all initialized modules until we find the one we're looking for.
@@ -94,7 +94,7 @@ class OptionsModule extends ModuleAbstract {
 	/**
 	 * Check that $this->customizer has been assigned.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	public function check_customizer() {
 		if ( ! $this->customizer ) {
@@ -105,7 +105,7 @@ class OptionsModule extends ModuleAbstract {
 	/**
 	 * Add an option to $this->options.
 	 *
-	 * @since  1.1
+	 * @since  2.0
 	 *
 	 * @param  string $name    Name of the new option.
 	 * @param  mixed  $default Default value for the option.
@@ -128,7 +128,7 @@ class OptionsModule extends ModuleAbstract {
 	/**
 	 * Bulk-register all theme options.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 *
 	 * @uses  self::register_option()
 	 */
@@ -207,7 +207,7 @@ class OptionsModule extends ModuleAbstract {
 	/**
 	 * Obtain current value of an option. Kind-of an alias for this::get_current().
 	 *
-	 * @since  1.1
+	 * @since  2.0
 	 *
 	 * @param  string $name Name of the option.
 	 * @return mixed        Current value of the option.

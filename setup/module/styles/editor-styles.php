@@ -20,7 +20,7 @@ add_filter( 'follet_editor_styles', 'follet_editor_styles' );
 /**
  * Add editor styles for Bootstrap.
  *
- * @since 1.1
+ * @since 2.0
  *
  * @param  array  $editor_styles List of editor styles to be registered.
  * @return array

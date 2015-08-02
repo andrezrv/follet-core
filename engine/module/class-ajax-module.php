@@ -7,7 +7,7 @@ class AjaxModule extends ModuleAbstract {
 	 * Check if we're in an AJAX context.
 	 *
 	 * @var   bool
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $ajax = false;
 

@@ -25,7 +25,7 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 	 *
 	 * @var   Config
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $config = null;
 
@@ -36,14 +36,14 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 	 *
 	 * @since  1.0
 	 */
-	protected $version = '1.1';
+	protected $version = '2.0';
 
 	/**
 	 * Helper class to manage events.
 	 *
 	 * @var   PluginAPIManager
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $api_manager = null;
 
@@ -52,7 +52,7 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 	 *
 	 * @var   array
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $modules = array();
 
@@ -84,49 +84,49 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 		/**
 		 * Set configuration data.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		$this->config = $config;
 
 		/**
 		 * Initialize Plugin API Manager.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		$this->api_manager = $api_manager;
 
 		/**
 		 * Run actions before Follet setup.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		$this->before_setup();
 
 		/**
 		 * Process all module-related functionality.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		$this->process_modules();
 
 		/**
 		 * Register internal class events.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		$this->register_events();
 
 		/**
 		 * Process all Follet setup functionality.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		$this->setup();
 
 		/**
 		 * Run actions after seyup is complete.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		$this->after_setup();
 	}
@@ -134,13 +134,13 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 	/**
 	 * Process actions before setup.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected function before_setup() {
 		/**
 		 * Hook all the actions that need to run before setup here.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		do_action( $this->config->prefix . 'before_setup', $this );
 	}
@@ -148,13 +148,13 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 	/**
 	 * Process actions on setup.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected function setup() {
 		/**
 		 * Hook all the actions that need to run during setup here.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		do_action( $this->config->prefix . 'setup', $this );
 	}
@@ -162,13 +162,13 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 	/**
 	 * Process actions after setup.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected function after_setup() {
 		/**
 		 * Hook all the actions that need to run after setup here.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		do_action( $this->config->prefix . 'after_setup', $this );
 	}
@@ -176,13 +176,13 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 	/**
 	 * Process module functionality.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected function process_modules() {
 		/**
 		 * Hook all module-related processes here.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		do_action( $this->config->prefix . 'process_modules', $this );
 	}
@@ -190,13 +190,13 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 	/**
 	 * Register internal events.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected function register_events() {
 		/**
 		 * Let the API Manager object register our events.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		$this->api_manager->register( $this );
 	}
@@ -206,7 +206,7 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 			/**
 			 * Set path and URI for Follet Core directory.
 			 *
-			 * @since 1.1
+			 * @since 2.0
 			 */
 			$this->config->prefix . 'setup' => 'set_directories'
 		);
@@ -219,7 +219,7 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 	/**
 	 * Obtain a module by given key name.
 	 *
-	 * @since  1.1
+	 * @since  2.0
 	 *
 	 * @param  string $name Name of the module.
 	 *
@@ -238,7 +238,7 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 	/**
 	 * Add a module to the list of modules.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 *
 	 * @param $name
 	 * @param ModuleInterface $module
@@ -250,13 +250,13 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 	/**
 	 * Set Follet Core directories.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	public function set_directories() {
 		/**
 		 * Locate filters to obtain template paths.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		$template_directory     = apply_filters( $this->config->prefix . 'setup_template_directory', '', 'template_directory' );
 		$template_directory_uri = apply_filters( $this->config->prefix . 'setup_template_directory_uri', '', 'template_directory_uri' );
@@ -264,7 +264,7 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 		/**
 		 * Set Follet Core path.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		if ( $template_directory ) {
 			$this->directory = $template_directory . str_replace( $template_directory, '', $this->config->app_dir );
@@ -273,7 +273,7 @@ class Core extends SingletonAbstract implements EventSubscriberInterface {
 		/**
 		 * Set Follet Core URI.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		if ( $template_directory && $template_directory_uri ) {
 			$this->directory_uri = $template_directory_uri . str_replace( $template_directory, '', $this->config->app_dir );

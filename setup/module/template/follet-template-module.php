@@ -4,7 +4,7 @@ add_filter( 'follet_get_template_module', 'follet_get_template_module' );
 /**
  * Initialize Template module.
  *
- * @since  1.1
+ * @since  2.0
  *
  * @param  Follet_Template_Module $template
  *

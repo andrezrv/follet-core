@@ -8,7 +8,7 @@ namespace Follet\Application;
  * @license   GPL-2.0+
  * @link      http://github.com/andrezrv/follet-core
  * @copyright 2014-2015 Andrés Villarreal
- * @since     1.1
+ * @since     2.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -58,7 +58,7 @@ abstract class SingletonAbstract {
 				 * parameter, so child objects can implement constructors using any
 				 * number of parameters.
 				 *
-				 * @since 1.1
+				 * @since 2.0
 				 */
 				// Initialize empty array to store our parameters.
 				$args = array();
@@ -85,7 +85,7 @@ abstract class SingletonAbstract {
 				 * If we have only one parameter (including null), just use that one
 				 * to instantiate the class.
 				 *
-				 * @since 1.1
+				 * @since 2.0
 				 */
 				$instances[ $called_class ] = new $called_class( $param );
 			}
@@ -97,7 +97,7 @@ abstract class SingletonAbstract {
 	/**
 	 * Obtain the value of a non-public property.
 	 *
-	 * @since  1.1
+	 * @since  2.0
 	 *
 	 * @param  string     $property
 	 *

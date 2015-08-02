@@ -7,7 +7,7 @@ abstract class ModuleAbstract extends SingletonAbstract implements ModuleInterfa
 	/**
 	 * @var   PluginAPIManager
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $api_manager = null;
 
@@ -19,13 +19,13 @@ abstract class ModuleAbstract extends SingletonAbstract implements ModuleInterfa
 	/**
 	 * Register internal events.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	public function register() {
 		/**
 		 * Let the API Manager object register our events.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		$this->api_manager->register( $this );
 	}
@@ -33,7 +33,7 @@ abstract class ModuleAbstract extends SingletonAbstract implements ModuleInterfa
 	/**
 	 * Remove module hooks.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	function unregister() {}
 

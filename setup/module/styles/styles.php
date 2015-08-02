@@ -9,7 +9,7 @@
  * @license   GPL-2.0+
  * @link      http://github.com/andrezrv/follet-core
  * @copyright 2014-2015 Andrés Villarreal
- * @since     1.1
+ * @since     2.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -20,7 +20,7 @@ add_filter( 'follet_styles', 'follet_styles' );
 /**
  * Register main stylesheets.
  *
- * @since  1.1
+ * @since  2.0
  *
  * @param  array  $styles List of theme styles to be registered.
  * @return array

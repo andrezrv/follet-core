@@ -20,7 +20,7 @@ add_filter( 'follet_theme_support', 'follet_theme_support' );
 /**
  * Add default posts and comments RSS feed links to head.
  *
- * @since  1.1
+ * @since  2.0
  *
  * @param  array $theme_support List of supported features.
  * @return array

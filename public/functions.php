@@ -38,7 +38,7 @@ if ( ! function_exists( 'follet_config' ) ) :
 /**
  * Configure application data.
  *
- * @since 1.1
+ * @since 2.0
  */
 function follet_config() {
 	return Follet\Application\Config::get_instance( apply_filters( 'follet_config', array() ) );
@@ -51,7 +51,7 @@ if ( ! function_exists( 'follet_load_library' ) ) :
  *
  * @uses  Follet_Loader::__get_instance()
  *
- * @since 1.1
+ * @since 2.0
  *
  * @param  string                  $library Name of folder or PHP file.
  *
@@ -66,7 +66,7 @@ if ( ! function_exists( 'follet_textdomain' ) ) :
 /**
  * Obtain theme text domain.
  *
- * @since 1.1
+ * @since 2.0
  */
 function follet_textdomain() {
 	return follet()->get_module( 'theme' )->textdomain;
@@ -77,7 +77,7 @@ if ( ! function_exists( 'follet_doing_ajax' ) ) :
 /**
  * Check if we're operating in an AJAX context.
  *
- * @since  1.1
+ * @since  2.0
  * @return bool
  */
 function follet_doing_ajax() {
@@ -89,7 +89,7 @@ if ( ! function_exists( 'follet_theme_version' ) ) :
 /**
  * Obtain current version of the theme.
  *
- * @since  1.1
+ * @since  2.0
  * @return bool
  */
 function follet_theme_version() {
@@ -101,7 +101,7 @@ if ( ! function_exists( 'follet_template' ) ) :
 /**
  * Obtain template data.
  *
- * @since  1.1
+ * @since  2.0
  *
  * @return Follet\Module\TemplateModule
  */
@@ -166,7 +166,7 @@ if ( ! function_exists( 'follet_options_manager' ) ) :
 /**
  * Obtain current options manager object.
  *
- * @since  1.1
+ * @since  2.0
  *
  * @return Follet\Module\OptionsModule
  */
@@ -250,7 +250,7 @@ if ( ! function_exists( 'follet_get_option' ) ) :
  *
  * Usage of this function is preferred to `follet_get_current()`.
  *
- * @since  1.1
+ * @since  2.0
  *
  * @uses   Follet\Module\OptionsModule::option_exists()
  * @see    follet_get_current()

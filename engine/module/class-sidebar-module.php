@@ -14,7 +14,7 @@ namespace Follet\Module;
 /**
  * Load dependencies.
  *
- * @since 1.1
+ * @since 2.0
  */
 use Follet\Application\ModuleAbstract;
 
@@ -24,21 +24,21 @@ use Follet\Application\ModuleAbstract;
  * Main class for sidebar management.
  *
  * @package Follet_Core
- * @since   1.1
+ * @since   2.0
  */
 class SidebarModule extends ModuleAbstract {
 	/**
 	 * List of sidebars for the current theme.
 	 *
 	 * @var   array
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $sidebars = array();
 
 	/**
 	 * Obtain list of actions hooked by class methods.
 	 *
-	 * @since  1.1
+	 * @since  2.0
 	 *
 	 * @return array
 	 */
@@ -51,7 +51,7 @@ class SidebarModule extends ModuleAbstract {
 	/**
 	 * Register a sidebar.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 *
 	 * @uses  register_sidebar()
 	 *
@@ -83,7 +83,7 @@ class SidebarModule extends ModuleAbstract {
 	/**
 	 * Register widget areas.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	public function register_sidebars() {
 		$this->sidebars = apply_filters( $this->config->prefix . 'sidebars', $this->sidebars );

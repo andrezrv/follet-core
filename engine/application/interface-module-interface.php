@@ -5,14 +5,14 @@ interface ModuleInterface {
 	/**
 	 * Setup module hooks.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	function register();
 
 	/**
 	 * Remove module hooks.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	function unregister();
 }

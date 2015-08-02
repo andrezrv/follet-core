@@ -7,14 +7,14 @@
  * @license   GPL-2.0+
  * @link      http://github.com/andrezrv/follet-core
  * @copyright 2014-2015 Andrés Villarreal
- * @since     1.1
+ * @since     2.0
  */
 namespace Follet\Module;
 
 /**
  * Declare namespace dependencies.
  *
- * @since 1.1
+ * @since 2.0
  */
 use Follet\Application\ModuleAbstract;
 use Follet\Bootstrap\Loader;
@@ -25,7 +25,7 @@ use Follet\Bootstrap\Loader;
  * Manage automatic registrations for Customizer sections, controls and settings.
  *
  * @package Follet_Core
- * @since   1.1
+ * @since   2.0
  */
 class CustomizerModule extends ModuleAbstract {
 	/**
@@ -33,7 +33,7 @@ class CustomizerModule extends ModuleAbstract {
 	 *
 	 * @var   \Customizer_Library
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $customizer = null;
 
@@ -42,7 +42,7 @@ class CustomizerModule extends ModuleAbstract {
 	 *
 	 * @var   array
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $sections = array();
 
@@ -51,7 +51,7 @@ class CustomizerModule extends ModuleAbstract {
 	 *
 	 * @var   array
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $controls = array();
 
@@ -60,7 +60,7 @@ class CustomizerModule extends ModuleAbstract {
 	 *
 	 * @var   array
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $settings = array();
 
@@ -69,14 +69,14 @@ class CustomizerModule extends ModuleAbstract {
 	 *
 	 * @var   array
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected $scripts = array();
 
 	/**
 	 * Process theme customization settings on `customize_register` action.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	protected function __construct() {
 		$this->register();
@@ -86,28 +86,28 @@ class CustomizerModule extends ModuleAbstract {
 		/**
 		 * Load Customizer Library dependency.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		add_action( 'customize_register', array( $this, 'load_customizer' ) );
 
 		/**
 		 * Initialize Customizer Library and set internal reference.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		add_action( 'customize_register', array( $this, 'set_customizer' ) );
 
 		/**
 		 * Register Customizer additions.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		add_action( 'customize_register', array( $this, 'customize_register' ) );
 
 		/**
 		 * Register Customizer scripts.
 		 *
-		 * @since 1.1
+		 * @since 2.0
 		 */
 		add_action( 'customize_preview_init', array( $this, 'register_scripts' ) );
 	}
@@ -115,7 +115,7 @@ class CustomizerModule extends ModuleAbstract {
 	/**
 	 * Load Customizer Library as dependency.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	public function load_customizer() {
 		if ( ! class_exists( '\Customizer_Library' ) ) {
@@ -126,7 +126,7 @@ class CustomizerModule extends ModuleAbstract {
 	/**
 	 * Initialize Customizer Library and set internal reference.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	public function set_customizer() {
 		if ( class_exists( '\Customizer_Library' ) ) {
@@ -137,7 +137,7 @@ class CustomizerModule extends ModuleAbstract {
 	/**
 	 * Add a settings section to be initialized via Customizer.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 *
 	 * @param string $name Internal name for the section.
 	 * @param array  $atts Section attributes.
@@ -149,7 +149,7 @@ class CustomizerModule extends ModuleAbstract {
 	/**
 	 * Add a settings control to be initialized via Customizer.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 *
 	 * @param string $name Internal name for the control.
 	 * @param array  $atts Control attributes.
@@ -161,7 +161,7 @@ class CustomizerModule extends ModuleAbstract {
 	/**
 	 * Add a setting to be initialized via Customizer.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 *
 	 * @param string $name Internal name for setting.
 	 * @param array  $atts Setting attributes.
@@ -173,7 +173,7 @@ class CustomizerModule extends ModuleAbstract {
 	/**
 	 * Initialize sections, controls and settings via Customizer.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 *
 	 * @uses  self::customizer->add_options() (AKA Customizer_Library::add_options())
 	 *
@@ -309,7 +309,7 @@ class CustomizerModule extends ModuleAbstract {
 	/**
 	 * Scripts are printed by default in the footer.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 *
 	 * @param string $name
 	 * @param array  $args
@@ -341,7 +341,7 @@ class CustomizerModule extends ModuleAbstract {
 	/**
 	 * Register JavaScript files.
 	 *
-	 * @since 1.1
+	 * @since 2.0
 	 */
 	public function register_scripts() {
 		$this->scripts = apply_filters( __CLASS__ . '\\customizer_scripts', $this->scripts );

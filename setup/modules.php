@@ -6,7 +6,7 @@ add_filter( 'follet_modules', 'follet_modules' );
 /**
  * Initialize and register default Follet Core modules.
  *
- * @since 1.1
+ * @since 2.0
  */
 function follet_modules( $modules ) {
 	$modules = array_merge( $modules, apply_filters( 'follet_default_modules', array(

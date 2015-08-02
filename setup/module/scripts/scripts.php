@@ -9,7 +9,7 @@
  * @license   GPL-2.0+
  * @link      http://github.com/andrezrv/follet-core
  * @copyright 2014-2015 Andrés Villarreal
- * @since     1.1
+ * @since     2.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -20,7 +20,7 @@ add_filter( 'follet_scripts', 'follet_scripts', 10, 2 );
 /**
  * Enqueue scripts and styles.
  *
- * @since  1.1
+ * @since  2.0
  *
  * @param  array  $scripts List of scripts to be registered.
  * @return array
@@ -35,7 +35,7 @@ function follet_scripts( $scripts ) {
 		 */
 		'follet-bootstrap-js' => array(
 			'src'     => $directory_uri . '/includes/assets/bootstrap/js/bootstrap.min.js',
-			'version' => '3.1.1.',
+			'version' => '3.2.0.',
 			'eval'    => $bootstrap_active,
 		),
 		'respond'             => array(
