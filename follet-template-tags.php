@@ -441,31 +441,31 @@ function follet_microdata( $section, $display = true ) {
 	}
 	switch ( $section ) {
 		case 'body':
-			$microdata = 'itemtype="http://schema.org/WebPage" itemscope="itemscope"';
+			$microdata = 'itemtype="//schema.org/WebPage" itemscope="itemscope"';
 			break;
 		case 'navigation':
-			$microdata = 'itemtype="http://schema.org/SiteNavigationElement" itemscope="itemscope"';
+			$microdata = 'itemtype="//schema.org/SiteNavigationElement" itemscope="itemscope"';
 			break;
 		case 'header':
-			$microdata = 'itemtype="http://schema.org/WPHeader" itemscope="itemscope"';
+			$microdata = 'itemtype="//schema.org/WPHeader" itemscope="itemscope"';
 			break;
 		case 'footer':
-			$microdata = 'itemtype="http://schema.org/WPFooter" itemscope="itemscope"';
+			$microdata = 'itemtype="//schema.org/WPFooter" itemscope="itemscope"';
 			break;
 		case 'content':
-			$microdata = 'itemtype="http://schema.org/Blog" itemscope="" itemprop="mainContentOfPage"';
+			$microdata = 'itemtype="//schema.org/Blog" itemscope="" itemprop="mainContentOfPage"';
 			break;
 		case 'post':
-			$microdata = 'itemprop="blogPost" itemtype="http://schema.org/BlogPosting" itemscope="itemscope"';
+			$microdata = 'itemprop="blogPost" itemtype="//schema.org/BlogPosting" itemscope="itemscope"';
 			break;
 		case 'page':
-			$microdata = 'itemtype="http://schema.org/CreativeWork" itemscope="itemscope"';
+			$microdata = 'itemtype="//schema.org/CreativeWork" itemscope="itemscope"';
 			break;
 		case 'sidebar':
-			$microdata = 'itemtype="http://schema.org/WPSideBar" itemscope="itemscope"';
+			$microdata = 'itemtype="//schema.org/WPSideBar" itemscope="itemscope"';
 			break;
 		case 'comment':
-			$microdata = 'itemtype="http://schema.org/UserComments" itemscope="itemscope" itemprop="comment"';
+			$microdata = 'itemtype="//schema.org/UserComments" itemscope="itemscope" itemprop="comment"';
 			break;
 		case 'entry-title':
 			$microdata = 'itemprop="headline"';
@@ -477,7 +477,7 @@ function follet_microdata( $section, $display = true ) {
 			$microdata = 'itemprop="articleBody"';
 			break;
 		case 'entry-author':
-			$microdata = 'itemtype="http://schema.org/Person" itemscope="itemscope" itemprop="author"';
+			$microdata = 'itemtype="//schema.org/Person" itemscope="itemscope" itemprop="author"';
 			break;
 		case 'comments-link':
 			$microdata = 'itemprop="discussionURL"';
@@ -495,7 +495,7 @@ function follet_microdata( $section, $display = true ) {
 			$microdata = 'itemprop="articleURL"';
 			break;
 		case 'comment-author':
-			$microdata = 'itemtype="http://schema.org/Person" itemscope="itemscope" itemprop="creator"';
+			$microdata = 'itemtype="//schema.org/Person" itemscope="itemscope" itemprop="creator"';
 			break;
 		case 'comment-time':
 			$microdata = 'itemprop="commentTime"';
